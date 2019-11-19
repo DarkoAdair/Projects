@@ -14,6 +14,8 @@ public:
 
     void run(QString test);
 
+    QAction *actionNextLine;
+
 private:
     QScriptEngine *engine;
     QScriptEngineDebugger *debugger;

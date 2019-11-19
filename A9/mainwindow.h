@@ -29,6 +29,14 @@ private slots:
 
     void on_goButton_clicked();
 
+    void on_debugButton_clicked();
+
+    void on_debugLeftButton_clicked();
+
+    void on_debugRightButton_clicked();
+
+    void on_debugStopButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 

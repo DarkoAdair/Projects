@@ -39,8 +39,8 @@
    <widget class="QPushButton" name="goButton">
     <property name="geometry">
      <rect>
-      <x>790</x>
-      <y>640</y>
+      <x>1320</x>
+      <y>630</y>
       <width>121</width>
       <height>28</height>
      </rect>
@@ -68,7 +68,7 @@
    <widget class="QLabel" name="variablesLabel">
     <property name="geometry">
      <rect>
-      <x>1010</x>
+      <x>1220</x>
       <y>590</y>
       <width>121</width>
       <height>16</height>
@@ -84,8 +84,8 @@
    <widget class="QLabel" name="xLabel">
     <property name="geometry">
      <rect>
-      <x>1040</x>
-      <y>610</y>
+      <x>1360</x>
+      <y>590</y>
       <width>55</width>
       <height>16</height>
      </rect>
@@ -100,8 +100,8 @@
    <widget class="QLabel" name="yLabel">
     <property name="geometry">
      <rect>
-      <x>1040</x>
-      <y>630</y>
+      <x>1360</x>
+      <y>610</y>
       <width>55</width>
       <height>16</height>
      </rect>
@@ -116,13 +116,78 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>680</x>
-      <y>20</y>
-      <width>751</width>
-      <height>551</height>
+      <x>670</x>
+      <y>150</y>
+      <width>741</width>
+      <height>431</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="codeEditlLayout"/>
+   </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>70</y>
+      <width>181</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Debug</string>
+    </property>
+    <widget class="QPushButton" name="debugButton">
+     <property name="geometry">
+      <rect>
+       <x>1</x>
+       <y>19</y>
+       <width>50</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="debugLeftButton">
+     <property name="geometry">
+      <rect>
+       <x>42</x>
+       <y>19</y>
+       <width>51</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="debugRightButton">
+     <property name="geometry">
+      <rect>
+       <x>84</x>
+       <y>19</y>
+       <width>51</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="debugStopButton">
+     <property name="geometry">
+      <rect>
+       <x>126</x>
+       <y>19</y>
+       <width>51</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
    <zorder>goButton</zorder>
    <zorder>playField</zorder>
@@ -131,6 +196,7 @@
    <zorder>xLabel</zorder>
    <zorder>yLabel</zorder>
    <zorder>verticalLayoutWidget</zorder>
+   <zorder>groupBox</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

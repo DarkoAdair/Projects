@@ -12,15 +12,17 @@ CodeManager::CodeManager()
     engine->globalObject().setProperty("command", command);
 }
 
-
-
 void CodeManager::run(QString test)
 {
     qDebug() << "Run : " << test;
 
-    // Interrpt immidiatly
-    debugger->action(QScriptEngineDebugger::InterruptAction)->trigger();
+    // Set variable for user
 
+    // Interrpt immidiatly
+    debugger->setAutoShowStandardWindow(true);
+    debugger->attachTo(engine);
+    debugger->action(QScriptEngineDebugger::InterruptAction)->trigger();
+    //actionNextLine = debugger->action(QScriptEngineDebugger::StepOverAction);
     QScriptValue result = engine->evaluate(test);
 
     if (engine->hasUncaughtException()) {
