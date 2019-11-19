@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>815</width>
-    <height>750</height>
+    <width>1446</width>
+    <height>711</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,8 +39,8 @@
    <widget class="QPushButton" name="goButton">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>105</y>
+      <x>790</x>
+      <y>640</y>
       <width>121</width>
       <height>28</height>
      </rect>
@@ -49,21 +49,11 @@
      <string>GO</string>
     </property>
    </widget>
-   <widget class="QTextEdit" name="inputTextBox">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>121</width>
-      <height>90</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="playField">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>10</y>
+      <x>20</x>
+      <y>20</y>
       <width>640</width>
       <height>640</height>
      </rect>
@@ -78,8 +68,8 @@
    <widget class="QLabel" name="variablesLabel">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>150</y>
+      <x>1010</x>
+      <y>590</y>
       <width>121</width>
       <height>16</height>
      </rect>
@@ -94,8 +84,8 @@
    <widget class="QLabel" name="xLabel">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>170</y>
+      <x>1040</x>
+      <y>610</y>
       <width>55</width>
       <height>16</height>
      </rect>
@@ -110,8 +100,8 @@
    <widget class="QLabel" name="yLabel">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>190</y>
+      <x>1040</x>
+      <y>630</y>
       <width>55</width>
       <height>16</height>
      </rect>
@@ -123,21 +113,32 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>20</y>
+      <width>751</width>
+      <height>551</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="codeEditlLayout"/>
+   </widget>
    <zorder>goButton</zorder>
-   <zorder>inputTextBox</zorder>
    <zorder>playField</zorder>
    <zorder>playerLabel</zorder>
    <zorder>variablesLabel</zorder>
    <zorder>xLabel</zorder>
    <zorder>yLabel</zorder>
+   <zorder>verticalLayoutWidget</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>815</width>
-     <height>26</height>
+     <width>1446</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>

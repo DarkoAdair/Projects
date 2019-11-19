@@ -4,8 +4,10 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , codeEditor(new CodeEditor(this))
 {
     ui->setupUi(this);
+    ui->codeEditlLayout->addWidget(codeEditor);
 }
 
 MainWindow::~MainWindow()
@@ -44,29 +46,29 @@ void MainWindow::movePlayerRight(int increment)
 
 void MainWindow::on_goButton_clicked()
 {
-    QString input = ui->inputTextBox->toPlainText();
-    if(input[4] == 'U') {
-            int increment = input.mid(7, input.length()-9).toInt();
-            movePlayerUp(increment);
-    }
-    else if(input[4] == 'D') {
-        int increment = input.mid(9, input.length()-11).toInt();
-        movePlayerDown(increment);
-    }
-    else if(input[4] == 'L') {
-        int increment = input.mid(9, input.length()-11).toInt();
-        movePlayerLeft(increment);
-    }
-    else if(input[4] == 'R') {
-        int increment = input.mid(10, input.length()-12).toInt();
-        movePlayerRight(increment);
-    }
-    ui->inputTextBox->clear();
+//    QString input = ui->inputTextBox->toPlainText();
+//    if(input[4] == 'U') {
+//            int increment = input.mid(7, input.length()-9).toInt();
+//            movePlayerUp(increment);
+//    }
+//    else if(input[4] == 'D') {
+//        int increment = input.mid(9, input.length()-11).toInt();
+//        movePlayerDown(increment);
+//    }
+//    else if(input[4] == 'L') {
+//        int increment = input.mid(9, input.length()-11).toInt();
+//        movePlayerLeft(increment);
+//    }
+//    else if(input[4] == 'R') {
+//        int increment = input.mid(10, input.length()-12).toInt();
+//        movePlayerRight(increment);
+//    }
+//    ui->inputTextBox->clear();
 
-    QString xString = "x: ";
-    xString.append(QString::number((ui->playerLabel->x()-ui->playField->x())/64));
-    QString yString = "y: ";
-    yString.append(QString::number((ui->playerLabel->y()-ui->playField->y())/64));
-    ui->xLabel->setText(xString);
-    ui->yLabel->setText(yString);
+//    QString xString = "x: ";
+//    xString.append(QString::number((ui->playerLabel->x()-ui->playField->x())/64));
+//    QString yString = "y: ";
+//    yString.append(QString::number((ui->playerLabel->y()-ui->playField->y())/64));
+//    ui->xLabel->setText(xString);
+//    ui->yLabel->setText(yString);
 }
