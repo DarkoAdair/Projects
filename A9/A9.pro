@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui widgets qml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,12 +17,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     codeeditor.cpp \
+    codemanager.cpp \
+    commandimpl.cpp \
     highlighter.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     codeeditor.h \
+    codemanager.h \
+    commandimpl.h \
     highlighter.h \
     mainwindow.h
 

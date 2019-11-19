@@ -1,10 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QDebug>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , codeEditor(new CodeEditor(this))
+    , codeManager(new CodeManager())
 {
     ui->setupUi(this);
     ui->codeEditlLayout->addWidget(codeEditor);
@@ -46,6 +49,9 @@ void MainWindow::movePlayerRight(int increment)
 
 void MainWindow::on_goButton_clicked()
 {
+
+
+    codeManager->run(codeEditor->toPlainText());
 //    QString input = ui->inputTextBox->toPlainText();
 //    if(input[4] == 'U') {
 //            int increment = input.mid(7, input.length()-9).toInt();

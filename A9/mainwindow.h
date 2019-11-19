@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 #include "codeeditor.h"
+#include "codemanager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -32,6 +33,7 @@ private:
     Ui::MainWindow *ui;
 
     CodeEditor *codeEditor;
+    CodeManager *codeManager;
 
 };
 #endif // MAINWINDOW_H
