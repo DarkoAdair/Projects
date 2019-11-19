@@ -11,8 +11,3 @@ void CommandImpl::print(QString string)
 {
     qDebug() << "TEST : " << string;
 }
-
-void CommandImpl::test(QString string) const
-{
-    qDebug() << "TEST : " << string;
-}

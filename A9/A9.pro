@@ -1,4 +1,4 @@
-QT       += core gui widgets qml
+QT       += core gui widgets script scripttools
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
