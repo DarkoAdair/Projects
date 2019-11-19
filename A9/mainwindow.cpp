@@ -3,6 +3,7 @@
 
 #include <QDebug>
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -11,6 +12,26 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->codeEditlLayout->addWidget(codeEditor);
+
+    ui->debugLeftButton->setEnabled(false);
+    ui->debugRightButton->setEnabled(false);
+
+
+    //set icon
+    ui->debugButton->setIcon(QIcon (QPixmap (":/debug.png")));             //debugger
+    ui->debugButton->setIconSize(QSize(33,33));
+    ui->debugButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
+    ui->debugLeftButton->setIcon(QIcon (QPixmap (":/debugLeft.png")));             //debugLeft
+    ui->debugLeftButton->setIconSize(QSize(33,33));
+    ui->debugLeftButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
+    ui->debugRightButton->setIcon(QIcon (QPixmap (":/debugRight.png")));             //debugRight
+    ui->debugRightButton->setIconSize(QSize(33,33));
+    ui->debugRightButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
+    ui->debugStopButton->setIcon(QIcon (QPixmap (":/debugStop.png")));             //debugRight
+    ui->debugStopButton->setIconSize(QSize(40,40));
+    ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
+
+
 }
 
 MainWindow::~MainWindow()
@@ -77,4 +98,31 @@ void MainWindow::on_goButton_clicked()
 //    yString.append(QString::number((ui->playerLabel->y()-ui->playField->y())/64));
 //    ui->xLabel->setText(xString);
 //    ui->yLabel->setText(yString);
+}
+
+void MainWindow::on_debugButton_clicked()
+{
+    ui->debugLeftButton->setEnabled(true);
+    ui->debugRightButton->setEnabled(true);
+    ui->debugButton->setEnabled(false);
+
+}
+
+void MainWindow::on_debugLeftButton_clicked()
+{
+
+}
+
+void MainWindow::on_debugRightButton_clicked()
+{
+
+}
+
+void MainWindow::on_debugStopButton_clicked()
+{
+    ui->debugLeftButton->setEnabled(false);
+    ui->debugRightButton->setEnabled(false);
+    ui->debugButton->setEnabled(true);
+    ui->debugStopButton->setFocus();
+
 }

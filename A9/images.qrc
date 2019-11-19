@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>debug.png</file>
+        <file>debugLeft.png</file>
+        <file>debugRight.png</file>
+        <file>debugStop.png</file>
+    </qresource>
+</RCC>
