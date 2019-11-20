@@ -9,11 +9,10 @@ CodeManager::CodeManager(GameManager *gameEngine)
     commandImpl = new CommandImpl();
 
     QScriptValue command = engine->newQObject(commandImpl);
-
     engine->globalObject().setProperty("command", command);
+
     QScriptValue gameEngineScript = engine->newQObject(gameEngine);
     engine->globalObject().setProperty("player", gameEngineScript);
-
 }
 
 bool CodeManager::run(QString test, QString* errorMessage)

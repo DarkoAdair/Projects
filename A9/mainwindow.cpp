@@ -42,39 +42,16 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
-//void MainWindow::movePlayerUp(int increment)
-//{
-//    int x = ui->playerLabel->x();
-//    int y = ui->playerLabel->y() - ui->playerLabel->height() * increment;
-//    ui->playerLabel->setGeometry(x, y, ui->playerLabel->width(), ui->playerLabel->height());
-//}
-
-//void MainWindow::movePlayerDown(int increment)
-//{
-//    int x = ui->playerLabel->x();
-//    int y = ui->playerLabel->y() + ui->playerLabel->height() * increment;
-//    ui->playerLabel->setGeometry(x, y, ui->playerLabel->width(), ui->playerLabel->height());
-//}
-
-//void MainWindow::movePlayerLeft(int increment)
-//{
-//    int x = ui->playerLabel->x() - ui->playerLabel->width() * increment;
-//    int y = ui->playerLabel->y();
-//    ui->playerLabel->setGeometry(x, y, ui->playerLabel->width(), ui->playerLabel->height());
-//}
-
-//void MainWindow::movePlayerRight(int increment)
-//{
-//    int x = ui->playerLabel->x() + ui->playerLabel->width() * increment;
-//    int y = ui->playerLabel->y();
-//    ui->playerLabel->setGeometry(x, y, ui->playerLabel->width(), ui->playerLabel->height());
-//}
-
 void MainWindow::movePlayer(int _x, int _y, bool gameOver) {
     int x = ui->playField->x() + ui->playerLabel->width() * _x;
-    int y = ui->playField->y() + ui->playerLabel->height() * _y;
+    int y = ui->playField->y() + ui->playerLabel->width() * _y - ui->playerLabel->height()/3;
     ui->playerLabel->setGeometry(x, y, ui->playerLabel->width(), ui->playerLabel->height());
+    QString xString = "x: ";
+    xString.append(QString::number(_x));
+    QString yString = "y: ";
+    yString.append(QString::number(_y));
+    ui->xLabel->setText(xString);
+    ui->yLabel->setText(yString);
 }
 
 void MainWindow::on_goButton_clicked()
