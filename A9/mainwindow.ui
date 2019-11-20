@@ -284,8 +284,53 @@
      <bool>true</bool>
     </property>
    </widget>
-   <zorder>goButton</zorder>
+   <widget class="QLabel" name="playerTopLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>64</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="images.qrc">:/player_simple_top.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lavaLabel">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>106</y>
+      <width>64</width>
+      <height>64</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="images.qrc">:/lava_simple.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
    <zorder>playField</zorder>
+   <zorder>lavaLabel</zorder>
+   <zorder>goButton</zorder>
    <zorder>playerLabel</zorder>
    <zorder>variablesLabel</zorder>
    <zorder>xLabel</zorder>
@@ -296,6 +341,7 @@
    <zorder>spikesLabel</zorder>
    <zorder>spikesLabel_2</zorder>
    <zorder>spikesLabel_3</zorder>
+   <zorder>playerTopLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -303,7 +349,7 @@
      <x>0</x>
      <y>0</y>
      <width>1446</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

@@ -8,5 +8,7 @@
         <file>player_simple.png</file>
         <file>grid_simple.png</file>
         <file>spikes_simple.png</file>
+        <file>player_simple_top.png</file>
+        <file>lava_simple.png</file>
     </qresource>
 </RCC>

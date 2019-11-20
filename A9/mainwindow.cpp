@@ -46,6 +46,7 @@ void MainWindow::movePlayer(int _x, int _y, bool gameOver) {
     int x = ui->playField->x() + ui->playerLabel->width() * _x;
     int y = ui->playField->y() + ui->playerLabel->width() * _y - ui->playerLabel->height()/3;
     ui->playerLabel->setGeometry(x, y, ui->playerLabel->width(), ui->playerLabel->height());
+    ui->playerTopLabel->setGeometry(x, y, ui->playerTopLabel->width(), ui->playerTopLabel->height());
     QString xString = "x: ";
     xString.append(QString::number(_x));
     QString yString = "y: ";
