@@ -129,7 +129,7 @@
      <rect>
       <x>670</x>
       <y>70</y>
-      <width>181</width>
+      <width>201</width>
       <height>71</height>
      </rect>
     </property>
@@ -141,7 +141,7 @@
       <rect>
        <x>1</x>
        <y>19</y>
-       <width>50</width>
+       <width>51</width>
        <height>51</height>
       </rect>
      </property>
@@ -152,7 +152,7 @@
     <widget class="QPushButton" name="debugLeftButton">
      <property name="geometry">
       <rect>
-       <x>42</x>
+       <x>50</x>
        <y>19</y>
        <width>51</width>
        <height>51</height>
@@ -165,7 +165,7 @@
     <widget class="QPushButton" name="debugRightButton">
      <property name="geometry">
       <rect>
-       <x>84</x>
+       <x>100</x>
        <y>19</y>
        <width>51</width>
        <height>51</height>
@@ -178,7 +178,7 @@
     <widget class="QPushButton" name="debugStopButton">
      <property name="geometry">
       <rect>
-       <x>126</x>
+       <x>150</x>
        <y>19</y>
        <width>51</width>
        <height>51</height>

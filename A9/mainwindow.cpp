@@ -23,16 +23,16 @@ MainWindow::MainWindow(QWidget *parent)
     //set icon
     ui->debugButton->setIcon(QIcon (QPixmap (":/debug.png")));             //debugger
     ui->debugButton->setIconSize(QSize(33,33));
-    ui->debugButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
+    ui->debugButton->setStyleSheet("background-color: rgba(255, 255, 255, 20);");
     ui->debugLeftButton->setIcon(QIcon (QPixmap (":/debugLeft.png")));             //debugLeft
     ui->debugLeftButton->setIconSize(QSize(33,33));
-    ui->debugLeftButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
+    ui->debugLeftButton->setStyleSheet("background-color: rgba(255, 255, 255, 20);");
     ui->debugRightButton->setIcon(QIcon (QPixmap (":/debugRight.png")));             //debugRight
     ui->debugRightButton->setIconSize(QSize(33,33));
-    ui->debugRightButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
+    ui->debugRightButton->setStyleSheet("background-color: rgba(255, 255, 255, 20);");
     ui->debugStopButton->setIcon(QIcon (QPixmap (":/debugStop.png")));             //debugRight
-    ui->debugStopButton->setIconSize(QSize(40,40));
-    ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
+    ui->debugStopButton->setIconSize(QSize(33,33));
+    ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 20);");
 
 
 }
@@ -118,7 +118,6 @@ void MainWindow::on_debugLeftButton_clicked()
 
 void MainWindow::on_debugRightButton_clicked()
 {
-    qDebug() << "CLICKED";
     codeManager->actionNextLine->trigger();
 }
 
@@ -127,6 +126,6 @@ void MainWindow::on_debugStopButton_clicked()
     ui->debugLeftButton->setEnabled(false);
     ui->debugRightButton->setEnabled(false);
     ui->debugButton->setEnabled(true);
-    ui->debugStopButton->setFocus();
+
 
 }
