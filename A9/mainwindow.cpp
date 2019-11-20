@@ -42,78 +42,25 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
-//void MainWindow::movePlayerUp(int increment)
-//{
-//    int x = ui->playerLabel->x();
-//    int y = ui->playerLabel->y() - ui->playerLabel->height() * increment;
-//    ui->playerLabel->setGeometry(x, y, ui->playerLabel->width(), ui->playerLabel->height());
-//}
-
-//void MainWindow::movePlayerDown(int increment)
-//{
-//    int x = ui->playerLabel->x();
-//    int y = ui->playerLabel->y() + ui->playerLabel->height() * increment;
-//    ui->playerLabel->setGeometry(x, y, ui->playerLabel->width(), ui->playerLabel->height());
-//}
-
-//void MainWindow::movePlayerLeft(int increment)
-//{
-//    int x = ui->playerLabel->x() - ui->playerLabel->width() * increment;
-//    int y = ui->playerLabel->y();
-//    ui->playerLabel->setGeometry(x, y, ui->playerLabel->width(), ui->playerLabel->height());
-//}
-
-//void MainWindow::movePlayerRight(int increment)
-//{
-//    int x = ui->playerLabel->x() + ui->playerLabel->width() * increment;
-//    int y = ui->playerLabel->y();
-//    ui->playerLabel->setGeometry(x, y, ui->playerLabel->width(), ui->playerLabel->height());
-//}
-
 void MainWindow::movePlayer(int _x, int _y, bool gameOver) {
     int x = ui->playField->x() + ui->playerLabel->width() * _x;
-    int y = ui->playField->y() + ui->playerLabel->height() * _y;
+    int y = ui->playField->y() + ui->playerLabel->width() * _y - ui->playerLabel->height()/3;
     ui->playerLabel->setGeometry(x, y, ui->playerLabel->width(), ui->playerLabel->height());
+    QString xString = "x: ";
+    xString.append(QString::number(_x));
+    QString yString = "y: ";
+    yString.append(QString::number(_y));
+    ui->xLabel->setText(xString);
+    ui->yLabel->setText(yString);
 }
 
 void MainWindow::on_goButton_clicked()
 {
-
-
     codeManager->run(codeEditor->toPlainText());
-
     if (codeManager->engine->hasUncaughtException()) {
         codeManager->line = codeManager->engine->uncaughtExceptionLineNumber();
-
         ui->console->setText("Uncaught exception at line " + QString::number(codeManager->line) + " -> " + codeManager->result.toString());
-
     }
-//    QString input = ui->inputTextBox->toPlainText();
-//    if(input[4] == 'U') {
-//            int increment = input.mid(7, input.length()-9).toInt();
-//            movePlayerUp(increment);
-//    }
-//    else if(input[4] == 'D') {
-//        int increment = input.mid(9, input.length()-11).toInt();
-//        movePlayerDown(increment);
-//    }
-//    else if(input[4] == 'L') {
-//        int increment = input.mid(9, input.length()-11).toInt();
-//        movePlayerLeft(increment);
-//    }
-//    else if(input[4] == 'R') {
-//        int increment = input.mid(10, input.length()-12).toInt();
-//        movePlayerRight(increment);
-//    }
-//    ui->inputTextBox->clear();
-
-//    QString xString = "x: ";
-//    xString.append(QString::number((ui->playerLabel->x()-ui->playField->x())/64));
-//    QString yString = "y: ";
-//    yString.append(QString::number((ui->playerLabel->y()-ui->playField->y())/64));
-//    ui->xLabel->setText(xString);
-//    ui->yLabel->setText(yString);
 }
 
 void MainWindow::on_debugButton_clicked()

@@ -9,11 +9,10 @@ CodeManager::CodeManager(GameManager *gameEngine)
     commandImpl = new CommandImpl();
 
     QScriptValue command = engine->newQObject(commandImpl);
-
     engine->globalObject().setProperty("command", command);
+
     QScriptValue gameEngineScript = engine->newQObject(gameEngine);
     engine->globalObject().setProperty("player", gameEngineScript);
-
 }
 
 void CodeManager::run(QString test)
@@ -33,7 +32,4 @@ void CodeManager::run(QString test)
         int line = engine->uncaughtExceptionLineNumber();
         qDebug() << "uncaught exception at line" << line << ":" << result.toString();
     }
-    result = engine->evaluate(test);
-
-
 }
