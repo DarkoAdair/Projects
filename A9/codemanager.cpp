@@ -4,11 +4,11 @@
 
 CodeManager::CodeManager()
 {
-    engine = new QJSEngine();
+    engine = new QScriptEngine();
+    debugger = new QScriptEngineDebugger();
     commandImpl = new CommandImpl();
 
-
-    QJSValue command = engine->newQObject(commandImpl);
+    QScriptValue command = engine->newQObject(commandImpl);
     engine->globalObject().setProperty("command", command);
 }
 
@@ -16,11 +16,17 @@ void CodeManager::run(QString test)
 {
     qDebug() << "Run : " << test;
 
-    QJSValue result = engine->evaluate(test);
+    // Set variable for user
 
-    if (result.isError())
-        qDebug()
-                << "Uncaught exception at line"
-                << result.property("lineNumber").toInt()
-                << ":" << result.toString();
+    // Interrpt immidiatly
+    debugger->setAutoShowStandardWindow(true);
+    debugger->attachTo(engine);
+    debugger->action(QScriptEngineDebugger::InterruptAction)->trigger();
+    //actionNextLine = debugger->action(QScriptEngineDebugger::StepOverAction);
+    QScriptValue result = engine->evaluate(test);
+
+    if (engine->hasUncaughtException()) {
+        int line = engine->uncaughtExceptionLineNumber();
+        qDebug() << "uncaught exception at line" << line << ":" << result.toString();
+    }
 }

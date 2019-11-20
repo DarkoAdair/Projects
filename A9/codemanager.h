@@ -1,7 +1,9 @@
 #ifndef CODEMANAGER_H
 #define CODEMANAGER_H
 
-#include <QJSEngine>
+#include <QAction>
+#include <QScriptEngine>
+#include <QScriptEngineDebugger>
 
 #include "commandimpl.h"
 
@@ -12,8 +14,11 @@ public:
 
     void run(QString test);
 
+    QAction *actionNextLine;
+
 private:
-    QJSEngine *engine;
+    QScriptEngine *engine;
+    QScriptEngineDebugger *debugger;
     CommandImpl *commandImpl;
 };
 
