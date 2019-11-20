@@ -13,20 +13,21 @@ class CodeManager
 public:
     CodeManager(GameManager *gameEngine);
 
-
-    void run(QString test);
+    bool run(QString test, QString* errorMessage);
 
     QAction *actionNextLine;
     QScriptEngine *engine;
 
 
-    QScriptValue result="";
+    QScriptValue result;
     int line = 0;
+    GameManager *gameEngine;
+    QScriptValue gameEngineScript;
 
 private:
     QScriptEngineDebugger *debugger;
     CommandImpl *commandImpl;
-    GameManager *gameEngine;
+
 };
 
 #endif // CODEMANAGER_H

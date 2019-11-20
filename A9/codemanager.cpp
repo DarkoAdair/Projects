@@ -15,21 +15,19 @@ CodeManager::CodeManager(GameManager *gameEngine)
     engine->globalObject().setProperty("player", gameEngineScript);
 }
 
-void CodeManager::run(QString test)
+bool CodeManager::run(QString test, QString* errorMessage)
 {
     qDebug() << "Run : " << test;
 
-    // Set variable for user
 
-    // Interrpt immidiatly
-//    debugger->setAutoShowStandardWindow(true);
-//    debugger->attachTo(engine);
-//    debugger->action(QScriptEngineDebugger::InterruptAction)->trigger();
-    //actionNextLine = debugger->action(QScriptEngineDebugger::StepOverAction);
     QScriptValue result = engine->evaluate(test);
 
+    //throwing exception
     if (engine->hasUncaughtException()) {
         int line = engine->uncaughtExceptionLineNumber();
-        qDebug() << "uncaught exception at line" << line << ":" << result.toString();
+        errorMessage->append("Uncaught exception at line " + QString::number(line) + "->" + result.toString());
+        return false;
     }
+
+    return true;
 }

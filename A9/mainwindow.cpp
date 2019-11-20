@@ -56,11 +56,44 @@ void MainWindow::movePlayer(int _x, int _y, bool gameOver) {
 
 void MainWindow::on_goButton_clicked()
 {
-    codeManager->run(codeEditor->toPlainText());
-    if (codeManager->engine->hasUncaughtException()) {
+
+    QString errorMessage;
+    bool result = codeManager->run(codeEditor->toPlainText(), &errorMessage);
+
+    // throwing excetpoin
+    if (!result) {
         codeManager->line = codeManager->engine->uncaughtExceptionLineNumber();
-        ui->console->setText("Uncaught exception at line " + QString::number(codeManager->line) + " -> " + codeManager->result.toString());
+
+        ui->console->setText(errorMessage);
+
+        //qDebug() << "uncaught exception at line" << codeManager->line << ":" << codeManager->result.toString();
     }
+
+//    QString input = ui->inputTextBox->toPlainText();
+//    if(input[4] == 'U') {
+//            int increment = input.mid(7, input.length()-9).toInt();
+//            movePlayerUp(increment);
+//    }
+//    else if(input[4] == 'D') {
+//        int increment = input.mid(9, input.length()-11).toInt();
+//        movePlayerDown(increment);
+//    }
+//    else if(input[4] == 'L') {
+//        int increment = input.mid(9, input.length()-11).toInt();
+//        movePlayerLeft(increment);
+//    }
+//    else if(input[4] == 'R') {
+//        int increment = input.mid(10, input.length()-12).toInt();
+//        movePlayerRight(increment);
+//    }
+//    ui->inputTextBox->clear();
+
+//    QString xString = "x: ";
+//    xString.append(QString::number((ui->playerLabel->x()-ui->playField->x())/64));
+//    QString yString = "y: ";
+//    yString.append(QString::number((ui->playerLabel->y()-ui->playField->y())/64));
+//    ui->xLabel->setText(xString);
+//    ui->yLabel->setText(yString);
 }
 
 void MainWindow::on_debugButton_clicked()
