@@ -1,4 +1,4 @@
-QT       += core gui widgets script scripttools
+QT       += core gui widgets script scripttools concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -19,16 +19,22 @@ SOURCES += \
     codeeditor.cpp \
     codemanager.cpp \
     commandimpl.cpp \
+    debuggerthread.cpp \
     highlighter.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    scriptbreakpointinfo.cpp \
+    scriptdebugger.cpp
 
 HEADERS += \
     codeeditor.h \
     codemanager.h \
     commandimpl.h \
+    debuggerthread.h \
     highlighter.h \
-    mainwindow.h
+    mainwindow.h \
+    scriptbreakpointinfo.h \
+    scriptdebugger.h
 
 FORMS += \
     mainwindow.ui

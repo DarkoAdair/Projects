@@ -1,10 +1,16 @@
 #include "codemanager.h"
 
+#include <QtCore>
 #include <QDebug>
+#include <QThread>
+#include <QtConcurrent>
 
 CodeManager::CodeManager()
 {
     engine = new QScriptEngine();
+    engine->setProcessEventsInterval(50);
+
+
     debugger = new QScriptEngineDebugger();
     commandImpl = new CommandImpl();
 
@@ -16,17 +22,18 @@ void CodeManager::run(QString test)
 {
     qDebug() << "Run : " << test;
 
-    // Set variable for user
-
-    // Interrpt immidiatly
-    debugger->setAutoShowStandardWindow(true);
-    debugger->attachTo(engine);
-    debugger->action(QScriptEngineDebugger::InterruptAction)->trigger();
-    //actionNextLine = debugger->action(QScriptEngineDebugger::StepOverAction);
-    QScriptValue result = engine->evaluate(test);
-
-    if (engine->hasUncaughtException()) {
-        int line = engine->uncaughtExceptionLineNumber();
-        qDebug() << "uncaught exception at line" << line << ":" << result.toString();
+    // check script syntax
+    QScriptSyntaxCheckResult syntaxResult = engine->checkSyntax(test);
+    if (QScriptSyntaxCheckResult::Valid != syntaxResult.state()) {
+       qDebug() << "Syntax Error : " << syntaxResult.errorMessage();
+       return;
     }
+
+    DebuggerThread *thread = new DebuggerThread(engine, test);
+    thread->run();
+}
+
+void CodeManager::startThread(QString test)
+{
+
 }

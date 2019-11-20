@@ -119,7 +119,8 @@ void MainWindow::on_debugLeftButton_clicked()
 void MainWindow::on_debugRightButton_clicked()
 {
     qDebug() << "CLICKED";
-    codeManager->actionNextLine->trigger();
+    //codeManager->actionNextLine->trigger();
+    codeManager->testDebugger->executeCommand("n", QStringList());
 }
 
 void MainWindow::on_debugStopButton_clicked()
