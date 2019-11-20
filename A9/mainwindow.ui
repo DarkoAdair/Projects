@@ -198,6 +198,13 @@
       <height>141</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="frameShape">
      <enum>QFrame::Box</enum>
     </property>
@@ -221,7 +228,7 @@
      <x>0</x>
      <y>0</y>
      <width>1446</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

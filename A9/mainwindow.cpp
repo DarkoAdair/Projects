@@ -80,15 +80,18 @@ void MainWindow::movePlayer(int _x, int _y, bool gameOver) {
 void MainWindow::on_goButton_clicked()
 {
 
+    QString errorMessage;
+    bool result = codeManager->run(codeEditor->toPlainText(), &errorMessage);
 
-    codeManager->run(codeEditor->toPlainText());
-
-    if (codeManager->engine->hasUncaughtException()) {
+    // throwing excetpoin
+    if (!result) {
         codeManager->line = codeManager->engine->uncaughtExceptionLineNumber();
 
-        ui->console->setText("Uncaught exception at line " + QString::number(codeManager->line) + " -> " + codeManager->result.toString());
+        ui->console->setText(errorMessage);
 
+        //qDebug() << "uncaught exception at line" << codeManager->line << ":" << codeManager->result.toString();
     }
+
 //    QString input = ui->inputTextBox->toPlainText();
 //    if(input[4] == 'U') {
 //            int increment = input.mid(7, input.length()-9).toInt();
