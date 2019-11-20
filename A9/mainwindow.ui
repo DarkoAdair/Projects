@@ -39,7 +39,7 @@
    <widget class="QPushButton" name="goButton">
     <property name="geometry">
      <rect>
-      <x>1320</x>
+      <x>1290</x>
       <y>630</y>
       <width>121</width>
       <height>28</height>
@@ -68,8 +68,8 @@
    <widget class="QLabel" name="variablesLabel">
     <property name="geometry">
      <rect>
-      <x>1220</x>
-      <y>590</y>
+      <x>1280</x>
+      <y>560</y>
       <width>121</width>
       <height>16</height>
      </rect>
@@ -84,7 +84,7 @@
    <widget class="QLabel" name="xLabel">
     <property name="geometry">
      <rect>
-      <x>1360</x>
+      <x>1350</x>
       <y>590</y>
       <width>55</width>
       <height>16</height>
@@ -100,7 +100,7 @@
    <widget class="QLabel" name="yLabel">
     <property name="geometry">
      <rect>
-      <x>1360</x>
+      <x>1350</x>
       <y>610</y>
       <width>55</width>
       <height>16</height>
@@ -119,7 +119,7 @@
       <x>670</x>
       <y>150</y>
       <width>741</width>
-      <height>431</height>
+      <height>361</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="codeEditlLayout"/>
@@ -189,6 +189,22 @@
      </property>
     </widget>
    </widget>
+   <widget class="QLabel" name="console">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>520</y>
+      <width>561</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>goButton</zorder>
    <zorder>playField</zorder>
    <zorder>playerLabel</zorder>
@@ -197,6 +213,7 @@
    <zorder>yLabel</zorder>
    <zorder>verticalLayoutWidget</zorder>
    <zorder>groupBox</zorder>
+   <zorder>console</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

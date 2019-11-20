@@ -9,16 +9,17 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
     , codeEditor(new CodeEditor(this))
     , codeManager(new CodeManager())
+
 {
+
     ui->setupUi(this);
     ui->codeEditlLayout->addWidget(codeEditor);
 
-    codeEditor->appendPlainText("command.print(\"1\")\n");
-    codeEditor->appendPlainText("command.print(\"1\")\n");
+//    codeEditor->appendPlainText("command.print(\"1\")\n");
+//    codeEditor->appendPlainText("command.print(\"1\")\n");
 
     ui->debugLeftButton->setEnabled(false);
     ui->debugRightButton->setEnabled(false);
-
 
     //set icon
     ui->debugButton->setIcon(QIcon (QPixmap (":/debug.png")));             //debugger
@@ -76,6 +77,13 @@ void MainWindow::on_goButton_clicked()
 
 
     codeManager->run(codeEditor->toPlainText());
+
+    if (codeManager->engine->hasUncaughtException()) {
+        codeManager->line = codeManager->engine->uncaughtExceptionLineNumber();
+
+        ui->console->setText("Uncaught exception at line " + QString::number(codeManager->line) + " -> " + codeManager->result.toString());
+
+    }
 //    QString input = ui->inputTextBox->toPlainText();
 //    if(input[4] == 'U') {
 //            int increment = input.mid(7, input.length()-9).toInt();
@@ -118,7 +126,7 @@ void MainWindow::on_debugLeftButton_clicked()
 
 void MainWindow::on_debugRightButton_clicked()
 {
-    codeManager->actionNextLine->trigger();
+
 }
 
 void MainWindow::on_debugStopButton_clicked()

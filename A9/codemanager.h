@@ -12,14 +12,21 @@ class CodeManager
 public:
     CodeManager();
 
+
     void run(QString test);
 
     QAction *actionNextLine;
+    QScriptEngine *engine;
+
+
+    QScriptValue result="";
+    int line = 0;
 
 private:
-    QScriptEngine *engine;
     QScriptEngineDebugger *debugger;
     CommandImpl *commandImpl;
+
+
 };
 
 #endif // CODEMANAGER_H

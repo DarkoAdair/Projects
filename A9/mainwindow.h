@@ -18,6 +18,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    QWidget newWindow;
+
 private slots:
     void movePlayerUp(int increment);
 
