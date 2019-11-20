@@ -189,28 +189,39 @@
      </property>
     </widget>
    </widget>
-   <widget class="QLabel" name="console">
+   <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>670</x>
-      <y>520</y>
-      <width>561</width>
-      <height>141</height>
+      <x>660</x>
+      <y>510</y>
+      <width>571</width>
+      <height>151</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>20</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
+      <pointsize>15</pointsize>
      </font>
     </property>
-    <property name="frameShape">
-     <enum>QFrame::Box</enum>
+    <property name="title">
+     <string>Console</string>
     </property>
-    <property name="text">
-     <string/>
-    </property>
+    <widget class="QTextEdit" name="console">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>551</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Courier</family>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
+    </widget>
    </widget>
    <zorder>goButton</zorder>
    <zorder>playField</zorder>
@@ -220,7 +231,7 @@
    <zorder>yLabel</zorder>
    <zorder>verticalLayoutWidget</zorder>
    <zorder>groupBox</zorder>
-   <zorder>console</zorder>
+   <zorder>groupBox_2</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

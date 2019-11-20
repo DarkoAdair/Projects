@@ -26,7 +26,7 @@ bool CodeManager::run(QString test, QString* errorMessage)
     //throwing exception
     if (engine->hasUncaughtException()) {
         int line = engine->uncaughtExceptionLineNumber();
-        errorMessage->append("Uncaught exception at line " + QString::number(line) + "->" + result.toString());
+        errorMessage->append("Uncaught exception at line " + QString::number(line) + " -> " + result.toString());
         return false;
     }
 

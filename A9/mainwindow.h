@@ -18,7 +18,6 @@ public:
     MainWindow(QWidget *parent = nullptr, GameManager *gameEngine = nullptr);
     ~MainWindow();
 
-    QWidget newWindow;
 
 private slots:
     void on_goButton_clicked();
