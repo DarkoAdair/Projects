@@ -17,8 +17,8 @@
    <widget class="QLabel" name="playerLabel">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>10</y>
+      <x>20</x>
+      <y>20</y>
       <width>64</width>
       <height>64</height>
      </rect>
@@ -204,7 +204,7 @@
      <x>0</x>
      <y>0</y>
      <width>1446</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

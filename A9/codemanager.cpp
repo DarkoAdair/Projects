@@ -2,7 +2,7 @@
 
 #include <QDebug>
 
-CodeManager::CodeManager()
+CodeManager::CodeManager(GameManager *gameEngine)
 {
     engine = new QScriptEngine();
     debugger = new QScriptEngineDebugger();
@@ -10,6 +10,8 @@ CodeManager::CodeManager()
 
     QScriptValue command = engine->newQObject(commandImpl);
     engine->globalObject().setProperty("command", command);
+    QScriptValue gameEngineScript = engine->newQObject(gameEngine);
+    engine->globalObject().setProperty("player", gameEngineScript);
 }
 
 void CodeManager::run(QString test)
@@ -19,9 +21,9 @@ void CodeManager::run(QString test)
     // Set variable for user
 
     // Interrpt immidiatly
-    debugger->setAutoShowStandardWindow(true);
-    debugger->attachTo(engine);
-    debugger->action(QScriptEngineDebugger::InterruptAction)->trigger();
+//    debugger->setAutoShowStandardWindow(true);
+//    debugger->attachTo(engine);
+//    debugger->action(QScriptEngineDebugger::InterruptAction)->trigger();
     //actionNextLine = debugger->action(QScriptEngineDebugger::StepOverAction);
     QScriptValue result = engine->evaluate(test);
 

@@ -10,8 +10,8 @@ public:
     Player();
 
 private:
-    int x;// x position on map
-    int y;// y position on map
+    int x = 0;// x position on map
+    int y = 0;// y position on map
     bool hasKey = false;
     bool hasWeapon = false;
 
@@ -28,14 +28,10 @@ public:
     // move methods return a tuple-vector of coordinates traversed by move
     // the coordinates are like a 2-d array meaning y as 0 is the top row
     // and greater y coordinates are further down.
-    std::vector<std::tuple<int, int>> moveRight();
-    std::vector<std::tuple<int, int>> moveRight(int spaces);
-    std::vector<std::tuple<int, int>> moveLeft();
-    std::vector<std::tuple<int, int>> moveLeft(int spaces);
-    std::vector<std::tuple<int, int>> moveUp();
-    std::vector<std::tuple<int, int>> moveUp(int spaces);
-    std::vector<std::tuple<int, int>> moveDown();
-    std::vector<std::tuple<int, int>> moveDown(int spaces);
+    std::vector<std::tuple<int, int>> moveRight(int spaces = 0);
+    std::vector<std::tuple<int, int>> moveLeft(int spaces = 0);
+    std::vector<std::tuple<int, int>> moveUp(int spaces = 0);
+    std::vector<std::tuple<int, int>> moveDown(int spaces = 0);
     void collectItem();
     void useKey();
     void attack();

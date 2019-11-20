@@ -15,18 +15,10 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget *parent = nullptr, GameManager *gameEngine = nullptr);
     ~MainWindow();
 
 private slots:
-    void movePlayerUp(int increment);
-
-    void movePlayerDown(int increment);
-
-    void movePlayerLeft(int increment);
-
-    void movePlayerRight(int increment);
-
     void on_goButton_clicked();
 
     void on_debugButton_clicked();
@@ -37,11 +29,14 @@ private slots:
 
     void on_debugStopButton_clicked();
 
+    void movePlayer(int x, int y, bool gameOver);
+
 private:
     Ui::MainWindow *ui;
 
     CodeEditor *codeEditor;
     CodeManager *codeManager;
+    GameManager *gameEngine;
 
 };
 #endif // MAINWINDOW_H

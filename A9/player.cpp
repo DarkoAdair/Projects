@@ -45,25 +45,20 @@ bool Player::weaponEquipped()
     return hasWeapon;
 }
 
-// moves x coordinate to 9 and returns a vector of traversed coordinates
-std::vector<std::tuple<int, int>> Player::moveRight()
-{
-    // list of coordinates traversed by this move
-    std::vector<std::tuple<int, int>> coordinateList;
-
-    while(x < 9)
-    {
-        x+=1;
-        coordinateList.push_back(std::tuple<int, int>(x, y));
-    }
-    return coordinateList;
-}
-
 // moves x coordinate to x + spaces
 std::vector<std::tuple<int, int>> Player::moveRight(int spaces)
 {
     // list of coordinates traversed by this move
     std::vector<std::tuple<int, int>> coordinateList;
+
+    if(spaces <= 0) {
+        while(x < 9)
+        {
+            x+=1;
+            coordinateList.push_back(std::tuple<int, int>(x, y));
+        }
+        return coordinateList;
+    }
 
     // check spaces so that the player wont move off the grid
     int walk;
@@ -81,25 +76,20 @@ std::vector<std::tuple<int, int>> Player::moveRight(int spaces)
     return coordinateList;
 }
 
-// moves x coordinate to 0 and returns a vector of traversed coordinates
-std::vector<std::tuple<int, int>> Player::moveLeft()
-{
-    // list of coordinates traversed by this move
-    std::vector<std::tuple<int, int>> coordinateList;
-
-    while(x > 0)
-    {
-        x-=1;
-        coordinateList.push_back(std::tuple<int, int>(x, y));
-    }
-    return coordinateList;
-}
-
 // moves x coordinate to x - spaces
 std::vector<std::tuple<int, int>> Player::moveLeft(int spaces)
 {
     // list of coordinates traversed by this move
     std::vector<std::tuple<int, int>> coordinateList;
+
+    if(spaces <= 0) {
+        while(x > 0)
+        {
+            x--;
+            coordinateList.push_back(std::tuple<int, int>(x, y));
+        }
+        return coordinateList;
+    }
 
     // check spaces so that the player wont move off the grid
     int walk;
@@ -110,23 +100,10 @@ std::vector<std::tuple<int, int>> Player::moveLeft(int spaces)
 
     for (int i = 0; i < walk; i++)
     {
-        x-=1;
+        x--;
         coordinateList.push_back(std::tuple<int, int>(x, y));
     }
 
-    return coordinateList;
-}
-
-std::vector<std::tuple<int, int>> Player::moveDown()
-{
-    // list of coordinates traversed by this move
-    std::vector<std::tuple<int, int>> coordinateList;
-
-    while(y < 9)
-    {
-        y+=1;
-        coordinateList.push_back(std::tuple<int, int>(x, y));
-    }
     return coordinateList;
 }
 
@@ -134,6 +111,15 @@ std::vector<std::tuple<int, int>> Player::moveDown(int spaces)
 {
     // list of coordinates traversed by this move
     std::vector<std::tuple<int, int>> coordinateList;
+
+    if(spaces <= 0) {
+        while(y < 9)
+        {
+            y+=1;
+            coordinateList.push_back(std::tuple<int, int>(x, y));
+        }
+        return coordinateList;
+    }
 
     // check spaces so that the player wont move off the grid
     int walk;
@@ -151,23 +137,19 @@ std::vector<std::tuple<int, int>> Player::moveDown(int spaces)
     return coordinateList;
 }
 
-std::vector<std::tuple<int, int>> Player::moveUp()
-{
-    // list of coordinates traversed by this move
-    std::vector<std::tuple<int, int>> coordinateList;
-
-    while(y > 0)
-    {
-        y-=1;
-        coordinateList.push_back(std::tuple<int, int>(x, y));
-    }
-    return coordinateList;
-}
-
 std::vector<std::tuple<int, int>> Player::moveUp(int spaces)
 {
     // list of coordinates traversed by this move
     std::vector<std::tuple<int, int>> coordinateList;
+
+    if(spaces <= 0) {
+        while(y > 0)
+        {
+            y-=1;
+            coordinateList.push_back(std::tuple<int, int>(x, y));
+        }
+        return coordinateList;
+    }
 
     // check spaces so that the player wont move off the grid
     int walk;

@@ -4,12 +4,11 @@
 #include <QDebug>
 
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget *parent, GameManager *gameEngine)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , codeEditor(new CodeEditor(this))
-    , codeManager(new CodeManager())
 {
+    codeEditor = new CodeEditor(this);
     ui->setupUi(this);
     ui->codeEditlLayout->addWidget(codeEditor);
 
@@ -19,6 +18,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->debugLeftButton->setEnabled(false);
     ui->debugRightButton->setEnabled(false);
 
+    QObject::connect(gameEngine, SIGNAL(movePlayer(int,int,bool)),
+                     this, SLOT(movePlayer(int,int,bool)));
+    codeManager = new CodeManager(gameEngine);
 
     //set icon
     ui->debugButton->setIcon(QIcon (QPixmap (":/debug.png")));             //debugger
@@ -33,8 +35,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->debugStopButton->setIcon(QIcon (QPixmap (":/debugStop.png")));             //debugRight
     ui->debugStopButton->setIconSize(QSize(33,33));
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 20);");
-
-
 }
 
 MainWindow::~MainWindow()
@@ -43,31 +43,37 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::movePlayerUp(int increment)
-{
-    int x = ui->playerLabel->x();
-    int y = ui->playerLabel->y() - ui->playerLabel->height() * increment;
-    ui->playerLabel->setGeometry(x, y, ui->playerLabel->width(), ui->playerLabel->height());
-}
+//void MainWindow::movePlayerUp(int increment)
+//{
+//    int x = ui->playerLabel->x();
+//    int y = ui->playerLabel->y() - ui->playerLabel->height() * increment;
+//    ui->playerLabel->setGeometry(x, y, ui->playerLabel->width(), ui->playerLabel->height());
+//}
 
-void MainWindow::movePlayerDown(int increment)
-{
-    int x = ui->playerLabel->x();
-    int y = ui->playerLabel->y() + ui->playerLabel->height() * increment;
-    ui->playerLabel->setGeometry(x, y, ui->playerLabel->width(), ui->playerLabel->height());
-}
+//void MainWindow::movePlayerDown(int increment)
+//{
+//    int x = ui->playerLabel->x();
+//    int y = ui->playerLabel->y() + ui->playerLabel->height() * increment;
+//    ui->playerLabel->setGeometry(x, y, ui->playerLabel->width(), ui->playerLabel->height());
+//}
 
-void MainWindow::movePlayerLeft(int increment)
-{
-    int x = ui->playerLabel->x() - ui->playerLabel->width() * increment;
-    int y = ui->playerLabel->y();
-    ui->playerLabel->setGeometry(x, y, ui->playerLabel->width(), ui->playerLabel->height());
-}
+//void MainWindow::movePlayerLeft(int increment)
+//{
+//    int x = ui->playerLabel->x() - ui->playerLabel->width() * increment;
+//    int y = ui->playerLabel->y();
+//    ui->playerLabel->setGeometry(x, y, ui->playerLabel->width(), ui->playerLabel->height());
+//}
 
-void MainWindow::movePlayerRight(int increment)
-{
-    int x = ui->playerLabel->x() + ui->playerLabel->width() * increment;
-    int y = ui->playerLabel->y();
+//void MainWindow::movePlayerRight(int increment)
+//{
+//    int x = ui->playerLabel->x() + ui->playerLabel->width() * increment;
+//    int y = ui->playerLabel->y();
+//    ui->playerLabel->setGeometry(x, y, ui->playerLabel->width(), ui->playerLabel->height());
+//}
+
+void MainWindow::movePlayer(int _x, int _y, bool gameOver) {
+    int x = ui->playField->x() + ui->playerLabel->width() * _x;
+    int y = ui->playField->y() + ui->playerLabel->height() * _y;
     ui->playerLabel->setGeometry(x, y, ui->playerLabel->width(), ui->playerLabel->height());
 }
 

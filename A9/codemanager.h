@@ -6,11 +6,12 @@
 #include <QScriptEngineDebugger>
 
 #include "commandimpl.h"
+#include "gamemanager.h"
 
 class CodeManager
 {
 public:
-    CodeManager();
+    CodeManager(GameManager *gameEngine);
 
     void run(QString test);
 
@@ -20,6 +21,7 @@ private:
     QScriptEngine *engine;
     QScriptEngineDebugger *debugger;
     CommandImpl *commandImpl;
+    GameManager *gameEngine;
 };
 
 #endif // CODEMANAGER_H
