@@ -10,30 +10,54 @@ CodeManager::CodeManager()
     engine = new QScriptEngine();
     engine->setProcessEventsInterval(50);
 
-
-    debugger = new QScriptEngineDebugger();
     commandImpl = new CommandImpl();
 
     QScriptValue command = engine->newQObject(commandImpl);
     engine->globalObject().setProperty("command", command);
 }
 
-void CodeManager::run(QString test)
+void CodeManager::run(QString script)
 {
-    qDebug() << "Run : " << test;
+    qDebug() << "[CodeManager] Run :" << script;
 
-    // check script syntax
-    QScriptSyntaxCheckResult syntaxResult = engine->checkSyntax(test);
+    // Check script syntax
+    QScriptSyntaxCheckResult syntaxResult = engine->checkSyntax(script);
     if (QScriptSyntaxCheckResult::Valid != syntaxResult.state()) {
-       qDebug() << "Syntax Error : " << syntaxResult.errorMessage();
+       qDebug() << "[CodeManager] Syntax Error : " << syntaxResult.errorMessage();
        return;
     }
 
-    DebuggerThread *thread = new DebuggerThread(engine, test);
-    thread->run();
+    this->script = script;
+
+    // Start Debug mode.
+    backgroundThread = new QThread(this);
+    debugTimer = new QTimer(this);
+    connect(debugTimer, SIGNAL(timeout()), this, SLOT(debugProcess()));
+
+    debugTimer->moveToThread(backgroundThread);
+    debugTimer->setSingleShot(true);
+    debugTimer->start();
 }
 
-void CodeManager::startThread(QString test)
+void CodeManager::debugProcess()
 {
+    debugger = new ScriptDebugger(engine);
+    debugger->breakAtNextStatement();
 
+    QScriptValue result = engine->evaluate(script);
+
+    if (engine->hasUncaughtException()) {
+        int line = engine->uncaughtExceptionLineNumber();
+        QString errorMessage = "uncaught exception at line" + QString::number(line)  + ":" + result.toString();
+
+        qDebug() << "[CodeManager] exception : " << errorMessage;
+        emit onException(errorMessage);
+    }
+
+    emit onFinish();
+}
+
+void CodeManager::moveNextLine()
+{
+    this->debugger->moveNext();
 }

@@ -56,21 +56,8 @@
      virtual ~ScriptDebugger();
 
      void breakAtNextStatement();
-
-     void setBreakpoint(const QString &fileName, int lineNumber);
-     void setBreakpoint(const QString &functionName, const QString &fileName = QString());
-     void setBreakpoint(const QScriptValue &function);
-
-     QTextStream *inputStream() const;
-     void setInputStream(QTextStream *inputStream);
-
-     QTextStream *outputStream() const;
-     void setOutputStream(QTextStream *outputStream);
-
-     QTextStream *errorStream() const;
-     void setErrorStream(QTextStream *errorStream);
-
-     bool executeCommand(const QString &command, const QStringList &args);
+     void setBreakpoint(int lineNumber);
+     void moveNext();
 
  protected:
      ScriptDebugger(QScriptEngine *engine, ScriptDebuggerPrivate &dd);
@@ -80,5 +67,7 @@
      Q_DECLARE_PRIVATE(ScriptDebugger)
      Q_DISABLE_COPY(ScriptDebugger)
  };
+
+
 
  #endif // SCRIPTDEBUGGER_H

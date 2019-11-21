@@ -12,6 +12,8 @@ public:
     CommandImpl();
 
     Q_INVOKABLE void print(QString string);
+
+
 };
 
 #endif // COMMANDIMPL_H

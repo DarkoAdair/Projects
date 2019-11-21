@@ -19,7 +19,6 @@ SOURCES += \
     codeeditor.cpp \
     codemanager.cpp \
     commandimpl.cpp \
-    debuggerthread.cpp \
     highlighter.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -30,7 +29,6 @@ HEADERS += \
     codeeditor.h \
     codemanager.h \
     commandimpl.h \
-    debuggerthread.h \
     highlighter.h \
     mainwindow.h \
     scriptbreakpointinfo.h \
