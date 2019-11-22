@@ -37,6 +37,8 @@ private slots:
 
     void on_debugStopButton_clicked();
 
+    void onDebugLineChanged(int currentLine);
+
 private:
     Ui::MainWindow *ui;
 

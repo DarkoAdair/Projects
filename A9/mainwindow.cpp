@@ -19,7 +19,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->debugLeftButton->setEnabled(false);
     ui->debugRightButton->setEnabled(false);
 
-
     //set icon
     ui->debugButton->setIcon(QIcon (QPixmap (":/debug.png")));             //debugger
     ui->debugButton->setIconSize(QSize(33,33));
@@ -34,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->debugStopButton->setIconSize(QSize(40,40));
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
 
-
+    connect(codeManager, SIGNAL(signalLineChanged(int)), this, SLOT(onDebugLineChanged(int)));
 }
 
 MainWindow::~MainWindow()
@@ -73,9 +72,7 @@ void MainWindow::movePlayerRight(int increment)
 
 void MainWindow::on_goButton_clicked()
 {
-
-
-    codeManager->run(codeEditor->toPlainText());
+    codeManager->run(codeEditor->toPlainText(), 1000);
 //    QString input = ui->inputTextBox->toPlainText();
 //    if(input[4] == 'U') {
 //            int increment = input.mid(7, input.length()-9).toInt();
@@ -127,5 +124,9 @@ void MainWindow::on_debugStopButton_clicked()
     ui->debugRightButton->setEnabled(false);
     ui->debugButton->setEnabled(true);
     ui->debugStopButton->setFocus();
+}
 
+void MainWindow::onDebugLineChanged(int currentLine)
+{
+    qDebug() << "DEBUG : " << currentLine;
 }

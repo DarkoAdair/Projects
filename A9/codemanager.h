@@ -18,30 +18,35 @@ class CodeManager : public QObject
 
 public:
     CodeManager();
+    ~CodeManager();
 
-    void run(QString test);
+    void run(QString script, int delay);
+    void debug(QString script);
     void moveNextLine();
 
-    QAction *actionNextLine;
-
-    ScriptDebugger *testDebugger;
-
 private:
-    QScriptEngine *engine;
-    ScriptDebugger *debugger;
-
-    CommandImpl *commandImpl;
-
-    QThread *backgroundThread;
-    QTimer *debugTimer;
+    QScriptEngine *engine = nullptr;
+    ScriptDebugger *debugger = nullptr;
+    CommandImpl *commandImpl = nullptr;
+    QThread *backgroundThread = nullptr;
+    QTimer *debugTimer = nullptr;
+    QTimer *runningTimer = nullptr;
     QString script;
 
+    void initalize();
+    void deinitalize();
+
+    void scriptRun(QString script);
+
 public slots:
-    void debugProcess();
+    void onDebugProcess();
+    void onRunningProcess();
+    void onLineNumberChanged(int currentLine);
 
 signals:
-    void onException(const QString errorMessage);
-    void onFinish();
+    void signalLineChanged(int currentLine);
+    void signalException(const QString errorMessage);
+    void signalFinish();
 };
 
 
