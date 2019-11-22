@@ -19,20 +19,26 @@ SOURCES += \
     codeeditor.cpp \
     codemanager.cpp \
     commandimpl.cpp \
+    gamemanager.cpp \
+    gamemap.cpp \
     highlighter.cpp \
     main.cpp \
     mainwindow.cpp \
     scriptbreakpointinfo.cpp \
     scriptdebugger.cpp
+    player.cpp
 
 HEADERS += \
     codeeditor.h \
     codemanager.h \
     commandimpl.h \
+    gamemanager.h \
+    gamemap.h \
     highlighter.h \
     mainwindow.h \
     scriptbreakpointinfo.h \
     scriptdebugger.h
+    player.h
 
 FORMS += \
     mainwindow.ui

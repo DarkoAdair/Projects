@@ -5,7 +5,7 @@
 #include <QThread>
 #include <QtConcurrent>
 
-CodeManager::CodeManager()
+CodeManager::CodeManager(GameManager *gameEngine)
 {
     //initalize();
 }
@@ -32,12 +32,16 @@ void CodeManager::initalize()
     //Engine Setting
     engine = new QScriptEngine();
 
+    QScriptValue gameEngineScript = engine->newQObject(gameEngine);
+    engine->globalObject().setProperty("player", gameEngineScript);
+
     QScriptValue command = engine->newQObject(commandImpl);
     engine->globalObject().setProperty("command", command);
 
     //Debugger Initalize
     debugger = new ScriptDebugger(engine);
     connect(debugger, SIGNAL(signalLineChange(int)), this, SLOT(onLineNumberChanged(int)));
+    
     debugger->breakAtNextStatement();
 }
 

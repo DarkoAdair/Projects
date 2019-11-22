@@ -11,13 +11,14 @@
 #include "commandimpl.h"
 #include "scriptdebugger.h"
 #include "debuggerthread.h"
+#include "gamemanager.h"
 
 class CodeManager : public QObject
 {
     Q_OBJECT
 
 public:
-    CodeManager();
+    CodeManager(GameManager *gameEngine);
     ~CodeManager();
 
     void run(QString script, int delay);
@@ -25,6 +26,7 @@ public:
     void moveNextLine();
 
 private:
+    GameManager *gameEngine = nullptr;
     QScriptEngine *engine = nullptr;
     ScriptDebugger *debugger = nullptr;
     CommandImpl *commandImpl = nullptr;
