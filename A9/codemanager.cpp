@@ -7,28 +7,28 @@
 
 CodeManager::CodeManager(GameManager *gameEngine)
 {
-    //initalize();
+    //Object Initalize
+    commandImpl = new CommandImpl();
+
+    //RunningTimer Intialize
+    runningTimer = new QTimer();
+    connect(runningTimer, SIGNAL(timeout()), this, SLOT(onRunningProcess()));
+
+    this->gameEngine = gameEngine;
+
+    initalizeForDebugging();
 }
 
 CodeManager::~CodeManager()
 {
-    deinitalize();
+    deinitalizeForDebugging();
+
+    delete runningTimer;
+    delete commandImpl;
 }
 
-void CodeManager::initalize()
+void CodeManager::initalizeForDebugging()
 {
-    //Object Initalize
-    commandImpl = new CommandImpl();
-    backgroundThread = new QThread(this);
-
-    //DebugTimer Initalize
-    debugTimer = new QTimer(this);
-    connect(debugTimer, SIGNAL(timeout()), this, SLOT(onDebugProcess()));
-
-    //RunningTimer Intialize
-    runningTimer = new QTimer(this);
-    connect(runningTimer, SIGNAL(timeout()), this, SLOT(onRunningProcess()));
-
     //Engine Setting
     engine = new QScriptEngine();
 
@@ -45,31 +45,19 @@ void CodeManager::initalize()
     debugger->breakAtNextStatement();
 }
 
-void CodeManager::deinitalize()
+void CodeManager::deinitalizeForDebugging()
 {
-    if(engine) delete engine;
-    engine = nullptr;
-
     if(debugger) delete debugger;
     debugger = nullptr;
 
-    if(commandImpl) delete commandImpl;
-    commandImpl = nullptr;
-
-    if(backgroundThread) delete backgroundThread;
-    backgroundThread = nullptr;
-
-    if(debugTimer) delete debugTimer;
-    debugTimer = nullptr;
-
-    if(runningTimer) delete runningTimer;
-    runningTimer = nullptr;
+    if(engine) delete engine;
+    engine = nullptr;
 }
 
 void CodeManager::run(QString script, int delay)
 {
-    deinitalize();
-    initalize();
+    deinitalizeForDebugging();
+    initalizeForDebugging();
 
     scriptRun(script);
 
@@ -79,8 +67,8 @@ void CodeManager::run(QString script, int delay)
 
 void CodeManager::debug(QString script)
 {
-    deinitalize();
-    initalize();
+    deinitalizeForDebugging();
+    initalizeForDebugging();
 
     scriptRun(script);
 }
@@ -92,16 +80,19 @@ void CodeManager::scriptRun(QString script)
     // Check script syntax
     QScriptSyntaxCheckResult syntaxResult = engine->checkSyntax(script);
     if (QScriptSyntaxCheckResult::Valid != syntaxResult.state()) {
-       qDebug() << "[CodeManager] Syntax Error : " << syntaxResult.errorMessage();
-       return;
+        int line = syntaxResult.errorLineNumber();
+        QString errorMessage = "Syntax error at line " + QString::number(line)  + " : " + syntaxResult.errorMessage();
+
+        qDebug() << "[CodeManager] " << errorMessage;
+
+        emit signalException(errorMessage);
+        return;
     }
 
     this->script = script;
 
     // Start Debug mode.
-    debugTimer->moveToThread(backgroundThread);
-    debugTimer->setSingleShot(true);
-    debugTimer->start();
+    QMetaObject::invokeMethod(this, "onDebugProcess", Qt::QueuedConnection);
 }
 
 void CodeManager::onDebugProcess()
@@ -110,12 +101,13 @@ void CodeManager::onDebugProcess()
 
     if (engine->hasUncaughtException()) {
         int line = engine->uncaughtExceptionLineNumber();
-        QString errorMessage = "uncaught exception at line" + QString::number(line)  + ":" + result.toString();
+        QString errorMessage = "Uncaught exception at line " + QString::number(line)  + " : " + result.toString();
 
         qDebug() << "[CodeManager] exception : " << errorMessage;
         emit signalException(errorMessage);
     }
 
+    qDebug() << "[CodeMangaer] Running Finished.";
     emit signalFinish();
 }
 

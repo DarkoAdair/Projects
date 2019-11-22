@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QtCore>
 #include <QDebug>
 
 
@@ -12,8 +13,10 @@ MainWindow::MainWindow(QWidget *parent, GameManager *gameEngine)
     ui->setupUi(this);
     ui->codeEditlLayout->addWidget(codeEditor);
 
-//    codeEditor->appendPlainText("command.print(\"1\")\n");
-//    codeEditor->appendPlainText("command.print(\"1\")\n");
+    codeEditor->appendPlainText("player.moveRight(1)\n");
+    codeEditor->appendPlainText("player.moveDown(1)\n");
+    codeEditor->appendPlainText("player.moveLeft(1)\n");
+    codeEditor->appendPlainText("player.moveUp(1)\n");
 
     ui->debugLeftButton->setEnabled(false);
     ui->debugRightButton->setEnabled(false);
@@ -23,6 +26,9 @@ MainWindow::MainWindow(QWidget *parent, GameManager *gameEngine)
 
 
     codeManager = new CodeManager(gameEngine);
+    connect(codeManager, SIGNAL(signalLineChanged(int)), this, SLOT(onDebugLineChanged(int)));
+    connect(codeManager, SIGNAL(signalException(const QString)), this, SLOT(onDebugException(const QString)));
+    connect(codeManager, SIGNAL(signalFinish()), this, SLOT(onRunningFinsih()));
 
     //set icon
     ui->debugButton->setIcon(QIcon (QPixmap (":/debug.png")));             //debugger
@@ -37,8 +43,6 @@ MainWindow::MainWindow(QWidget *parent, GameManager *gameEngine)
     ui->debugStopButton->setIcon(QIcon (QPixmap (":/debugStop.png")));             //debugRight
     ui->debugStopButton->setIconSize(QSize(40,40));
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
-
-    connect(codeManager, SIGNAL(signalLineChanged(int)), this, SLOT(onDebugLineChanged(int)));
     ui->debugStopButton->setIconSize(QSize(33,33));
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 20);");
 }
@@ -63,24 +67,18 @@ void MainWindow::movePlayer(int _x, int _y, bool gameOver) {
 
 void MainWindow::on_goButton_clicked()
 {
-
-    QString errorMessage;
-    bool result = codeManager->run(codeEditor->toPlainText(), &errorMessage);
-
-    // throwing excetpoin
-    if (!result) {
-        codeManager->line = codeManager->engine->uncaughtExceptionLineNumber();
-
-void MainWindow::on_goButton_clicked()
-{
+    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
     codeManager->run(codeEditor->toPlainText(), 1000);
 }
 
 void MainWindow::on_debugButton_clicked()
 {
+    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
     ui->debugLeftButton->setEnabled(true);
     ui->debugRightButton->setEnabled(true);
     ui->debugButton->setEnabled(false);
+
+    codeManager->debug(codeEditor->toPlainText());
 }
 
 void MainWindow::on_debugLeftButton_clicked()
@@ -103,5 +101,31 @@ void MainWindow::on_debugStopButton_clicked()
 
 void MainWindow::onDebugLineChanged(int currentLine)
 {
-    qDebug() << "DEBUG : " << currentLine;
+    qDebug() << "[Main] [onDebugLineChanged] Line : " << currentLine;
+
+    //TODO - highlight code editor
+}
+
+void MainWindow::onDebugException(const QString errorMessage)
+{
+    qDebug() << "[Main] [onDebugException] " << errorMessage;
+
+    ui->console->append(errorMessage);
+
+    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::TextEditorInteraction);
+
+    ui->debugLeftButton->setEnabled(false);
+    ui->debugRightButton->setEnabled(false);
+    ui->debugButton->setEnabled(true);
+}
+
+void MainWindow::onRunningFinsih()
+{
+    qDebug() << "[Main] [onRunningFinish] Finish Debugging";
+
+    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::TextEditorInteraction);
+
+    ui->debugLeftButton->setEnabled(false);
+    ui->debugRightButton->setEnabled(false);
+    ui->debugButton->setEnabled(true);
 }

@@ -30,13 +30,11 @@ private:
     QScriptEngine *engine = nullptr;
     ScriptDebugger *debugger = nullptr;
     CommandImpl *commandImpl = nullptr;
-    QThread *backgroundThread = nullptr;
-    QTimer *debugTimer = nullptr;
     QTimer *runningTimer = nullptr;
     QString script;
 
-    void initalize();
-    void deinitalize();
+    void initalizeForDebugging();
+    void deinitalizeForDebugging();
 
     void scriptRun(QString script);
 

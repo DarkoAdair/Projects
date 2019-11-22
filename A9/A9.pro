@@ -24,7 +24,7 @@ SOURCES += \
     highlighter.cpp \
     main.cpp \
     mainwindow.cpp \
-    scriptbreakpointinfo.cpp \
+    player.cpp \
     scriptdebugger.cpp
     player.cpp
 
@@ -36,7 +36,7 @@ HEADERS += \
     gamemap.h \
     highlighter.h \
     mainwindow.h \
-    scriptbreakpointinfo.h \
+    player.h \
     scriptdebugger.h
     player.h
 

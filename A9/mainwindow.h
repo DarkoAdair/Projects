@@ -29,9 +29,13 @@ private slots:
 
     void on_debugStopButton_clicked();
 
-    void onDebugLineChanged(int currentLine);
-
+    //GameManager
     void movePlayer(int x, int y, bool gameOver);
+
+    //CodeManager
+    void onDebugLineChanged(int currentLine);
+    void onDebugException(const QString errorMessage);
+    void onRunningFinsih();
 
 private:
     Ui::MainWindow *ui;

@@ -18,8 +18,6 @@ public:
     void loadLevel(int levelNum);
     bool isLevelCompleted();
 
-
-
     Q_INVOKABLE void moveUp(int spaces = 0);
     Q_INVOKABLE void moveDown(int spaces = 0);
     Q_INVOKABLE void moveLeft(int spaces = 0);

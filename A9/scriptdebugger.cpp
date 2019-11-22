@@ -79,31 +79,31 @@
  }
 
  void ScriptDebuggerPrivate::scriptLoad(qint64 id, const QString &program,
-                                        const QString &fileName, int lineNumber)
+                                        const QString &/*fileName*/, int /*lineNumber*/)
  {
-     qDebug() << "[ScriptLoad] ID : " << id << "/ Program : " << program << "/ Filename : " << fileName << "/ Linenumber : " << lineNumber;
+     qDebug() << "[ScriptDebugger] [ScriptLoad] ID : " << id << "/ Program : " << program;
  }
 
  void ScriptDebuggerPrivate::scriptUnload(qint64 id)
  {
-     qDebug() << "[ScriptUnload] ID : " << id;
+     qDebug() << "[ScriptDebugger] [ScriptUnload] ID : " << id;
  }
 
- void ScriptDebuggerPrivate::functionEntry(qint64 scriptId)
+ void ScriptDebuggerPrivate::functionEntry(qint64 /*scriptId*/)
  {
-     qDebug() << "[Function Entry] ScriptId" << scriptId;
+     qDebug() << "[ScriptDebugger] [Function Entry]";
  }
 
- void ScriptDebuggerPrivate::functionExit(qint64 scriptId,
+ void ScriptDebuggerPrivate::functionExit(qint64 /*scriptId*/,
                                           const QScriptValue &returnValue)
  {
-     qDebug() << "[Function Exit] ScriptId" << scriptId << " / retureValue : " << returnValue.toString();
+     qDebug() << "[ScriptDebugger] [Function Exit] retureValue : " << returnValue.toString();
  }
 
  void ScriptDebuggerPrivate::positionChange(qint64 scriptId,
                                             int lineNumber, int columnNumber)
  {
-     qDebug() << "[Position Change] ScriptId" << scriptId << " / Linenumber : " << lineNumber << " / Columnnumber : " << columnNumber;
+     qDebug() << "[ScriptDebugger] [Position Change] ScriptId" << scriptId << " / Linenumber : " << lineNumber << " / Columnnumber : " << columnNumber;
 
      bool enterInteractiveMode = false;
 
@@ -135,7 +135,7 @@
                                             const QScriptValue &exception,
                                             bool hasHandler)
  {
-     qDebug() << "[Exception Throw] ScriptId" << scriptId << " / exception : " << exception.toString() << " / hasHandler : " << hasHandler;
+     qDebug() << "[ScriptDebugger] [Exception Throw] ScriptId" << scriptId << " / exception : " << exception.toString() << " / hasHandler : " << hasHandler;
 
      if (!hasHandler) {
         //TODO - Exception Singal
