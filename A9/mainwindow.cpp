@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent, GameManager *gameEngine)
 
     QObject::connect(gameEngine, SIGNAL(movePlayer(int,int,bool)),
                      this, SLOT(movePlayer(int,int,bool)));
+
+
     codeManager = new CodeManager(gameEngine);
 
     //set icon
