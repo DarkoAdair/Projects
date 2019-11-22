@@ -9,9 +9,17 @@ MainWindow::MainWindow(QWidget *parent, GameManager *gameEngine)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    codeEditor = new CodeEditor(this);
     ui->setupUi(this);
+
+    codeEditor = new CodeEditor(this);
     ui->codeEditlLayout->addWidget(codeEditor);
+
+    completer = new QCompleter(this);
+    completer->setModel(modelFromFile(":/command.txt"));
+    //completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    completer->setWrapAround(false);
+    codeEditor->setCompleter(completer);
 
     codeEditor->appendPlainText("player.moveRight(1)\n");
     codeEditor->appendPlainText("player.moveDown(1)\n");
@@ -128,4 +136,27 @@ void MainWindow::onRunningFinsih()
     ui->debugLeftButton->setEnabled(false);
     ui->debugRightButton->setEnabled(false);
     ui->debugButton->setEnabled(true);
+}
+
+QAbstractItemModel *MainWindow::modelFromFile(const QString& fileName)
+{
+    QFile file(fileName);
+    if (!file.open(QFile::ReadOnly))
+        return new QStringListModel(completer);
+
+#ifndef QT_NO_CURSOR
+    QGuiApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+#endif
+    QStringList words;
+
+    while (!file.atEnd()) {
+        QByteArray line = file.readLine();
+        if (!line.isEmpty())
+            words << line.trimmed();
+    }
+
+#ifndef QT_NO_CURSOR
+    QGuiApplication::restoreOverrideCursor();
+#endif
+    return new QStringListModel(words, completer);
 }

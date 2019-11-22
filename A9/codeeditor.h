@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QPainter>
 #include <QTextBlock>
+#include <QCompleter>
 
 #include "highlighter.h"
 
@@ -18,17 +19,25 @@ public:
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
 
+    void setCompleter(QCompleter *c);
+    QCompleter *completer() const;
+
 protected:
     void resizeEvent(QResizeEvent *event) override;
+    void keyPressEvent(QKeyEvent *e) override;
+    void focusInEvent(QFocusEvent *e) override;
 
 private slots:
     void updateLineNumberAreaWidth(int newBlockCount);
     void highlightCurrentLine();
     void updateLineNumberArea(const QRect &, int);
+    void insertCompletion(const QString &completion);
 
 private:
     QWidget *lineNumberArea;
     Highlighter *highlighter;
+    QString textUnderCursor() const;
+    QCompleter *c = nullptr;
 };
 
 class LineNumberArea : public QWidget

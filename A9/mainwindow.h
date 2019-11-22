@@ -43,6 +43,8 @@ private:
     CodeEditor *codeEditor;
     CodeManager *codeManager;
     GameManager *gameEngine;
+    QCompleter *completer;
 
+    QAbstractItemModel *modelFromFile(const QString& fileName);
 };
 #endif // MAINWINDOW_H
