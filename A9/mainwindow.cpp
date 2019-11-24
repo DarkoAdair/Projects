@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent, GameManager *gameEngine)
 //    codeEditor->appendPlainText("command.print(\"1\")\n");
 //    codeEditor->appendPlainText("command.print(\"1\")\n");
 
-    ui->debugLeftButton->setEnabled(false);
+
     ui->debugRightButton->setEnabled(false);
 
     QObject::connect(gameEngine, SIGNAL(movePlayer(int,int,bool)),
@@ -26,9 +26,6 @@ MainWindow::MainWindow(QWidget *parent, GameManager *gameEngine)
     ui->debugButton->setIcon(QIcon (QPixmap (":/debug.png")));             //debugger
     ui->debugButton->setIconSize(QSize(33,33));
     ui->debugButton->setStyleSheet("background-color: rgba(255, 255, 255, 20);");
-    ui->debugLeftButton->setIcon(QIcon (QPixmap (":/debugLeft.png")));             //debugLeft
-    ui->debugLeftButton->setIconSize(QSize(33,33));
-    ui->debugLeftButton->setStyleSheet("background-color: rgba(255, 255, 255, 20);");
     ui->debugRightButton->setIcon(QIcon (QPixmap (":/debugRight.png")));             //debugRight
     ui->debugRightButton->setIconSize(QSize(33,33));
     ui->debugRightButton->setStyleSheet("background-color: rgba(255, 255, 255, 20);");
@@ -57,7 +54,6 @@ void MainWindow::movePlayer(int _x, int _y, bool gameOver) {
 
 void MainWindow::on_goButton_clicked()
 {
-
     QString errorMessage;
     bool result = codeManager->run(codeEditor->toPlainText(), &errorMessage);
 
@@ -65,24 +61,21 @@ void MainWindow::on_goButton_clicked()
     if (!result) {
         codeManager->line = codeManager->engine->uncaughtExceptionLineNumber();
 
-        ui->console->append(errorMessage);
+        ui->console->append(errorMessage + "\n");
         ui->console->wordWrapMode();
 
         //qDebug() << "uncaught exception at line" << codeManager->line << ":" << codeManager->result.toString();
     }
-
+    else {
+        ui->console->clear();
+    }
 }
 
 void MainWindow::on_debugButton_clicked()
 {
-    ui->debugLeftButton->setEnabled(true);
+
     ui->debugRightButton->setEnabled(true);
     ui->debugButton->setEnabled(false);
-
-}
-
-void MainWindow::on_debugLeftButton_clicked()
-{
 
 }
 
@@ -93,7 +86,7 @@ void MainWindow::on_debugRightButton_clicked()
 
 void MainWindow::on_debugStopButton_clicked()
 {
-    ui->debugLeftButton->setEnabled(false);
+
     ui->debugRightButton->setEnabled(false);
     ui->debugButton->setEnabled(true);
 

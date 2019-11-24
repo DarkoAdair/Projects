@@ -1,4 +1,6 @@
 #include "codeeditor.h"
+#include "codeeditor.h"
+#include <QStringList>
 
 CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent)
 {
@@ -112,4 +114,44 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
         bottom = top + (int) blockBoundingRect(block).height();
         ++blockNumber;
     }
+}
+
+void CodeEditor::lineHighlighter(int line)
+{
+    QList<QTextEdit::ExtraSelection> extraSelections;
+
+    if (!isReadOnly()) {
+        QTextEdit::ExtraSelection selection;
+
+        QStringList lines = this->toPlainText().split("\n");
+        int startPos = 0;
+        int endPos = 0;
+
+        //get startPos
+        for(int i = 0; i < line-1; i++)
+        {
+            startPos += lines[i].size();
+
+        }
+
+        //get endPos
+        endPos = startPos + lines[line].size();
+
+//        QTextCursor c = this->textCursor();
+//        c.setPosition(startPos);
+//        c.setPosition(endPos, QTextCursor::KeepAnchor);
+
+        QColor lineColor = QColor(Qt::green).lighter(160);
+
+        selection.format.setBackground(lineColor);
+        selection.format.setProperty(QTextFormat::FullWidthSelection, true);
+
+        selection.cursor.setPosition(startPos);
+        selection.cursor.setPosition(endPos, QTextCursor::KeepAnchor);
+
+        selection.cursor.clearSelection();
+        extraSelections.append(selection);
+    }
+
+    setExtraSelections(extraSelections);
 }

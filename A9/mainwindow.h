@@ -24,13 +24,13 @@ private slots:
 
     void on_debugButton_clicked();
 
-    void on_debugLeftButton_clicked();
-
     void on_debugRightButton_clicked();
 
     void on_debugStopButton_clicked();
 
     void movePlayer(int x, int y, bool gameOver);
+
+    //void lineChange(int line);
 
 private:
     Ui::MainWindow *ui;
@@ -38,6 +38,7 @@ private:
     CodeEditor *codeEditor;
     CodeManager *codeManager;
     GameManager *gameEngine;
+
 
 };
 #endif // MAINWINDOW_H
