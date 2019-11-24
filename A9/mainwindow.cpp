@@ -72,21 +72,7 @@ void MainWindow::movePlayer(int _x, int _y, bool gameOver) {
 
 void MainWindow::on_goButton_clicked()
 {
-    QString errorMessage;
-    bool result = codeManager->run(codeEditor->toPlainText(), &errorMessage);
 
-    // throwing excetpoin
-    if (!result) {
-        codeManager->line = codeManager->engine->uncaughtExceptionLineNumber();
-
-        ui->console->append(errorMessage + "\n");
-        ui->console->wordWrapMode();
-
-        //qDebug() << "uncaught exception at line" << codeManager->line << ":" << codeManager->result.toString();
-    }
-    else {
-        ui->console->clear();
-    }
     this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
     codeManager->run(codeEditor->toPlainText(), 1000);
 }
@@ -95,7 +81,7 @@ void MainWindow::on_debugButton_clicked()
 {
 
     this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
-    ui->debugLeftButton->setEnabled(true);
+
     ui->debugRightButton->setEnabled(true);
     ui->debugButton->setEnabled(false);
 
@@ -130,7 +116,6 @@ void MainWindow::onDebugException(const QString errorMessage)
 
     this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::TextEditorInteraction);
 
-    ui->debugLeftButton->setEnabled(false);
     ui->debugRightButton->setEnabled(false);
     ui->debugButton->setEnabled(true);
 }
@@ -141,7 +126,6 @@ void MainWindow::onRunningFinsih()
 
     this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::TextEditorInteraction);
 
-    ui->debugLeftButton->setEnabled(false);
     ui->debugRightButton->setEnabled(false);
     ui->debugButton->setEnabled(true);
 }

@@ -157,6 +157,7 @@ void CodeEditor::lineHighlighter(int line)
     }
 
     setExtraSelections(extraSelections);
+}
 void CodeEditor::setCompleter(QCompleter *completer)
 {
     if (c)
