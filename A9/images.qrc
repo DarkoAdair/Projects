@@ -10,5 +10,6 @@
         <file>spikes_simple.png</file>
         <file>player_simple_top.png</file>
         <file>lava_simple.png</file>
+        <file>command.txt</file>
     </qresource>
 </RCC>

@@ -50,6 +50,7 @@ std::vector<std::tuple<int, int>> Player::moveRight(int spaces)
 {
     // list of coordinates traversed by this move
     std::vector<std::tuple<int, int>> coordinateList;
+    coordinateList.push_back(std::tuple<int, int>(getX(), getY())); // push on current position
 
     if(spaces <= 0) {
         while(x < 9)
@@ -81,6 +82,7 @@ std::vector<std::tuple<int, int>> Player::moveLeft(int spaces)
 {
     // list of coordinates traversed by this move
     std::vector<std::tuple<int, int>> coordinateList;
+    coordinateList.push_back(std::tuple<int, int>(getX(), getY())); // push on current position
 
     if(spaces <= 0) {
         while(x > 0)
@@ -111,6 +113,7 @@ std::vector<std::tuple<int, int>> Player::moveDown(int spaces)
 {
     // list of coordinates traversed by this move
     std::vector<std::tuple<int, int>> coordinateList;
+    coordinateList.push_back(std::tuple<int, int>(getX(), getY())); // push on current position
 
     if(spaces <= 0) {
         while(y < 9)
@@ -141,6 +144,7 @@ std::vector<std::tuple<int, int>> Player::moveUp(int spaces)
 {
     // list of coordinates traversed by this move
     std::vector<std::tuple<int, int>> coordinateList;
+    coordinateList.push_back(std::tuple<int, int>(getX(), getY())); // push on current position
 
     if(spaces <= 0) {
         while(y > 0)

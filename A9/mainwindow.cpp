@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QtCore>
 #include <QDebug>
 
 
@@ -8,19 +9,34 @@ MainWindow::MainWindow(QWidget *parent, GameManager *gameEngine)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    codeEditor = new CodeEditor(this);
     ui->setupUi(this);
+
+    codeEditor = new CodeEditor(this);
     ui->codeEditlLayout->addWidget(codeEditor);
 
-//    codeEditor->appendPlainText("command.print(\"1\")\n");
-//    codeEditor->appendPlainText("command.print(\"1\")\n");
+    completer = new QCompleter(this);
+    completer->setModel(modelFromFile(":/command.txt"));
+    //completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    completer->setWrapAround(false);
+    codeEditor->setCompleter(completer);
+
+    codeEditor->appendPlainText("player.moveRight(1)\n");
+    codeEditor->appendPlainText("player.moveDown(1)\n");
+    codeEditor->appendPlainText("player.moveLeft(1)\n");
+    codeEditor->appendPlainText("player.moveUp(1)\n");
 
 
     ui->debugRightButton->setEnabled(false);
 
     QObject::connect(gameEngine, SIGNAL(movePlayer(int,int,bool)),
                      this, SLOT(movePlayer(int,int,bool)));
+
+
     codeManager = new CodeManager(gameEngine);
+    connect(codeManager, SIGNAL(signalLineChanged(int)), this, SLOT(onDebugLineChanged(int)));
+    connect(codeManager, SIGNAL(signalException(const QString)), this, SLOT(onDebugException(const QString)));
+    connect(codeManager, SIGNAL(signalFinish()), this, SLOT(onRunningFinsih()));
 
     //set icon
     ui->debugButton->setIcon(QIcon (QPixmap (":/debug.png")));             //debugger
@@ -30,6 +46,8 @@ MainWindow::MainWindow(QWidget *parent, GameManager *gameEngine)
     ui->debugRightButton->setIconSize(QSize(33,33));
     ui->debugRightButton->setStyleSheet("background-color: rgba(255, 255, 255, 20);");
     ui->debugStopButton->setIcon(QIcon (QPixmap (":/debugStop.png")));             //debugRight
+    ui->debugStopButton->setIconSize(QSize(40,40));
+    ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
     ui->debugStopButton->setIconSize(QSize(33,33));
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 20);");
 }
@@ -69,19 +87,24 @@ void MainWindow::on_goButton_clicked()
     else {
         ui->console->clear();
     }
+    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
+    codeManager->run(codeEditor->toPlainText(), 1000);
 }
 
 void MainWindow::on_debugButton_clicked()
 {
 
+    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
+    ui->debugLeftButton->setEnabled(true);
     ui->debugRightButton->setEnabled(true);
     ui->debugButton->setEnabled(false);
 
+    codeManager->debug(codeEditor->toPlainText());
 }
 
 void MainWindow::on_debugRightButton_clicked()
 {
-
+    codeManager->moveNextLine();
 }
 
 void MainWindow::on_debugStopButton_clicked()
@@ -89,6 +112,59 @@ void MainWindow::on_debugStopButton_clicked()
 
     ui->debugRightButton->setEnabled(false);
     ui->debugButton->setEnabled(true);
+    ui->debugStopButton->setFocus();
+}
 
+void MainWindow::onDebugLineChanged(int currentLine)
+{
+    qDebug() << "[Main] [onDebugLineChanged] Line : " << currentLine;
 
+    //TODO - highlight code editor
+}
+
+void MainWindow::onDebugException(const QString errorMessage)
+{
+    qDebug() << "[Main] [onDebugException] " << errorMessage;
+
+    ui->console->append(errorMessage);
+
+    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::TextEditorInteraction);
+
+    ui->debugLeftButton->setEnabled(false);
+    ui->debugRightButton->setEnabled(false);
+    ui->debugButton->setEnabled(true);
+}
+
+void MainWindow::onRunningFinsih()
+{
+    qDebug() << "[Main] [onRunningFinish] Finish Debugging";
+
+    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::TextEditorInteraction);
+
+    ui->debugLeftButton->setEnabled(false);
+    ui->debugRightButton->setEnabled(false);
+    ui->debugButton->setEnabled(true);
+}
+
+QAbstractItemModel *MainWindow::modelFromFile(const QString& fileName)
+{
+    QFile file(fileName);
+    if (!file.open(QFile::ReadOnly))
+        return new QStringListModel(completer);
+
+#ifndef QT_NO_CURSOR
+    QGuiApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+#endif
+    QStringList words;
+
+    while (!file.atEnd()) {
+        QByteArray line = file.readLine();
+        if (!line.isEmpty())
+            words << line.trimmed();
+    }
+
+#ifndef QT_NO_CURSOR
+    QGuiApplication::restoreOverrideCursor();
+#endif
+    return new QStringListModel(words, completer);
 }
