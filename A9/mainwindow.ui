@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1446</width>
-    <height>724</height>
+    <height>750</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QLabel" name="playerLabel">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
+      <x>74</x>
+      <y>394</y>
       <width>64</width>
       <height>96</height>
      </rect>
@@ -216,77 +216,11 @@
      </property>
     </widget>
    </widget>
-   <widget class="QLabel" name="spikesLabel">
-    <property name="geometry">
-     <rect>
-      <x>74</x>
-      <y>72</y>
-      <width>64</width>
-      <height>96</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::NoFrame</enum>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="images.qrc">:/spikes_simple.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="spikesLabel_2">
-    <property name="geometry">
-     <rect>
-      <x>138</x>
-      <y>72</y>
-      <width>64</width>
-      <height>96</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::NoFrame</enum>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="images.qrc">:/spikes_simple.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="spikesLabel_3">
-    <property name="geometry">
-     <rect>
-      <x>74</x>
-      <y>138</y>
-      <width>64</width>
-      <height>96</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::NoFrame</enum>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="images.qrc">:/spikes_simple.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QLabel" name="playerTopLabel">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
+      <x>74</x>
+      <y>394</y>
       <width>64</width>
       <height>32</height>
      </rect>
@@ -299,28 +233,6 @@
     </property>
     <property name="pixmap">
      <pixmap resource="images.qrc">:/player_simple_top.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lavaLabel">
-    <property name="geometry">
-     <rect>
-      <x>330</x>
-      <y>106</y>
-      <width>64</width>
-      <height>64</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::NoFrame</enum>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="images.qrc">:/lava_simple.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -339,13 +251,13 @@
      <string>Level: 1</string>
     </property>
    </widget>
-   <widget class="QLabel" name="keyLabel">
+   <widget class="QLabel" name="level1Label">
     <property name="geometry">
      <rect>
-      <x>138</x>
-      <y>522</y>
-      <width>64</width>
-      <height>96</height>
+      <x>10</x>
+      <y>40</y>
+      <width>640</width>
+      <height>640</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -355,39 +267,34 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="images.qrc">:/key_simple.png</pixmap>
+     <pixmap resource="images.qrc">:/level_1.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="lockLabel">
+   <widget class="QLabel" name="finish1Label">
     <property name="geometry">
      <rect>
-      <x>522</x>
-      <y>394</y>
+      <x>586</x>
+      <y>608</y>
       <width>64</width>
-      <height>96</height>
+      <height>72</height>
      </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::NoFrame</enum>
     </property>
     <property name="text">
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="images.qrc">:/lock_simple.png</pixmap>
+     <pixmap resource="images.qrc">:/finish_tile.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
    </widget>
    <zorder>playField</zorder>
+   <zorder>finish1Label</zorder>
    <zorder>playerLabel</zorder>
-   <zorder>keyLabel</zorder>
-   <zorder>lockLabel</zorder>
-   <zorder>lavaLabel</zorder>
    <zorder>goButton</zorder>
    <zorder>variablesLabel</zorder>
    <zorder>xLabel</zorder>
@@ -395,11 +302,9 @@
    <zorder>verticalLayoutWidget</zorder>
    <zorder>groupBox</zorder>
    <zorder>groupBox_2</zorder>
-   <zorder>spikesLabel</zorder>
-   <zorder>spikesLabel_2</zorder>
-   <zorder>spikesLabel_3</zorder>
-   <zorder>playerTopLabel</zorder>
    <zorder>levelLabel</zorder>
+   <zorder>level1Label</zorder>
+   <zorder>playerTopLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -407,7 +312,7 @@
      <x>0</x>
      <y>0</y>
      <width>1446</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
