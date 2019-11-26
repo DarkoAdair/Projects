@@ -337,12 +337,56 @@
     </property>
     <property name="text">
      <string>Level: 1</string>
+   <widget class="QLabel" name="keyLabel">
+    <property name="geometry">
+     <rect>
+      <x>138</x>
+      <y>522</y>
+      <width>64</width>
+      <height>96</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="images.qrc">:/key_simple.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lockLabel">
+    <property name="geometry">
+     <rect>
+      <x>522</x>
+      <y>394</y>
+      <width>64</width>
+      <height>96</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="images.qrc">:/lock_simple.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
     </property>
    </widget>
    <zorder>playField</zorder>
+   <zorder>playerLabel</zorder>
+   <zorder>keyLabel</zorder>
+   <zorder>lockLabel</zorder>
    <zorder>lavaLabel</zorder>
    <zorder>goButton</zorder>
-   <zorder>playerLabel</zorder>
    <zorder>variablesLabel</zorder>
    <zorder>xLabel</zorder>
    <zorder>yLabel</zorder>

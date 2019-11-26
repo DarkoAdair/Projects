@@ -38,7 +38,7 @@ void GameManager::moveUp(int spaces)
     std::vector<std::tuple<int, int>> traversed = player.moveUp(spaces);
     bool gameOver = checkPathSetActualSpot(traversed);
 
-    emit movePlayer(player.getX(),player.getY(), gameOver);
+    emit movePlayer(player.getX(),player.getY(),true,gameOver);
 }
 
 void GameManager::moveDown(int spaces)
@@ -48,7 +48,7 @@ void GameManager::moveDown(int spaces)
     std::vector<std::tuple<int, int>> traversed = player.moveDown(spaces);
     bool gameOver = checkPathSetActualSpot(traversed);
 
-    emit movePlayer(player.getX(),player.getY(), gameOver);
+    emit movePlayer(player.getX(),player.getY(),true,gameOver);
 }
 
 void GameManager::moveLeft(int spaces)
@@ -58,7 +58,7 @@ void GameManager::moveLeft(int spaces)
     std::vector<std::tuple<int, int>> traversed = player.moveLeft(spaces);
     bool gameOver = checkPathSetActualSpot(traversed);
 
-    emit movePlayer(player.getX(),player.getY(), gameOver);
+    emit movePlayer(player.getX(),player.getY(),true,gameOver);
 }
 
 void GameManager::moveRight(int spaces)
@@ -68,7 +68,15 @@ void GameManager::moveRight(int spaces)
     std::vector<std::tuple<int, int>> traversed = player.moveRight(spaces);
     bool gameOver = checkPathSetActualSpot(traversed);
 
-    emit movePlayer(player.getX(),player.getY(), gameOver);
+    emit movePlayer(player.getX(),player.getY(),true,gameOver);
+}
+
+int GameManager::getPlayerX() {
+    return player.getX();
+}
+
+int GameManager::getPlayerY() {
+    return player.getY();
 }
 
 

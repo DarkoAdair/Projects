@@ -6,10 +6,12 @@
         <file>debugStop.png</file>
         <file>link.png</file>
         <file>player_simple.png</file>
-        <file>grid_simple.png</file>
         <file>spikes_simple.png</file>
         <file>player_simple_top.png</file>
         <file>lava_simple.png</file>
+        <file>lock_simple.png</file>
+        <file>grid_simple.png</file>
+        <file>key_simple.png</file>
         <file>command.txt</file>
     </qresource>
 </RCC>

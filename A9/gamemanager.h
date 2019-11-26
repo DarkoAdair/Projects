@@ -24,6 +24,10 @@ public:
     Q_INVOKABLE void moveLeft(int spaces = 0);
     Q_INVOKABLE void moveRight(int spaces = 0);
 
+    int getPlayerX();
+    int getPlayerY();
+
+    //std::tuple<int, int, bool>
     // takes in a list of coordinates that a move would propose, sets players coordinates to where the player should be
     // at, like if they run into a wall for example. Returns a bool saying if move killed player or not
     bool checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryingPath);
@@ -39,9 +43,8 @@ public slots:
 
 
 signals:
-    void movePlayer(int x, int y, bool gameOver);
+    void movePlayer(int x, int y, bool mainComman, bool gameOver);
     void updateLevelAndMap(int levelNum);
-
 };
 
 #endif // GAMEMANAGER_H

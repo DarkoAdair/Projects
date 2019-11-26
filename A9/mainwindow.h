@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
+#include <queue>
 
 #include "codeeditor.h"
 #include "codemanager.h"
@@ -13,6 +15,13 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+    int targetX = 0;
+    int targetY = 0;
+    int xStep = 0;
+    int yStep = 0;
+    std::queue<int> xTargets;
+    std::queue<int> yTargets;
+    bool gameOver = false;
 
 public:
     MainWindow(QWidget *parent = nullptr, GameManager *gameEngine = nullptr);
@@ -30,8 +39,7 @@ private slots:
 
     void on_debugStopButton_clicked();
 
-    //GameManager
-    void movePlayer(int x, int y, bool gameOver);
+    void movePlayer(int x = 0, int y = 0, bool mainCommand = false, bool gameOver = false);
     void updateLevelAndMap(int level);
 
     //void lineChange(int line);
