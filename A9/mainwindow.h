@@ -19,6 +19,8 @@ class MainWindow : public QMainWindow
     int targetY = 0;
     int xStep = 0;
     int yStep = 0;
+    int runNum = 0;
+    int currentRun = 0;
     std::queue<int> xTargets;
     std::queue<int> yTargets;
     bool gameOver = false;
@@ -26,6 +28,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr, GameManager *gameEngine = nullptr);
     ~MainWindow();
+    void updateCoordinateLabels();
+    void resetBoard();
 
 signals:
    void signalGameOver();

@@ -31,6 +31,11 @@ void GameManager::checkLevelCompletionReset()
     emit updateLevelAndMap(getLevelCount());
 }
 
+void GameManager::resetPlayer() {
+    player.setX(startX);
+    player.setY(startY);
+}
+
 void GameManager::moveUp(int spaces)
 {
     qDebug() << "MOVEUP : " << spaces;

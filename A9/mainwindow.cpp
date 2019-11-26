@@ -104,12 +104,7 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
     ui->playerTopLabel->setGeometry(x, y, ui->playerTopLabel->width(), ui->playerTopLabel->height());
 
     // Update player variable labels
-    QString xString = "x: ";
-    xString.append(QString::number((ui->playerLabel->x()-ui->playField->x())/ui->playerLabel->width()));
-    QString yString = "y: ";
-    yString.append(QString::number((ui->playerLabel->y()+ui->playerLabel->height()/3-ui->playField->y())/ui->playerLabel->width()));
-    ui->xLabel->setText(xString);
-    ui->yLabel->setText(yString);
+    updateCoordinateLabels();
 
     // If the player is not in the right spot yet...
     if(ui->playerLabel->y()+ui->playerLabel->height()/3 != ui->playField->y()+ui->playerLabel->width()*targetY || ui->playerLabel->x() != ui->playField->x()+ui->playerLabel->width()*targetX) {
@@ -159,7 +154,7 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
         //emit signalGameOver();
 
 
-   }
+    }
 }
 
 void MainWindow::updateLevelAndMap(int level)
@@ -169,8 +164,24 @@ void MainWindow::updateLevelAndMap(int level)
     ui->levelLabel->setText(levelString);
 }
 
+void MainWindow::updateCoordinateLabels(){
+    QString xString = "x: ";
+    xString.append(QString::number((ui->playerLabel->x()-ui->playField->x())/ui->playerLabel->width()));
+    QString yString = "y: ";
+    yString.append(QString::number((ui->playerLabel->y()+ui->playerLabel->height()/3-ui->playField->y())/ui->playerLabel->width()));
+    ui->xLabel->setText(xString);
+    ui->yLabel->setText(yString);
+}
+
 void MainWindow::on_goButton_clicked()
 {
+    resetBoard();
+    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
+    codeManager->run(codeEditor->toPlainText(), 1000);
+}
+
+void MainWindow::resetBoard() {
+    ui->goButton->setEnabled(false);
     ui->playerLabel->setGeometry(ui->playField->x(), ui->playField->y()-ui->playerLabel->height()/3, ui->playerLabel->width(), ui->playerLabel->height());
     ui->playerTopLabel->setGeometry(ui->playerLabel->x(), ui->playerLabel->y(), ui->playerTopLabel->width(), ui->playerTopLabel->height());
     int numTargets = xTargets.size();
@@ -182,14 +193,13 @@ void MainWindow::on_goButton_clicked()
     targetY = 0;
     xStep = 0;
     yStep = 0;
-    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
-    codeManager->run(codeEditor->toPlainText(), 1000);
-
+    gameEngine->resetPlayer();
+    updateCoordinateLabels();
 }
 
 void MainWindow::on_debugButton_clicked()
 {
-
+    resetBoard();
     this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
 
     ui->debugRightButton->setEnabled(true);
@@ -232,6 +242,7 @@ void MainWindow::onDebugException(const QString errorMessage)
 
 void MainWindow::onRunningFinsih()
 {
+    ui->goButton->setEnabled(true);
     qDebug() << "[Main] [onRunningFinish] Finish Debugging";
 
     this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::TextEditorInteraction);
