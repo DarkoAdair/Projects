@@ -13,6 +13,11 @@ bool GameManager::isLevelCompleted()
             player.getY() == std::get<1>(level.getEnd()));
 }
 
+void GameManager::resetPlayer() {
+    player.setX(startX);
+    player.setY(startY);
+}
+
 void GameManager::moveUp(int spaces)
 {
     qDebug() << "MOVEUP : " << spaces;

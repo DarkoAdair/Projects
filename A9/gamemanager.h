@@ -17,6 +17,7 @@ public:
 
     void loadLevel(int levelNum);
     bool isLevelCompleted();
+    void resetPlayer();
 
     Q_INVOKABLE void moveUp(int spaces = 0);
     Q_INVOKABLE void moveDown(int spaces = 0);
@@ -25,6 +26,8 @@ public:
 
     int getPlayerX();
     int getPlayerY();
+    int startX = 0;
+    int startY = 0;
 
     //std::tuple<int, int, bool>
     // takes in a list of coordinates that a move would propose, sets players coordinates to where the player should be
