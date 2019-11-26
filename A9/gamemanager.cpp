@@ -27,7 +27,7 @@ void GameManager::checkLevelCompletionReset()
 
 
 
-    emit movePlayer(player.getX(),player.getY(), false);
+    emit movePlayer(player.getX(),player.getY(), true, false);
     emit updateLevelAndMap(getLevelCount());
 }
 
