@@ -337,6 +337,8 @@
     </property>
     <property name="text">
      <string>Level: 1</string>
+    </property>
+   </widget>
    <widget class="QLabel" name="keyLabel">
     <property name="geometry">
      <rect>

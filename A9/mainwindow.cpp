@@ -159,7 +159,8 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
         //emit signalGameOver();
 
 
-    }
+   }
+}
 
 void MainWindow::updateLevelAndMap(int level)
 {
