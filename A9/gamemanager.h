@@ -22,12 +22,15 @@ public:
     Q_INVOKABLE void moveLeft(int spaces = 0);
     Q_INVOKABLE void moveRight(int spaces = 0);
 
+    int getPlayerX();
+    int getPlayerY();
+
     //std::tuple<int, int, bool>
 
 public slots:
 
 signals:
-    void movePlayer(int x, int y, bool gameOver);
+    void movePlayer(int x, int y, bool mainComman, bool gameOver);
 };
 
 #endif // GAMEMANAGER_H

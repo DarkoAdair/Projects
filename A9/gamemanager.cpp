@@ -14,23 +14,31 @@ bool GameManager::isLevelCompleted()
 void GameManager::moveUp(int spaces) {
     qDebug() << "MOVEUP : " << spaces;
     player.setY(player.getY()-spaces);
-    emit movePlayer(player.getX(),player.getY(),false);
+    emit movePlayer(player.getX(),player.getY(),true,false);
 }
 
 void GameManager::moveDown(int spaces) {
     qDebug() << "MOVEDOWN : " << spaces;
     player.setY(player.getY()+spaces);
-    emit movePlayer(player.getX(),player.getY(),false);
+    emit movePlayer(player.getX(),player.getY(),true,false);
 }
 
 void GameManager::moveLeft(int spaces) {
     qDebug() << "MOVELEFT : " << spaces;
     player.setX(player.getX()-spaces);
-    emit movePlayer(player.getX(),player.getY(),false);
+    emit movePlayer(player.getX(),player.getY(),true,false);
 }
 
 void GameManager::moveRight(int spaces) {
     qDebug() << "MOVERIGHT : " << spaces;
     player.setX(player.getX()+spaces);
-    emit movePlayer(player.getX(),player.getY(),false);
+    emit movePlayer(player.getX(),player.getY(),true,false);
+}
+
+int GameManager::getPlayerX() {
+    return player.getX();
+}
+
+int GameManager::getPlayerY() {
+    return player.getY();
 }
