@@ -91,20 +91,27 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
             yStep = yOff/std::abs(yOff);
         }
     }
+
+    // Move actual player sprite
     int x = ui->playerLabel->x() + xStep;
     int y = ui->playerLabel->y() + yStep;
     ui->playerLabel->setGeometry(x, y, ui->playerLabel->width(), ui->playerLabel->height());
     ui->playerTopLabel->setGeometry(x, y, ui->playerTopLabel->width(), ui->playerTopLabel->height());
+
+    // Update player variable labels
     QString xString = "x: ";
     xString.append(QString::number((ui->playerLabel->x()-ui->playField->x())/ui->playerLabel->width()));
     QString yString = "y: ";
     yString.append(QString::number((ui->playerLabel->y()+ui->playerLabel->height()/3-ui->playField->y())/ui->playerLabel->width()));
     ui->xLabel->setText(xString);
     ui->yLabel->setText(yString);
+
+    // If the player is not in the right spot yet...
     if(ui->playerLabel->y()+ui->playerLabel->height()/3 != ui->playField->y()+ui->playerLabel->width()*targetY || ui->playerLabel->x() != ui->playField->x()+ui->playerLabel->width()*targetX) {
         QTimer::singleShot(5, this, SLOT(movePlayer()));
         return;
     }
+    // Else move on to next target position
     else {
         int prevX = xTargets.front();
         int prevY = yTargets.front();
@@ -128,6 +135,8 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
             if(yOff != 0) {
                 yStep = yOff/std::abs(yOff);
             }
+
+            // A bit of a longer delay between separate commands
             QTimer::singleShot(100, this, SLOT(movePlayer()));
             return;
         }
@@ -136,7 +145,17 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
 
 void MainWindow::on_goButton_clicked()
 {
-
+    ui->playerLabel->setGeometry(ui->playField->x(), ui->playField->y()-ui->playerLabel->height()/3, ui->playerLabel->width(), ui->playerLabel->height());
+    ui->playerTopLabel->setGeometry(ui->playerLabel->x(), ui->playerLabel->y(), ui->playerTopLabel->width(), ui->playerTopLabel->height());
+    int numTargets = xTargets.size();
+    for(int i = 0; i < numTargets; i++) {
+        xTargets.pop();
+        yTargets.pop();
+    }
+    targetX = 0;
+    targetY = 0;
+    xStep = 0;
+    yStep = 0;
     this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
     codeManager->run(codeEditor->toPlainText(), 1000);
 }
