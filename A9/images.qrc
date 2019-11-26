@@ -13,5 +13,7 @@
         <file>grid_simple.png</file>
         <file>key_simple.png</file>
         <file>command.txt</file>
+        <file>finish_tile.png</file>
+        <file>level_1.png</file>
     </qresource>
 </RCC>

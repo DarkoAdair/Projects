@@ -57,10 +57,8 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     ui->debugStopButton->setIconSize(QSize(33,33));
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 20);");
 
-    // anti-aliasing
-//    std::array<QLabel*, 9> labels{ui->lavaLabel, ui->playField, ui->playerLabel,
-//                ui->playerTopLabel, ui->spikesLabel, ui->spikesLabel_2, ui->spikesLabel_3,
-//                ui->keyLabel, ui->lockLabel};
+//    std::array<QLabel*, 5> labels{ui->playField, ui->playerLabel,
+//                ui->playerTopLabel, ui->level1Label, ui->finish1Label};
 //    for(int i = 0; i < labels.size(); i++) {
 //        QPixmap pixmap = labels[i]->pixmap()->copy();
 //        pixmap = pixmap.scaled(labels[i]->width(), labels[i]->height(), Qt::KeepAspectRatio);
@@ -173,19 +171,19 @@ void MainWindow::on_goButton_clicked()
 }
 
 void MainWindow::resetBoard() {
+    targetX = 0;
+    targetY = 0;
+    xStep = 0;
+    yStep = 0;
+    gameEngine->resetPlayer();
     ui->goButton->setEnabled(false);
-    ui->playerLabel->setGeometry(ui->playField->x(), ui->playField->y()-ui->playerLabel->height()/3, ui->playerLabel->width(), ui->playerLabel->height());
+    ui->playerLabel->setGeometry(ui->playField->x()+gameEngine->getPlayerX()*ui->playerLabel->width(), ui->playField->y()-ui->playerLabel->height()/3+gameEngine->getPlayerY()*ui->playerLabel->width(), ui->playerLabel->width(), ui->playerLabel->height());
     ui->playerTopLabel->setGeometry(ui->playerLabel->x(), ui->playerLabel->y(), ui->playerTopLabel->width(), ui->playerTopLabel->height());
     int numTargets = xTargets.size();
     for(int i = 0; i < numTargets; i++) {
         xTargets.pop();
         yTargets.pop();
     }
-    targetX = 0;
-    targetY = 0;
-    xStep = 0;
-    yStep = 0;
-    gameEngine->resetPlayer();
     updateCoordinateLabels();
 }
 

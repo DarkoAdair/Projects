@@ -29,8 +29,8 @@ public:
 
     int getPlayerX();
     int getPlayerY();
-    int startX = 0;
-    int startY = 0;
+    int startX = 1;
+    int startY = 6;
 
     //std::tuple<int, int, bool>
     // takes in a list of coordinates that a move would propose, sets players coordinates to where the player should be

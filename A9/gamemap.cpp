@@ -69,15 +69,20 @@ void GameMap::LoadLevelOne()
     }
 
     mapCoordinates[9][9] = OBJECT_ENDPOINT;// set endpoint
-    mapCoordinates[4][0] = OBJECT_LAVA; // set up 4th col on row 0 (top row) as lava
-
-    mapCoordinates[2][0] = OBJECT_WALL; // set up wall
-    mapCoordinates[2][1] = OBJECT_WALL; // set up wall
-    mapCoordinates[2][2] = OBJECT_WALL; // set up wall
-
-
-    //mapCoordinates[0][3] = 1; // set up 1st col on row 3 as wall
-
+    mapCoordinates[1][1] = OBJECT_WALL;
+    mapCoordinates[2][1] = OBJECT_WALL;
+    mapCoordinates[3][1] = OBJECT_WALL;
+    mapCoordinates[8][2] = OBJECT_WALL;
+    mapCoordinates[8][3] = OBJECT_WALL;
+    mapCoordinates[3][7] = OBJECT_WALL;
+    mapCoordinates[3][8] = OBJECT_WALL;
+    mapCoordinates[3][9] = OBJECT_WALL;
+    mapCoordinates[4][4] = OBJECT_WALL;
+    mapCoordinates[4][5] = OBJECT_WALL;
+    mapCoordinates[4][6] = OBJECT_WALL;
+    mapCoordinates[4][7] = OBJECT_WALL;
+    mapCoordinates[5][7] = OBJECT_WALL;
+    mapCoordinates[6][7] = OBJECT_WALL;
 }
 
 void GameMap::LoadLevelTwo()

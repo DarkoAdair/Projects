@@ -2,8 +2,8 @@
 
 Player::Player()
 {
-    x = 0;
-    y = 0;
+    x = 1;
+    y = 6;
 }
 
 void Player::setX(int xCo)
