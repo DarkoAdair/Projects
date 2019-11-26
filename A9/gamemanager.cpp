@@ -20,7 +20,7 @@ void GameManager::checkLevelCompletionReset()
         loadLevel(levelCount);
     }
 
-    // move player to start, whether its becaue of failure or to the start of a new level
+    // move player to start, whether its because of failure or to the start of a new level
     std::tuple<int, int> start = level.getStart();
     player.setX(std::get<0>(start));
     player.setY(std::get<1>(start));
@@ -155,4 +155,28 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
  int GameManager::getLevelCount()
  {
      return levelCount;
+ }
+
+ void GameManager::useKey()
+ {
+    if(player.hasAKey())
+    {
+       qDebug() << "USEKEY : true";
+       level.openDoorWays();
+       //emit open doorway signal
+    }
+    else
+       qDebug() << "USEKEY : false";
+ }
+
+ void GameManager::useWeapon()
+ {
+    if(player.canAttack())
+    {
+       qDebug() << "USEWEAPON : true";
+       level.killEnemies();
+       // emit kill enemy signal
+    }
+    else
+       qDebug() << "USEWEAPON : false";
  }

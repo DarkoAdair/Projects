@@ -1,5 +1,17 @@
 #include "gamemap.h"
 
+#define OBJECT_AVAILABLEPATH 0
+#define OBJECT_WALL 1
+#define OBJECT_SPIKES 2
+#define OBJECT_LAVA 3
+#define OBJECT_ENEMY 4
+#define OBJECT_KEY 5
+#define OBJECT_WEAPON 6
+#define OBJECT_DOORWAYTOOPEN 7
+#define OBJECT_SPELLBOOKSTAND 8
+#define OBJECT_ENDPOINT 9
+
+
 GameMap::GameMap()
 {
     //TODO
@@ -52,13 +64,17 @@ void GameMap::LoadLevelOne()
     {
         for(int j = 0; j < 10; j++)
         {
-            mapCoordinates[i][j] = 0;
+            mapCoordinates[i][j] = OBJECT_AVAILABLEPATH;
         }
     }
 
-    mapCoordinates[9][9] = 9;// set endpoint
+    mapCoordinates[9][9] = OBJECT_ENDPOINT;// set endpoint
+    mapCoordinates[4][0] = OBJECT_LAVA; // set up 4th col on row 0 (top row) as lava
 
-     mapCoordinates[4][0] = 3; // set up 4th col on row 0 (top row) as lava
+    mapCoordinates[2][0] = OBJECT_WALL; // set up wall
+    mapCoordinates[2][1] = OBJECT_WALL; // set up wall
+    mapCoordinates[2][2] = OBJECT_WALL; // set up wall
+
 
     //mapCoordinates[0][3] = 1; // set up 1st col on row 3 as wall
 
@@ -73,10 +89,10 @@ void GameMap::LoadLevelTwo()
     {
         for(int j = 0; j < 10; j++)
         {
-            mapCoordinates[i][j] = 0;
+            mapCoordinates[i][j] = OBJECT_AVAILABLEPATH;
         }
     }
-    mapCoordinates[9][9] = 9;// set endpoint
+    mapCoordinates[9][9] = OBJECT_ENDPOINT;// set endpoint
 
 
 
@@ -93,14 +109,38 @@ void GameMap::LoadLevelThree()
     {
         for(int j = 0; j < 10; j++)
         {
-            mapCoordinates[i][j] = 0;
+            mapCoordinates[i][j] = OBJECT_AVAILABLEPATH;
         }
     }
-    mapCoordinates[9][9] = 9;// set endpoint
+    mapCoordinates[9][9] = OBJECT_ENDPOINT;// set endpoint
 
     //TODO set up coordinates of path,walls, spikes, enemies, etc.
 
     // change level picture
+}
+
+void GameMap::openDoorWays()
+{
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            if (mapCoordinates[i][j] == OBJECT_DOORWAYTOOPEN)
+                mapCoordinates[i][j] = OBJECT_AVAILABLEPATH;
+        }
+    }
+}
+
+void GameMap::killEnemies()
+{
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            if (mapCoordinates[i][j] == OBJECT_ENEMY)
+                mapCoordinates[i][j] = OBJECT_AVAILABLEPATH;
+        }
+    }
 }
 
 std::tuple<int, int> GameMap::getStart()

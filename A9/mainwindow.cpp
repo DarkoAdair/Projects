@@ -56,14 +56,16 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
     ui->debugStopButton->setIconSize(QSize(33,33));
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 20);");
-    std::array<QLabel*, 9> labels{ui->lavaLabel, ui->playField, ui->playerLabel,
-                ui->playerTopLabel, ui->spikesLabel, ui->spikesLabel_2, ui->spikesLabel_3,
-                ui->keyLabel, ui->lockLabel};
-    for(int i = 0; i < labels.size(); i++) {
-        QPixmap pixmap = labels[i]->pixmap()->copy();
-        pixmap = pixmap.scaled(labels[i]->width(), labels[i]->height(), Qt::KeepAspectRatio);
-        labels[i]->setPixmap(pixmap);
-    }
+
+    // anti-aliasing
+//    std::array<QLabel*, 9> labels{ui->lavaLabel, ui->playField, ui->playerLabel,
+//                ui->playerTopLabel, ui->spikesLabel, ui->spikesLabel_2, ui->spikesLabel_3,
+//                ui->keyLabel, ui->lockLabel};
+//    for(int i = 0; i < labels.size(); i++) {
+//        QPixmap pixmap = labels[i]->pixmap()->copy();
+//        pixmap = pixmap.scaled(labels[i]->width(), labels[i]->height(), Qt::KeepAspectRatio);
+//        labels[i]->setPixmap(pixmap);
+//    }
 }
 
 MainWindow::~MainWindow()

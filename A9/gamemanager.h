@@ -24,6 +24,8 @@ public:
     Q_INVOKABLE void moveDown(int spaces = 0);
     Q_INVOKABLE void moveLeft(int spaces = 0);
     Q_INVOKABLE void moveRight(int spaces = 0);
+    Q_INVOKABLE void useKey();
+    Q_INVOKABLE void useWeapon();
 
     int getPlayerX();
     int getPlayerY();

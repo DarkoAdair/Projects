@@ -172,17 +172,17 @@ std::vector<std::tuple<int, int>> Player::moveUp(int spaces)
     return coordinateList;
 }
 
-void Player::collectItem()
+bool Player::collectItem()
 {
     //TODO
 }
 
-void Player::useKey()
+bool Player::hasAKey()
 {
-    //TODO
+    return hasKey;
 }
 
-void Player::attack()
+bool Player::canAttack()
 {
-    //TODO
+    return hasWeapon;
 }
