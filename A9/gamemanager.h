@@ -15,6 +15,7 @@ class GameManager : public QObject
 public:
     GameManager();
 
+    void loadLevel(int levelNum);
     bool isLevelCompleted();
 
     Q_INVOKABLE void moveUp(int spaces = 0);
@@ -26,8 +27,13 @@ public:
     int getPlayerY();
 
     //std::tuple<int, int, bool>
+    // takes in a list of coordinates that a move would propose, sets players coordinates to where the player should be
+    // at, like if they run into a wall for example
+    void checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryingPath);
+
 
 public slots:
+
 
 signals:
     void movePlayer(int x, int y, bool mainComman, bool gameOver);

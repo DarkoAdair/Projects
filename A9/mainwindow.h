@@ -27,13 +27,10 @@ public:
     MainWindow(QWidget *parent = nullptr, GameManager *gameEngine = nullptr);
     ~MainWindow();
 
-
 private slots:
     void on_goButton_clicked();
 
     void on_debugButton_clicked();
-
-    void on_debugLeftButton_clicked();
 
     void on_debugRightButton_clicked();
 
@@ -41,12 +38,21 @@ private slots:
 
     void movePlayer(int x = 0, int y = 0, bool mainCommand = false, bool gameOver = false);
 
+    //void lineChange(int line);
+    //CodeManager
+    void onDebugLineChanged(int currentLine);
+    void onDebugException(const QString errorMessage);
+    void onRunningFinsih();
+
 private:
     Ui::MainWindow *ui;
 
     CodeEditor *codeEditor;
     CodeManager *codeManager;
     GameManager *gameEngine;
+    QCompleter *completer;
 
+
+    QAbstractItemModel *modelFromFile(const QString& fileName);
 };
 #endif // MAINWINDOW_H

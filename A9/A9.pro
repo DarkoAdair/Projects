@@ -1,4 +1,4 @@
-QT       += core gui widgets script scripttools
+QT       += core gui widgets script scripttools concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -24,6 +24,8 @@ SOURCES += \
     highlighter.cpp \
     main.cpp \
     mainwindow.cpp \
+    player.cpp \
+    scriptdebugger.cpp
     player.cpp
 
 HEADERS += \
@@ -34,6 +36,8 @@ HEADERS += \
     gamemap.h \
     highlighter.h \
     mainwindow.h \
+    player.h \
+    scriptdebugger.h
     player.h
 
 FORMS += \
@@ -46,3 +50,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     images.qrc
+
+DISTFILES +=
