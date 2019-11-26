@@ -326,6 +326,17 @@
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QLabel" name="levelLabel">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>0</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Level: 1</string>
    <widget class="QLabel" name="keyLabel">
     <property name="geometry">
      <rect>
@@ -386,6 +397,7 @@
    <zorder>spikesLabel_2</zorder>
    <zorder>spikesLabel_3</zorder>
    <zorder>playerTopLabel</zorder>
+   <zorder>levelLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

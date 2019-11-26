@@ -31,6 +31,9 @@ public:
     void updateCoordinateLabels();
     void resetBoard();
 
+signals:
+   void signalGameOver();
+
 private slots:
     void on_goButton_clicked();
 
@@ -41,6 +44,7 @@ private slots:
     void on_debugStopButton_clicked();
 
     void movePlayer(int x = 0, int y = 0, bool mainCommand = false, bool gameOver = false);
+    void updateLevelAndMap(int level);
 
     //void lineChange(int line);
     //CodeManager
