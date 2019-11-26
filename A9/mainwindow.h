@@ -18,6 +18,9 @@ public:
     MainWindow(QWidget *parent = nullptr, GameManager *gameEngine = nullptr);
     ~MainWindow();
 
+signals:
+   void signalGameOver();
+
 private slots:
     void on_goButton_clicked();
 
@@ -29,6 +32,7 @@ private slots:
 
     //GameManager
     void movePlayer(int x, int y, bool gameOver);
+    void updateLevelAndMap(int level);
 
     //void lineChange(int line);
     //CodeManager

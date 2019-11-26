@@ -4,13 +4,31 @@
 #include <tuple>
 
 GameManager::GameManager()  {
+    levelCount = 1;
     loadLevel(1);
+
 }
 
-bool GameManager::isLevelCompleted()
+// method to reset player after dead or level completion.
+void GameManager::checkLevelCompletionReset()
 {
-    return (player.getX() == std::get<0>(level.getEnd()) &&
-            player.getY() == std::get<1>(level.getEnd()));
+    // if the player completes the level
+    if(player.getX() == std::get<0>(level.getEnd()) &&
+           player.getY() == std::get<1>(level.getEnd()))
+    {
+        levelCount++;
+        loadLevel(levelCount);
+    }
+
+    // move player to start, whether its becaue of failure or to the start of a new level
+    std::tuple<int, int> start = level.getStart();
+    player.setX(std::get<0>(start));
+    player.setY(std::get<1>(start));
+
+
+
+    emit movePlayer(player.getX(),player.getY(), false);
+    emit updateLevelAndMap(getLevelCount());
 }
 
 void GameManager::moveUp(int spaces)
@@ -18,9 +36,9 @@ void GameManager::moveUp(int spaces)
     qDebug() << "MOVEUP : " << spaces;
 
     std::vector<std::tuple<int, int>> traversed = player.moveUp(spaces);
-    checkPathSetActualSpot(traversed);
+    bool gameOver = checkPathSetActualSpot(traversed);
 
-    emit movePlayer(player.getX(),player.getY(),false);
+    emit movePlayer(player.getX(),player.getY(), gameOver);
 }
 
 void GameManager::moveDown(int spaces)
@@ -28,9 +46,9 @@ void GameManager::moveDown(int spaces)
     qDebug() << "MOVEDOWN : " << spaces;
 
     std::vector<std::tuple<int, int>> traversed = player.moveDown(spaces);
-    checkPathSetActualSpot(traversed);
+    bool gameOver = checkPathSetActualSpot(traversed);
 
-    emit movePlayer(player.getX(),player.getY(),false);
+    emit movePlayer(player.getX(),player.getY(), gameOver);
 }
 
 void GameManager::moveLeft(int spaces)
@@ -38,9 +56,9 @@ void GameManager::moveLeft(int spaces)
     qDebug() << "MOVELEFT : " << spaces;
 
     std::vector<std::tuple<int, int>> traversed = player.moveLeft(spaces);
-    checkPathSetActualSpot(traversed);
+    bool gameOver = checkPathSetActualSpot(traversed);
 
-    emit movePlayer(player.getX(),player.getY(),false);
+    emit movePlayer(player.getX(),player.getY(), gameOver);
 }
 
 void GameManager::moveRight(int spaces)
@@ -48,19 +66,21 @@ void GameManager::moveRight(int spaces)
     qDebug() << "MOVERIGHT : " << spaces;
 
     std::vector<std::tuple<int, int>> traversed = player.moveRight(spaces);
-    checkPathSetActualSpot(traversed);
+    bool gameOver = checkPathSetActualSpot(traversed);
 
-    emit movePlayer(player.getX(),player.getY(),false);
+    emit movePlayer(player.getX(),player.getY(), gameOver);
 }
+
 
 void GameManager::loadLevel(int levelNum)
 {
     level = GameMap(levelNum);
 }
 
-void GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryingPath)
+bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryingPath)
 {
     std::tuple<int, int> actualSpot;
+    bool gameOver = false;
 
     // check if there were any objects in the way of that coordinate and set player accordingly
     for (std::tuple<int, int> mapBlock: tryingPath)
@@ -76,13 +96,16 @@ void GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
                 case 1: // do nothing, let rtrn stay as last available spot
                         break;
                 // spikes
-                case 2: actualSpot = level.getStart();
+                case 2: actualSpot = mapBlock;
+                        gameOver = true;
                         break;
                 // lava
-                case 3: actualSpot = level.getStart();
+                case 3: actualSpot = mapBlock;
+                        gameOver = true;
                         break;
                 // enemy
-                case 4: actualSpot = level.getStart();
+                case 4: actualSpot = mapBlock;
+                        gameOver = true;
                         break;
                 // key
                 case 5: actualSpot = mapBlock; // stop player at space
@@ -100,6 +123,7 @@ void GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
                         break;
                 // endPoint
                 case 9: actualSpot = mapBlock;
+                        gameOver = true;
                         break;
                 default: //TODO
                         break;
@@ -109,4 +133,15 @@ void GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
     }
     player.setX(std::get<0>(actualSpot));
     player.setY(std::get<1>(actualSpot));
+    return  gameOver;
 }
+
+ int GameManager::getWhatsAtMove(int x, int y)
+ {
+     return level.getWhatsAtCoordinate(std::tuple<int, int>(x, y));
+ }
+
+ int GameManager::getLevelCount()
+ {
+     return levelCount;
+ }

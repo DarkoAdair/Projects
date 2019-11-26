@@ -35,10 +35,13 @@ GameMap::GameMap(int level)
  *
  */
 
-//  ******** level coordinates set up like [y] [x] with higher x value being further left on a row, and higher y value being lower down cols
+//  ******** level coordinates set up like [x] [y] with higher x value being further left on a row, and higher y value being lower down cols
+// same for tuples
 
 void GameMap::LoadLevelOne()
 {
+    start =  std::make_tuple(0, 0);
+    end =  std::make_tuple(9, 9);
    //TODO set up coordinates of path,walls, spikes, enemies, etc.
    // change level picture
 
@@ -52,13 +55,31 @@ void GameMap::LoadLevelOne()
             mapCoordinates[i][j] = 0;
         }
     }
-    //mapCoordinates[4][0] = 3; // set up 4th col on row 0 (top row) as lava
+
+    mapCoordinates[9][9] = 9;// set endpoint
+
+     mapCoordinates[4][0] = 3; // set up 4th col on row 0 (top row) as lava
+
     //mapCoordinates[0][3] = 1; // set up 1st col on row 3 as wall
 
 }
 
 void GameMap::LoadLevelTwo()
 {
+    start =  std::make_tuple(2, 0);
+    end =  std::make_tuple(9, 9);
+    //fill with available space
+    for(int i = 0; i < 10; i++)
+    {
+        for(int j = 0; j < 10; j++)
+        {
+            mapCoordinates[i][j] = 0;
+        }
+    }
+    mapCoordinates[9][9] = 9;// set endpoint
+
+
+
     //TODO set up coordinates of path,walls, spikes, enemies, etc.
 
     // change level picture
@@ -66,6 +87,17 @@ void GameMap::LoadLevelTwo()
 
 void GameMap::LoadLevelThree()
 {
+    start =  std::make_tuple(0, 0);
+    end =  std::make_tuple(9, 9);
+    for(int i = 0; i < 10; i++)
+    {
+        for(int j = 0; j < 10; j++)
+        {
+            mapCoordinates[i][j] = 0;
+        }
+    }
+    mapCoordinates[9][9] = 9;// set endpoint
+
     //TODO set up coordinates of path,walls, spikes, enemies, etc.
 
     // change level picture

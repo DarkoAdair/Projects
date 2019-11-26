@@ -21,16 +21,20 @@ MainWindow::MainWindow(QWidget *parent, GameManager *gameEngine)
     completer->setWrapAround(false);
     codeEditor->setCompleter(completer);
 
-    codeEditor->appendPlainText("player.moveRight(1)\n");
-    codeEditor->appendPlainText("player.moveDown(1)\n");
-    codeEditor->appendPlainText("player.moveLeft(1)\n");
-    codeEditor->appendPlainText("player.moveUp(1)\n");
+   // codeEditor->appendPlainText("player.moveRight(1)\n");
+   // codeEditor->appendPlainText("player.moveDown(1)\n");
+   // codeEditor->appendPlainText("player.moveLeft(1)\n");
+   // codeEditor->appendPlainText("player.moveUp(1)\n");
 
 
     ui->debugRightButton->setEnabled(false);
 
     QObject::connect(gameEngine, SIGNAL(movePlayer(int,int,bool)),
                      this, SLOT(movePlayer(int,int,bool)));
+    QObject::connect(gameEngine, SIGNAL(updateLevelAndMap(int)), this, SLOT(updateLevelAndMap(int)));
+
+
+    QObject::connect(this, SIGNAL(signalGameOver()), gameEngine, SLOT(checkLevelCompletionReset()));
 
 
     codeManager = new CodeManager(gameEngine);
@@ -68,6 +72,32 @@ void MainWindow::movePlayer(int _x, int _y, bool gameOver) {
     yString.append(QString::number(_y));
     ui->xLabel->setText(xString);
     ui->yLabel->setText(yString);
+
+
+    if(gameOver)
+    {
+        //do some physics animations if dead or if win
+        //int reaction = gameEngine->getWhatsAtMove(_x, _y);
+
+        // switch case 1 - 9 based on where player moved to
+
+
+        QTimer::singleShot(1000, this, SIGNAL(signalGameOver()));
+        //emit signalGameOver();
+
+
+    }
+
+}
+
+void MainWindow::updateLevelAndMap(int level)
+{
+    QString levelString = "Level: ";
+    levelString.append(QString::number(level));
+    ui->levelLabel->setText(levelString);
+
+
+    //update map graphic based on level
 }
 
 void MainWindow::on_goButton_clicked()
@@ -75,6 +105,7 @@ void MainWindow::on_goButton_clicked()
 
     this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
     codeManager->run(codeEditor->toPlainText(), 1000);
+
 }
 
 void MainWindow::on_debugButton_clicked()
