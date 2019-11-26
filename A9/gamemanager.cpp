@@ -25,9 +25,7 @@ void GameManager::checkLevelCompletionReset()
     player.setX(std::get<0>(start));
     player.setY(std::get<1>(start));
 
-
-
-    emit movePlayer(player.getX(),player.getY(), true, false);
+    emit resetSignal();
     emit updateLevelAndMap(getLevelCount());
 }
 

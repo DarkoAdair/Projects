@@ -33,11 +33,12 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
 
     QObject::connect(gameEngine, SIGNAL(movePlayer(int,int,bool,bool)),
                      this, SLOT(movePlayer(int,int,bool,bool)));
-
-    QObject::connect(gameEngine, SIGNAL(updateLevelAndMap(int)), this, SLOT(updateLevelAndMap(int)));
-
-
-    QObject::connect(this, SIGNAL(signalGameOver()), gameEngine, SLOT(checkLevelCompletionReset()));
+    QObject::connect(gameEngine, SIGNAL(updateLevelAndMap(int)),
+                     this, SLOT(updateLevelAndMap(int)));
+    QObject::connect(gameEngine, SIGNAL(resetSignal()),
+                     this, SLOT(resetBoard()));
+    QObject::connect(this, SIGNAL(signalGameOver()),
+                     gameEngine, SLOT(checkLevelCompletionReset()));
     codeManager = new CodeManager(gameEngine);
     connect(codeManager, SIGNAL(signalLineChanged(int)), this, SLOT(onDebugLineChanged(int)));
     connect(codeManager, SIGNAL(signalException(const QString)), this, SLOT(onDebugException(const QString)));
@@ -109,7 +110,7 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
     // If the player is not in the right spot yet...
     if(ui->playerLabel->y()+ui->playerLabel->height()/3 != ui->playField->y()+ui->playerLabel->width()*targetY || ui->playerLabel->x() != ui->playField->x()+ui->playerLabel->width()*targetX) {
         QTimer::singleShot(5, this, SLOT(movePlayer()));
-        //return;
+        return;
     }
     // Else move on to next target position
     else {
@@ -140,20 +141,9 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
             QTimer::singleShot(100, this, SLOT(movePlayer()));
             //return;
         }
-    }
-
-    if(gameOver)
-    {
-        //do some physics animations if dead or if win
-        //int reaction = gameEngine->getWhatsAtMove(_x, _y);
-
-        // switch case 1 - 9 based on where player moved to
-
-
-        QTimer::singleShot(1000, this, SIGNAL(signalGameOver()));
-        //emit signalGameOver();
-
-
+        else if(gameOver) {
+            QTimer::singleShot(1000, this, SIGNAL(signalGameOver()));
+        }
     }
 }
 

@@ -29,12 +29,13 @@ public:
     MainWindow(QWidget *parent = nullptr, GameManager *gameEngine = nullptr);
     ~MainWindow();
     void updateCoordinateLabels();
-    void resetBoard();
 
 signals:
    void signalGameOver();
 
 private slots:
+    void resetBoard();
+
     void on_goButton_clicked();
 
     void on_debugButton_clicked();

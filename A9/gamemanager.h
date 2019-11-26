@@ -48,6 +48,7 @@ public slots:
 signals:
     void movePlayer(int x, int y, bool mainComman, bool gameOver);
     void updateLevelAndMap(int levelNum);
+    void resetSignal();
 };
 
 #endif // GAMEMANAGER_H
