@@ -57,6 +57,9 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     ui->debugStopButton->setIconSize(QSize(33,33));
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 20);");
 
+    //set console
+    ui->console->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
+
 //    std::array<QLabel*, 5> labels{ui->playField, ui->playerLabel,
 //                ui->playerTopLabel, ui->level1Label, ui->finish1Label};
 //    for(int i = 0; i < labels.size(); i++) {
