@@ -10,7 +10,7 @@ Tutorial::Tutorial(QWidget *parent) :
     this->setStyleSheet("background-color: rgba(0,0,0,0)");
     ui->tabWidget->setTabText(0, "UI");
     ui->tabWidget->setTabText(1, "Rules");
-    u
+
 
 
 
