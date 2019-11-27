@@ -184,7 +184,7 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
     }
 }
 
-void MainWindow::updateLevelAndMap(int level)
+void MainWindow::updateLevelCount(int level)
 {
     QString levelString = "Level: ";
     levelString.append(QString::number(level));
