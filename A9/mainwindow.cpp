@@ -33,8 +33,8 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
 
     QObject::connect(gameEngine, SIGNAL(movePlayer(int,int,bool,bool)),
                      this, SLOT(movePlayer(int,int,bool,bool)));
-    QObject::connect(gameEngine, SIGNAL(updateLevelAndMap(int)),
-                     this, SLOT(updateLevelAndMap(int)));
+    QObject::connect(gameEngine, SIGNAL(updateLevelCount(int)),
+                     this, SLOT(updateLevelCount(int)));
     QObject::connect(gameEngine, SIGNAL(resetSignal()),
                      this, SLOT(resetBoard()));
     QObject::connect(this, SIGNAL(signalGameOver()),
@@ -99,7 +99,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
     if(mainCommand) {
-        gameOver = _gameOver;
+        if(gameOver){
+            return;
+        }
+        else if(_gameOver){
+            gameOver = _gameOver;
+        }
         xTargets.push(_x);
         yTargets.push(_y);
 
@@ -171,7 +176,7 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
             QTimer::singleShot(100, this, SLOT(movePlayer()));
             //return;
         }
-        else if(gameOver) {
+        if(gameOver) {
             QTimer::singleShot(1000, this, SIGNAL(signalGameOver()));
         }
     }
@@ -235,6 +240,7 @@ void MainWindow::on_goButton_clicked()
 }
 
 void MainWindow::resetBoard() {
+    gameOver = false;
     targetX = 0;
     targetY = 0;
     xStep = 0;
