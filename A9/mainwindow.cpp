@@ -172,6 +172,7 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
             //return;
         }
         else if(gameOver) {
+            emit signalGameOver();
             QTimer::singleShot(1000, this, SIGNAL(signalGameOver()));
         }
     }
