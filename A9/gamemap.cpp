@@ -93,7 +93,7 @@ void GameMap::LoadLevelOne()
 
 void GameMap::LoadLevelTwo()
 {
-    start =  std::make_tuple(2, 0);
+    start =  std::make_tuple(1, 6);
     end =  std::make_tuple(9, 9);
     //fill with available space
     for(int i = 0; i < 10; i++)
@@ -104,12 +104,20 @@ void GameMap::LoadLevelTwo()
         }
     }
     mapCoordinates[9][9] = OBJECT_ENDPOINT;// set endpoint
-
-
-
-    //TODO set up coordinates of path,walls, spikes, enemies, etc.
-
-    // change level picture
+    mapCoordinates[1][1] = OBJECT_SPIKES;
+    mapCoordinates[2][1] = OBJECT_SPIKES;
+    mapCoordinates[3][1] = OBJECT_SPIKES;
+    mapCoordinates[8][2] = OBJECT_SPIKES;
+    mapCoordinates[8][3] = OBJECT_SPIKES;
+    mapCoordinates[3][7] = OBJECT_SPIKES;
+    mapCoordinates[3][8] = OBJECT_SPIKES;
+    mapCoordinates[3][9] = OBJECT_SPIKES;
+    mapCoordinates[4][4] = OBJECT_SPIKES;
+    mapCoordinates[4][5] = OBJECT_SPIKES;
+    mapCoordinates[4][6] = OBJECT_SPIKES;
+    mapCoordinates[4][7] = OBJECT_SPIKES;
+    mapCoordinates[5][7] = OBJECT_SPIKES;
+    mapCoordinates[6][7] = OBJECT_SPIKES;
 }
 
 void GameMap::LoadLevelThree()

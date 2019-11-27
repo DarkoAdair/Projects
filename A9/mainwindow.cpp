@@ -24,10 +24,10 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     completer->setWrapAround(false);
     codeEditor->setCompleter(completer);
 
-    codeEditor->appendPlainText("player.moveRight(1)\n");
-    codeEditor->appendPlainText("player.moveDown(1)\n");
-    codeEditor->appendPlainText("player.moveLeft(1)\n");
-    codeEditor->appendPlainText("player.moveUp(1)\n");
+    codeEditor->appendPlainText("player.moveUp()\n");
+    codeEditor->appendPlainText("player.moveRight()\n");
+    codeEditor->appendPlainText("player.moveDown()\n");
+    codeEditor->appendPlainText("player.moveRight()\n");
 
     ui->debugRightButton->setEnabled(false);
 
@@ -42,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     QObject::connect(gameEngine, SIGNAL(useKeySignal()), this, SLOT(usedKey()));
     QObject::connect(gameEngine, SIGNAL(useWeaponSignal()), this, SLOT(usedWeapon()));
     QObject::connect(gameEngine, SIGNAL(updateInventory(int, bool)), this, SLOT(updateInventory(int, bool)));
+    QObject::connect(gameEngine, SIGNAL(deadSignal(int, int)), this, SLOT(onPlayerDead(int, int)));
 
     codeManager = new CodeManager(gameEngine);
     connect(codeManager, SIGNAL(signalLineChanged(int)), this, SLOT(onDebugLineChanged(int)));
