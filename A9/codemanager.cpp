@@ -41,12 +41,13 @@ void CodeManager::initalizeForDebugging()
     //Debugger Initalize
     debugger = new ScriptDebugger(engine);
     connect(debugger, SIGNAL(signalLineChange(int)), this, SLOT(onLineNumberChanged(int)));
-    
-    debugger->breakAtNextStatement();
+
 }
 
 void CodeManager::deinitalizeForDebugging()
 {
+    disconnect(debugger, SIGNAL(signalLineChange(int)), this, SLOT(onLineNumberChanged(int)));
+
     if(debugger) delete debugger;
     debugger = nullptr;
 
@@ -97,6 +98,7 @@ void CodeManager::scriptRun(QString script)
 
 void CodeManager::onDebugProcess()
 {
+    debugger->breakAtNextStatement();
     QScriptValue result = engine->evaluate(script);
 
     if (engine->hasUncaughtException()) {
