@@ -24,10 +24,10 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     completer->setWrapAround(false);
     codeEditor->setCompleter(completer);
 
-   // codeEditor->appendPlainText("player.moveRight(1)\n");
-   // codeEditor->appendPlainText("player.moveDown(1)\n");
-   // codeEditor->appendPlainText("player.moveLeft(1)\n");
-   // codeEditor->appendPlainText("player.moveUp(1)\n");
+    codeEditor->appendPlainText("player.moveRight(1)\n");
+    codeEditor->appendPlainText("player.moveDown(1)\n");
+    codeEditor->appendPlainText("player.moveLeft(1)\n");
+    codeEditor->appendPlainText("player.moveUp(1)\n");
 
     ui->debugRightButton->setEnabled(false);
 
@@ -203,12 +203,12 @@ void MainWindow::updateInventory(int pickup, bool status)
     {
         case 0:
             item = "Holding Key: ";
-            item.append(status);
+            item.append(QVariant(status).toString());
             ui->keyLabel->setText(item);
             break;
         case 1:
-            item = "Holding Weapon: true";
-            item.append(status);
+            item = "Holding Weapon: ";
+            item.append(QVariant(status).toString());
             ui->weaponLabel->setText(item);
             break;
         default:
@@ -255,7 +255,6 @@ void MainWindow::resetBoard() {
     yStep = 0;
 
     this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
-    codeManager->run(codeEditor->toPlainText(), 1000);
     updateCoordinateLabels();
 
     QPixmap pixmap = QPixmap(":/level_" + QString::number(gameEngine->getLevelCount()) + ".png");
