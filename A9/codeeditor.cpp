@@ -139,6 +139,7 @@ void CodeEditor::lineHighlighter(int line)
     {
         startPos += lines[i].size();
 
+        QColor lineColor = QColor(Qt::green).lighter(160);
     }
 
     //get endPos
@@ -197,10 +198,20 @@ void CodeEditor::insertCompletion(const QString& completion)
         return;
     QTextCursor tc = textCursor();
     int extra = completion.length() - c->completionPrefix().length();
+
     tc.movePosition(QTextCursor::Left);
     tc.movePosition(QTextCursor::EndOfWord);
     tc.insertText(completion.right(extra));
     setTextCursor(tc);
+
+    if(completion.right(2) == "()")
+    {
+        tc = textCursor();
+        tc.movePosition(QTextCursor::Left);
+        setTextCursor(tc);
+    }
+
+    qDebug() << "[CodeEditor] [Completion] " << completion;
 }
 
 QString CodeEditor::textUnderCursor() const

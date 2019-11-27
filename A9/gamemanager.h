@@ -20,6 +20,7 @@ public:
     bool isLevelCompleted();
     void resetPlayer();
 
+
     Q_INVOKABLE void moveUp(int spaces = 0);
     Q_INVOKABLE void moveDown(int spaces = 0);
     Q_INVOKABLE void moveLeft(int spaces = 0);
@@ -45,16 +46,18 @@ public:
 
 public slots:
     void checkLevelCompletionReset();
+    void emitGameOverSignals();
 
 
 signals:
     void movePlayer(int x, int y, bool mainComman, bool gameOver);
-    void updateLevelAndMap(int levelNum);
+    void updateLevelCount(int levelNum);
     void resetSignal();
     void useKeySignal();
     void useWeaponSignal();
     void updateInventory(int pickup, bool status);
     void deadSignal(int x, int y);
+
 };
 
 #endif // GAMEMANAGER_H

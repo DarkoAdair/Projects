@@ -27,17 +27,17 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     completer->setWrapAround(false);
     codeEditor->setCompleter(completer);
 
-    codeEditor->appendPlainText("player.moveUp()\n");
-    codeEditor->appendPlainText("player.moveRight()\n");
-    codeEditor->appendPlainText("player.moveDown()\n");
-    codeEditor->appendPlainText("player.moveRight()\n");
+//    codeEditor->appendPlainText("player.moveUp()\n");
+//    codeEditor->appendPlainText("player.moveRight()\n");
+//    codeEditor->appendPlainText("player.moveDown()\n");
+//    codeEditor->appendPlainText("player.moveRight()\n");
 
     ui->debugRightButton->setEnabled(false);
 
     QObject::connect(gameEngine, SIGNAL(movePlayer(int,int,bool,bool)),
                      this, SLOT(movePlayer(int,int,bool,bool)));
-    QObject::connect(gameEngine, SIGNAL(updateLevelAndMap(int)),
-                     this, SLOT(updateLevelAndMap(int)));
+    QObject::connect(gameEngine, SIGNAL(updateLevelCount(int)),
+                     this, SLOT(updateLevelCount(int)));
     QObject::connect(gameEngine, SIGNAL(resetSignal()),
                      this, SLOT(resetBoard()));
     QObject::connect(this, SIGNAL(signalGameOver()),
@@ -102,7 +102,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
     if(mainCommand) {
-        gameOver = _gameOver;
+        if(gameOver){
+            return;
+        }
+        else if(_gameOver){
+            gameOver = _gameOver;
+        }
         xTargets.push(_x);
         yTargets.push(_y);
 
@@ -145,6 +150,8 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
     }
     // Else move on to next target position
     else {
+        QTimer::singleShot(100, codeManager, SLOT(onAnimationFinished()));
+
         int prevX = xTargets.front();
         int prevY = yTargets.front();
 
@@ -174,13 +181,13 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
             QTimer::singleShot(100, this, SLOT(movePlayer()));
             //return;
         }
-        else if(gameOver) {
-            QTimer::singleShot(1000, this, SIGNAL(signalGameOver()));
+        if(gameOver) {
+            emit signalGameOver();
         }
     }
 }
 
-void MainWindow::updateLevelAndMap(int level)
+void MainWindow::updateLevelCount(int level)
 {
     QString levelString = "Level: ";
     levelString.append(QString::number(level));
@@ -238,6 +245,9 @@ void MainWindow::on_goButton_clicked()
 }
 
 void MainWindow::resetBoard() {
+    ui->playerLabel->setVisible(true);
+    ui->playerTopLabel->setVisible(true);
+    gameOver = false;
     targetX = 0;
     targetY = 0;
     xStep = 0;
@@ -349,6 +359,7 @@ void MainWindow::onPhysicsUpdate()
 
         if (b->GetUserData() != nullptr) {
             QLabel* spriteData = (QLabel *)b->GetUserData();
+            spriteData->raise();
 
             //If it goes out of map, delete.
             if(x < -1 || y < -1 || mapWidth < x || mapHeight < y)
@@ -369,12 +380,25 @@ void MainWindow::onPhysicsUpdate()
 
 void MainWindow::onPlayerDead(int deadPosX, int deadPosY)
 {
-    addBloodParticles(deadPosX, deadPosY, 100);
+    int posPlayerX = ui->playerLabel->x();
+    int posPlayerY = ui->playerLabel->y();
+
+    int posX = posPlayerX + (ui->playerLabel->width() / 2);
+    int posY = posPlayerY + (ui->playerLabel->height() / 2);
+
+    qDebug() << "[Main] [onPlayerDead] x :" << posX << " / y : " << posY;
+
+    ui->playerLabel->setVisible(false);
+    ui->playerTopLabel->setVisible(false);
+
+    addBloodParticles(posX, posY, 100);
     physicsTimer->start();
 }
 
 void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
 {
+    qDebug() << "[Main] [addBloodParticles] x :" << deadPosX << " / y : " << deadPosY;
+
     while(amount-- > 0)
     {
         QLabel* qSprite = new QLabel(this);
@@ -386,6 +410,7 @@ void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
         pixmap = pixmap.scaled(qSprite->width(), qSprite->height(), Qt::KeepAspectRatio);
         qSprite->setPixmap(pixmap);
         qSprite->raise();
+        qSprite->show();
 
         // Set body position
         b2BodyDef bodyDef;
@@ -438,7 +463,6 @@ QAbstractItemModel *MainWindow::modelFromFile(const QString& fileName)
 
 int MainWindow::generateRandomNumber(int low, int high)
 {
-
     return qrand() % ((high + 1) - low) + low;
 }
 

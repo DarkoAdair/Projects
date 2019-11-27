@@ -2,11 +2,23 @@
 #include <QDebug>
 #include <vector>
 #include <tuple>
+#include <QtCore>
 
 GameManager::GameManager()  {
     levelCount = 1;
     loadLevel(1);
 
+}
+
+void GameManager::emitGameOverSignals()
+{
+    emit updateInventory(0, false);
+    emit updateInventory(1, false);
+    emit updateLevelCount(getLevelCount());
+
+    // set player item values to false
+    player.setKey(false);
+    player.setWeapon(false);
 }
 
 // method to reset player after dead or level completion.
@@ -18,25 +30,21 @@ void GameManager::checkLevelCompletionReset()
     {
         levelCount++;
         loadLevel(levelCount);
+
+        // move player to start, whether its because of failure or to the start of a new level
+        std::tuple<int, int> start = level.getStart();
+        player.setX(std::get<0>(start));
+        player.setY(std::get<1>(start));
+
+        QTimer::singleShot(1000, this, SIGNAL(resetSignal()));
+        QTimer::singleShot(1000, this, SLOT(emitGameOverSignals()));
+
     }
     else // player died
     {
         emit deadSignal(player.getX(), player.getY());
+        emitGameOverSignals();
     }
-
-    // move player to start, whether its because of failure or to the start of a new level
-    std::tuple<int, int> start = level.getStart();
-    player.setX(std::get<0>(start));
-    player.setY(std::get<1>(start));
-
-    // set player item values to false
-    player.setKey(false);
-    player.setWeapon(false);
-
-    emit resetSignal();
-    emit updateLevelAndMap(getLevelCount());
-    emit updateInventory(0, false);
-    emit updateInventory(1, false);
 }
 
 void GameManager::resetPlayer() {
