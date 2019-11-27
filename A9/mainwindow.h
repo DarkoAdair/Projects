@@ -62,6 +62,8 @@ private slots:
     void onPlayerDead(int deadPosX, int deadPosY);
 
 
+    void on_helpButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 
