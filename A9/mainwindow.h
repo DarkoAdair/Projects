@@ -47,7 +47,7 @@ private slots:
     void on_debugStopButton_clicked();
 
     void movePlayer(int x = 0, int y = 0, bool mainCommand = false, bool gameOver = false);
-    void updateLevelAndMap(int level);
+    void updateLevelCount(int level);
     void usedKey();
     void usedWeapon();
     void updateInventory(int pickup, bool status);
