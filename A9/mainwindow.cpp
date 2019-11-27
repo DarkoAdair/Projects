@@ -92,9 +92,11 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
 
         if(xOff != 0) {
             xStep = xOff/std::abs(xOff);
+            xStep = 2 * xStep;
         }
         if(yOff != 0) {
             yStep = yOff/std::abs(yOff);
+            yStep = 2 * yStep;
         }
     }
 
@@ -132,9 +134,11 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
 
             if(xOff != 0) {
                 xStep = xOff/std::abs(xOff);
+                xStep = 2 * xStep;
             }
             if(yOff != 0) {
                 yStep = yOff/std::abs(yOff);
+                yStep = 2 * yStep;
             }
 
             // A bit of a longer delay between separate commands
@@ -166,6 +170,7 @@ void MainWindow::updateCoordinateLabels(){
 void MainWindow::on_goButton_clicked()
 {
     resetBoard();
+    ui->goButton->setEnabled(false);
     this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
     codeManager->run(codeEditor->toPlainText(), 1000);
 }
@@ -176,7 +181,7 @@ void MainWindow::resetBoard() {
     xStep = 0;
     yStep = 0;
     gameEngine->resetPlayer();
-    ui->goButton->setEnabled(false);
+    ui->goButton->setEnabled(true);
     ui->playerLabel->setGeometry(ui->playField->x()+gameEngine->getPlayerX()*ui->playerLabel->width(), ui->playField->y()-ui->playerLabel->height()/3+gameEngine->getPlayerY()*ui->playerLabel->width(), ui->playerLabel->width(), ui->playerLabel->height());
     ui->playerTopLabel->setGeometry(ui->playerLabel->x(), ui->playerLabel->y(), ui->playerTopLabel->width(), ui->playerTopLabel->height());
     int numTargets = xTargets.size();
@@ -190,6 +195,7 @@ void MainWindow::resetBoard() {
 void MainWindow::on_debugButton_clicked()
 {
     resetBoard();
+    ui->goButton->setEnabled(false);
     this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
 
     ui->debugRightButton->setEnabled(true);
