@@ -51,6 +51,10 @@ signals:
     void movePlayer(int x, int y, bool mainComman, bool gameOver);
     void updateLevelAndMap(int levelNum);
     void resetSignal();
+    void useKeySignal();
+    void useWeaponSignal();
+    void updateInventory(int pickup, bool status);
+    void deadSignal(int x, int y);
 };
 
 #endif // GAMEMANAGER_H

@@ -24,6 +24,11 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     completer->setWrapAround(false);
     codeEditor->setCompleter(completer);
 
+    codeEditor->appendPlainText("player.moveUp()\n");
+    codeEditor->appendPlainText("player.moveRight()\n");
+    codeEditor->appendPlainText("player.moveDown()\n");
+    codeEditor->appendPlainText("player.moveRight()\n");
+
     ui->debugRightButton->setEnabled(false);
 
     QObject::connect(gameEngine, SIGNAL(movePlayer(int,int,bool,bool)),
@@ -34,6 +39,11 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
                      this, SLOT(resetBoard()));
     QObject::connect(this, SIGNAL(signalGameOver()),
                      gameEngine, SLOT(checkLevelCompletionReset()));
+    QObject::connect(gameEngine, SIGNAL(useKeySignal()), this, SLOT(usedKey()));
+    QObject::connect(gameEngine, SIGNAL(useWeaponSignal()), this, SLOT(usedWeapon()));
+    QObject::connect(gameEngine, SIGNAL(updateInventory(int, bool)), this, SLOT(updateInventory(int, bool)));
+    QObject::connect(gameEngine, SIGNAL(deadSignal(int, int)), this, SLOT(onPlayerDead(int, int)));
+
     codeManager = new CodeManager(gameEngine);
     connect(codeManager, SIGNAL(signalLineChanged(int)), this, SLOT(onDebugLineChanged(int)));
     connect(codeManager, SIGNAL(signalException(const QString)), this, SLOT(onDebugException(const QString)));
@@ -51,6 +61,9 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
     ui->debugStopButton->setIconSize(QSize(33,33));
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 20);");
+
+    //set console
+    ui->console->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
 
 //    std::array<QLabel*, 5> labels{ui->playField, ui->playerLabel,
 //                ui->playerTopLabel, ui->level1Label, ui->finish1Label};
@@ -129,6 +142,8 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
     }
     // Else move on to next target position
     else {
+        QTimer::singleShot(100, codeManager, SLOT(onAnimationFinished()));
+
         int prevX = xTargets.front();
         int prevY = yTargets.front();
 
@@ -171,6 +186,39 @@ void MainWindow::updateLevelAndMap(int level)
     ui->levelLabel->setText(levelString);
 }
 
+
+void MainWindow::usedKey()
+{
+
+    // move labels to remove doorways
+}
+
+void MainWindow::usedWeapon()
+{
+
+    // move labels to remove enemys
+}
+
+void MainWindow::updateInventory(int pickup, bool status)
+{
+    QString item;
+    switch(pickup)
+    {
+        case 0:
+            item = "Holding Key: ";
+            item.append(QVariant(status).toString());
+            ui->keyLabel->setText(item);
+            break;
+        case 1:
+            item = "Holding Weapon: ";
+            item.append(QVariant(status).toString());
+            ui->weaponLabel->setText(item);
+            break;
+        default:
+            break;
+    }
+}
+
 void MainWindow::updateCoordinateLabels(){
     QString xString = "x: ";
     xString.append(QString::number((ui->playerLabel->x()-ui->playField->x())/ui->playerLabel->width()));
@@ -198,11 +246,22 @@ void MainWindow::resetBoard() {
     ui->playerLabel->setGeometry(ui->playField->x()+gameEngine->getPlayerX()*ui->playerLabel->width(), ui->playField->y()-ui->playerLabel->height()/3+gameEngine->getPlayerY()*ui->playerLabel->width(), ui->playerLabel->width(), ui->playerLabel->height());
     ui->playerTopLabel->setGeometry(ui->playerLabel->x(), ui->playerLabel->y(), ui->playerTopLabel->width(), ui->playerTopLabel->height());
     int numTargets = xTargets.size();
+
     for(int i = 0; i < numTargets; i++) {
         xTargets.pop();
         yTargets.pop();
     }
+
+    targetX = 0;
+    targetY = 0;
+    xStep = 0;
+    yStep = 0;
+
+    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
     updateCoordinateLabels();
+
+    QPixmap pixmap = QPixmap(":/level_" + QString::number(gameEngine->getLevelCount()) + ".png");
+    ui->level1Label->setPixmap(pixmap);
 }
 
 void MainWindow::on_debugButton_clicked()
@@ -215,6 +274,9 @@ void MainWindow::on_debugButton_clicked()
     ui->debugButton->setEnabled(false);
 
     codeManager->debug(codeEditor->toPlainText());
+
+    ui->console->append("Started Debugging Mod");
+
 }
 
 void MainWindow::on_debugRightButton_clicked()
@@ -227,11 +289,17 @@ void MainWindow::on_debugStopButton_clicked()
     ui->debugRightButton->setEnabled(false);
     ui->debugButton->setEnabled(true);
     ui->debugStopButton->setFocus();
+
+    ui->console->append("Ended Debugging Mod");
+
+
 }
 
 void MainWindow::onDebugLineChanged(int currentLine)
 {
     qDebug() << "[Main] [onDebugLineChanged] Line : " << currentLine;
+
+    codeEditor->lineHighlighter(currentLine);
 
     //TODO - highlight code editor
 }
@@ -297,7 +365,13 @@ void MainWindow::onPhysicsUpdate()
 
 void MainWindow::onPlayerDead(int deadPosX, int deadPosY)
 {
-    addBloodParticles(deadPosX, deadPosY, 100);
+    int posPlayerX = ui->playerLabel->geometry().x();
+    int posPlayerY = ui->playerLabel->geometry().y();
+
+    int posX = posPlayerX - (ui->playerLabel->geometry().width() / 2);
+    int posY = posPlayerY - (ui->playerLabel->geometry().height() / 2);
+
+    addBloodParticles(posX, posY, 100);
     physicsTimer->start();
 }
 

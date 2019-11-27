@@ -19,14 +19,24 @@ void GameManager::checkLevelCompletionReset()
         levelCount++;
         loadLevel(levelCount);
     }
+    else // player died
+    {
+        emit deadSignal(player.getX(), player.getY());
+    }
 
     // move player to start, whether its because of failure or to the start of a new level
     std::tuple<int, int> start = level.getStart();
     player.setX(std::get<0>(start));
     player.setY(std::get<1>(start));
 
+    // set player item values to false
+    player.setKey(false);
+    player.setWeapon(false);
+
     emit resetSignal();
     emit updateLevelAndMap(getLevelCount());
+    emit updateInventory(0, false);
+    emit updateInventory(1, false);
 }
 
 void GameManager::resetPlayer() {
@@ -122,10 +132,12 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
                 // key
                 case 5: actualSpot = mapBlock; // stop player at space
                         player.setKey(true);
+                        emit updateInventory(0, true);
                         continue;
                 // weapon
                 case 6: actualSpot = mapBlock;
                         player.setWeapon(true);
+                        emit updateInventory(1, true);
                         continue;
                 // doorway
                 case 7: // let rtrn stay as last available spot
@@ -164,7 +176,7 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
     {
        qDebug() << "USEKEY : true";
        level.openDoorWays();
-       //emit open doorway signal
+       emit useKeySignal();
     }
     else
        qDebug() << "USEKEY : false";
@@ -176,7 +188,7 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
     {
        qDebug() << "USEWEAPON : true";
        level.killEnemies();
-       // emit kill enemy signal
+       emit useKeySignal();
     }
     else
        qDebug() << "USEWEAPON : false";

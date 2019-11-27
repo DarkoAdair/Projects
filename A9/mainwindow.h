@@ -25,6 +25,7 @@ class MainWindow : public QMainWindow
     std::queue<int> xTargets;
     std::queue<int> yTargets;
     bool gameOver = false;
+    QPixmap *fieldPixmap;
 
 public:
     MainWindow(QWidget *parent = nullptr, GameManager *gameEngine = nullptr);
@@ -47,6 +48,9 @@ private slots:
 
     void movePlayer(int x = 0, int y = 0, bool mainCommand = false, bool gameOver = false);
     void updateLevelAndMap(int level);
+    void usedKey();
+    void usedWeapon();
+    void updateInventory(int pickup, bool status);
 
     //CodeManager
     void onDebugLineChanged(int currentLine);

@@ -8,6 +8,7 @@
 #include <QCompleter>
 
 #include "highlighter.h"
+#include "scriptdebugger.h"
 
 class CodeEditor : public QPlainTextEdit
 {
