@@ -257,7 +257,9 @@ void MainWindow::resetBoard() {
     this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
     codeManager->run(codeEditor->toPlainText(), 1000);
     updateCoordinateLabels();
-    ui->playField->setPixmap(QPixmap(":/debug.png"));
+    std::string bluh = ":/level_" + std::to_string(gameEngine->getLevelCount()) + ".png";
+    QString bruh = QString::fromStdString(bluh);
+    ui->playField->setPixmap(QPixmap(bruh));
 }
 
 void MainWindow::on_debugButton_clicked()
