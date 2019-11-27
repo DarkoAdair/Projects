@@ -27,10 +27,10 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     completer->setWrapAround(false);
     codeEditor->setCompleter(completer);
 
-//    codeEditor->appendPlainText("player.moveUp()\n");
-//    codeEditor->appendPlainText("player.moveRight()\n");
-//    codeEditor->appendPlainText("player.moveDown()\n");
-//    codeEditor->appendPlainText("player.moveRight()\n");
+    codeEditor->appendPlainText("player.moveUp()\n");
+    codeEditor->appendPlainText("player.moveRight()\n");
+    codeEditor->appendPlainText("player.moveDown()\n");
+    codeEditor->appendPlainText("player.moveRight()\n");
 
     ui->debugRightButton->setEnabled(false);
 
@@ -380,6 +380,7 @@ void MainWindow::onPhysicsUpdate()
 
 void MainWindow::onPlayerDead(int deadPosX, int deadPosY)
 {
+    ui->goButton->setEnabled(true);
     int posPlayerX = ui->playerLabel->x();
     int posPlayerY = ui->playerLabel->y();
 
