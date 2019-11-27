@@ -269,10 +269,9 @@ void MainWindow::on_debugButton_clicked()
 
     ui->debugRightButton->setEnabled(true);
     ui->debugButton->setEnabled(false);
+    ui->debugStopButton->setEnabled(true);
 
     codeManager->debug(codeEditor->toPlainText());
-
-    ui->console->append("Started Debugging Mod");
 
 }
 
@@ -285,10 +284,10 @@ void MainWindow::on_debugStopButton_clicked()
 {
     ui->debugRightButton->setEnabled(false);
     ui->debugButton->setEnabled(true);
-    ui->debugStopButton->setFocus();
 
-    ui->console->append("Ended Debugging Mod");
+    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::TextEditorInteraction);
 
+    ui->debugStopButton->setEnabled(false);
 
 }
 
@@ -322,6 +321,9 @@ void MainWindow::onRunningFinsih()
 
     ui->debugRightButton->setEnabled(false);
     ui->debugButton->setEnabled(true);
+
+    ui->debugStopButton->setEnabled(false);
+
 }
 
 void MainWindow::onPhysicsUpdate()
@@ -337,6 +339,7 @@ void MainWindow::onPhysicsUpdate()
     {
         int x = b->GetPosition().x;
         int y = b->GetPosition().y;
+
         int mapWidth = ui->mapSection->geometry().width();
         int mapHeight = ui->mapSection->geometry().height();
 
@@ -431,8 +434,6 @@ QAbstractItemModel *MainWindow::modelFromFile(const QString& fileName)
 
 int MainWindow::generateRandomNumber(int low, int high)
 {
-
-
 
     return qrand() % ((high + 1) - low) + low;
 }
