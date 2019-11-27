@@ -24,11 +24,6 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     completer->setWrapAround(false);
     codeEditor->setCompleter(completer);
 
-   // codeEditor->appendPlainText("player.moveRight(1)\n");
-   // codeEditor->appendPlainText("player.moveDown(1)\n");
-   // codeEditor->appendPlainText("player.moveLeft(1)\n");
-   // codeEditor->appendPlainText("player.moveUp(1)\n");
-
     ui->debugRightButton->setEnabled(false);
 
     QObject::connect(gameEngine, SIGNAL(movePlayer(int,int,bool,bool)),
@@ -371,8 +366,5 @@ QAbstractItemModel *MainWindow::modelFromFile(const QString& fileName)
 
 int MainWindow::generateRandomNumber(int low, int high)
 {
-
-
-
     return qrand() % ((high + 1) - low) + low;
 }

@@ -4,6 +4,7 @@
 
 #include <QAbstractItemView>
 #include <QScrollBar>
+#include <QDebug>
 
 CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent), c(nullptr)
 {
@@ -140,10 +141,6 @@ void CodeEditor::lineHighlighter(int line)
         //get endPos
         endPos = startPos + lines[line].size();
 
-//        QTextCursor c = this->textCursor();
-//        c.setPosition(startPos);
-//        c.setPosition(endPos, QTextCursor::KeepAnchor);
-
         QColor lineColor = QColor(Qt::green).lighter(160);
 
         selection.format.setBackground(lineColor);
@@ -186,10 +183,20 @@ void CodeEditor::insertCompletion(const QString& completion)
         return;
     QTextCursor tc = textCursor();
     int extra = completion.length() - c->completionPrefix().length();
+
     tc.movePosition(QTextCursor::Left);
     tc.movePosition(QTextCursor::EndOfWord);
     tc.insertText(completion.right(extra));
     setTextCursor(tc);
+
+    if(completion.right(2) == "()")
+    {
+        tc = textCursor();
+        tc.movePosition(QTextCursor::Left);
+        setTextCursor(tc);
+    }
+
+    qDebug() << "[CodeEditor] [Completion] " << completion;
 }
 
 QString CodeEditor::textUnderCursor() const
