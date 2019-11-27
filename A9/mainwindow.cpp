@@ -208,6 +208,7 @@ void MainWindow::resetBoard() {
         yTargets.pop();
     }
     updateCoordinateLabels();
+    ui->playField->setPixmap(QPixmap(":/debug.png"));
 }
 
 void MainWindow::on_debugButton_clicked()
