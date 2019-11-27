@@ -46,6 +46,9 @@ private slots:
 
     void movePlayer(int x = 0, int y = 0, bool mainCommand = false, bool gameOver = false);
     void updateLevelAndMap(int level);
+    void usedKey();
+    void usedWeapon();
+    void updateInventory(int pickup, bool status);
 
     //void lineChange(int line);
     //CodeManager
