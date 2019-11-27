@@ -220,6 +220,7 @@ void MainWindow::resetBoard() {
     this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
     codeManager->run(codeEditor->toPlainText(), 1000);
     updateCoordinateLabels();
+    ui->playField->setPixmap(QPixmap(":/debug.png"));
 }
 
 void MainWindow::on_debugButton_clicked()
