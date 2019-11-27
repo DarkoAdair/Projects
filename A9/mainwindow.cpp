@@ -184,7 +184,7 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
     }
 }
 
-void MainWindow::updateLevelAndMap(int level)
+void MainWindow::updateLevelCount(int level)
 {
     QString levelString = "Level: ";
     levelString.append(QString::number(level));
@@ -449,9 +449,5 @@ QAbstractItemModel *MainWindow::modelFromFile(const QString& fileName)
 
 int MainWindow::generateRandomNumber(int low, int high)
 {
-<<<<<<< HEAD
-=======
-
->>>>>>> ba07a7e076333fa780bec26262457ff0aa6a6720
     return qrand() % ((high + 1) - low) + low;
 }
