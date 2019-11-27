@@ -25,6 +25,7 @@ class MainWindow : public QMainWindow
     std::queue<int> xTargets;
     std::queue<int> yTargets;
     bool gameOver = false;
+    QPixmap *fieldPixmap;
 
 public:
     MainWindow(QWidget *parent = nullptr, GameManager *gameEngine = nullptr);
