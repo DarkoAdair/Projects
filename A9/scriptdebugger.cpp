@@ -107,7 +107,6 @@
 
      bool enterInteractiveMode = false;
 
-     this->q_ptr->emit signalLineChange(lineNumber);
 
      //TODO - Breakpoint
      //if (m_bpManager->hasBreakpoints()) {t
@@ -129,6 +128,8 @@
 
          moveNext = false;
      }
+
+     this->q_ptr->emit signalLineChange(lineNumber);
  }
 
  void ScriptDebuggerPrivate::exceptionThrow(qint64 scriptId,

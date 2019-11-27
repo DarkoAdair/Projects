@@ -30,8 +30,9 @@ private:
     QScriptEngine *engine = nullptr;
     ScriptDebugger *debugger = nullptr;
     CommandImpl *commandImpl = nullptr;
-    QTimer *runningTimer = nullptr;
     QString script;
+
+    bool isDebug = false;
 
     void initalizeForDebugging();
     void deinitalizeForDebugging();
@@ -42,6 +43,7 @@ public slots:
     void onDebugProcess();
     void onRunningProcess();
     void onLineNumberChanged(int currentLine);
+    void onAnimationFinished();
 
 signals:
     void signalLineChanged(int currentLine);

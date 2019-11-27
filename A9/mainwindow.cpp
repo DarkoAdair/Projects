@@ -147,6 +147,8 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
     }
     // Else move on to next target position
     else {
+        QTimer::singleShot(100, codeManager, SLOT(onAnimationFinished()));
+
         int prevX = xTargets.front();
         int prevY = yTargets.front();
 
@@ -276,10 +278,9 @@ void MainWindow::on_debugButton_clicked()
 
     ui->debugRightButton->setEnabled(true);
     ui->debugButton->setEnabled(false);
+    ui->debugStopButton->setEnabled(true);
 
     codeManager->debug(codeEditor->toPlainText());
-
-    ui->console->append("Started Debugging Mod");
 
 }
 
@@ -292,10 +293,10 @@ void MainWindow::on_debugStopButton_clicked()
 {
     ui->debugRightButton->setEnabled(false);
     ui->debugButton->setEnabled(true);
-    ui->debugStopButton->setFocus();
 
-    ui->console->append("Ended Debugging Mod");
+    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::TextEditorInteraction);
 
+    ui->debugStopButton->setEnabled(false);
 
 }
 
@@ -329,6 +330,9 @@ void MainWindow::onRunningFinsih()
 
     ui->debugRightButton->setEnabled(false);
     ui->debugButton->setEnabled(true);
+
+    ui->debugStopButton->setEnabled(false);
+
 }
 
 void MainWindow::onPhysicsUpdate()
@@ -344,6 +348,7 @@ void MainWindow::onPhysicsUpdate()
     {
         int x = b->GetPosition().x;
         int y = b->GetPosition().y;
+
         int mapWidth = ui->mapSection->geometry().width();
         int mapHeight = ui->mapSection->geometry().height();
 
@@ -369,7 +374,13 @@ void MainWindow::onPhysicsUpdate()
 
 void MainWindow::onPlayerDead(int deadPosX, int deadPosY)
 {
-    addBloodParticles(deadPosX, deadPosY, 100);
+    int posPlayerX = ui->playerLabel->geometry().x();
+    int posPlayerY = ui->playerLabel->geometry().y();
+
+    int posX = posPlayerX - (ui->playerLabel->geometry().width() / 2);
+    int posY = posPlayerY - (ui->playerLabel->geometry().height() / 2);
+
+    addBloodParticles(posX, posY, 100);
     physicsTimer->start();
 }
 
@@ -438,8 +449,9 @@ QAbstractItemModel *MainWindow::modelFromFile(const QString& fileName)
 
 int MainWindow::generateRandomNumber(int low, int high)
 {
+<<<<<<< HEAD
+=======
 
-
-
+>>>>>>> ba07a7e076333fa780bec26262457ff0aa6a6720
     return qrand() % ((high + 1) - low) + low;
 }
