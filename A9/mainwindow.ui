@@ -370,8 +370,8 @@
     </property>
     <property name="text">
      <string>Holding Weapon: false</string>
-     </property>
-    </widget>
+    </property>
+   </widget>
    <widget class="QFrame" name="mapSection">
     <property name="geometry">
      <rect>
@@ -391,8 +391,9 @@
      <enum>QFrame::Raised</enum>
     </property>
    </widget>
-   <zorder>label</zorder>
    <zorder>playField</zorder>
+   <zorder>finish1Label</zorder>
+   <zorder>label</zorder>
    <zorder>playerLabel</zorder>
    <zorder>goButton</zorder>
    <zorder>variablesLabel</zorder>
@@ -405,7 +406,6 @@
    <zorder>level1Label</zorder>
    <zorder>playerTopLabel</zorder>
    <zorder>mapSection</zorder>
-   <zorder>finish1Label</zorder>
    <zorder>keyLabel</zorder>
    <zorder>weaponLabel</zorder>
   </widget>
@@ -414,8 +414,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1419</width>
-     <height>22</height>
+     <width>1424</width>
+     <height>26</height>
     </rect>
    </property>
   </widget>
