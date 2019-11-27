@@ -24,10 +24,10 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     completer->setWrapAround(false);
     codeEditor->setCompleter(completer);
 
-    codeEditor->appendPlainText("player.moveUp()\n");
-    codeEditor->appendPlainText("player.moveRight()\n");
-    codeEditor->appendPlainText("player.moveDown()\n");
-    codeEditor->appendPlainText("player.moveRight()\n");
+//    codeEditor->appendPlainText("player.moveUp()\n");
+//    codeEditor->appendPlainText("player.moveRight()\n");
+//    codeEditor->appendPlainText("player.moveDown()\n");
+//    codeEditor->appendPlainText("player.moveRight()\n");
 
     ui->debugRightButton->setEnabled(false);
 
@@ -407,6 +407,7 @@ void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
         pixmap = pixmap.scaled(qSprite->width(), qSprite->height(), Qt::KeepAspectRatio);
         qSprite->setPixmap(pixmap);
         qSprite->raise();
+        qSprite->show();
 
         // Set body position
         b2BodyDef bodyDef;
