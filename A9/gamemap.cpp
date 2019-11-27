@@ -83,6 +83,12 @@ void GameMap::LoadLevelOne()
     mapCoordinates[4][7] = OBJECT_WALL;
     mapCoordinates[5][7] = OBJECT_WALL;
     mapCoordinates[6][7] = OBJECT_WALL;
+
+   // mapCoordinates[0][0] = OBJECT_KEY;
+   // mapCoordinates[0][7] = OBJECT_DOORWAYTOOPEN;
+
+    mapCoordinates[0][0] = OBJECT_WEAPON;
+    mapCoordinates[0][7] = OBJECT_ENEMY;
 }
 
 void GameMap::LoadLevelTwo()

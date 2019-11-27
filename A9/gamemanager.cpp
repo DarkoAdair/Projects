@@ -121,11 +121,11 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
                 // key
                 case 5: actualSpot = mapBlock; // stop player at space
                         player.setKey(true);
-                        break;
+                        continue;
                 // weapon
                 case 6: actualSpot = mapBlock;
                         player.setWeapon(true);
-                        break;
+                        continue;
                 // doorway
                 case 7: // let rtrn stay as last available spot
                         break;
