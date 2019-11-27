@@ -25,6 +25,8 @@ public:
     std::tuple<int, int> getStart();
     std::tuple<int, int> getEnd();
     int getWhatsAtCoordinate(std::tuple<int,int> coordinates);
+    void openDoorWays();
+    void killEnemies();
 
 };
 

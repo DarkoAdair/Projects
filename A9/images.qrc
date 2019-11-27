@@ -18,5 +18,7 @@
         <file>blood_2.png</file>
         <file>blood_3.png</file>
         <file>blood_1.png</file>
+        <file>finish_tile.png</file>
+        <file>level_1.png</file>
     </qresource>
 </RCC>

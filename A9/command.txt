@@ -29,8 +29,11 @@ with
 null
 true
 false
-player.moveLeft
-player.moveRight
-player.moveDown
-player.moveUp
+player.moveLeft()
+player.moveRight()
+player.moveDown()
+player.moveUp()
 command.print
+player.useWeapon()
+player.useKey()
+

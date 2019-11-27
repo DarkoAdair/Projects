@@ -20,6 +20,8 @@ class MainWindow : public QMainWindow
     int targetY = 0;
     int xStep = 0;
     int yStep = 0;
+    int runNum = 0;
+    int currentRun = 0;
     std::queue<int> xTargets;
     std::queue<int> yTargets;
     bool gameOver = false;
@@ -27,8 +29,14 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr, GameManager *gameEngine = nullptr);
     ~MainWindow();
+    void updateCoordinateLabels();
+
+signals:
+   void signalGameOver();
 
 private slots:
+    void resetBoard();
+
     void on_goButton_clicked();
 
     void on_debugButton_clicked();
@@ -38,6 +46,7 @@ private slots:
     void on_debugStopButton_clicked();
 
     void movePlayer(int x = 0, int y = 0, bool mainCommand = false, bool gameOver = false);
+    void updateLevelAndMap(int level);
 
     //CodeManager
     void onDebugLineChanged(int currentLine);

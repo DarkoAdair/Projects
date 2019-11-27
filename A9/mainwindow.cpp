@@ -24,14 +24,21 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     completer->setWrapAround(false);
     codeEditor->setCompleter(completer);
 
-    codeEditor->appendPlainText("player.moveRight(1)\n");
-    codeEditor->appendPlainText("player.moveDown(1)\n");
-    codeEditor->appendPlainText("player.moveLeft(1)\n");
-    codeEditor->appendPlainText("player.moveUp(1)\n");
+   // codeEditor->appendPlainText("player.moveRight(1)\n");
+   // codeEditor->appendPlainText("player.moveDown(1)\n");
+   // codeEditor->appendPlainText("player.moveLeft(1)\n");
+   // codeEditor->appendPlainText("player.moveUp(1)\n");
 
     ui->debugRightButton->setEnabled(false);
 
-    QObject::connect(gameEngine, SIGNAL(movePlayer(int,int,bool,bool)), this, SLOT(movePlayer(int,int,bool,bool)));
+    QObject::connect(gameEngine, SIGNAL(movePlayer(int,int,bool,bool)),
+                     this, SLOT(movePlayer(int,int,bool,bool)));
+    QObject::connect(gameEngine, SIGNAL(updateLevelAndMap(int)),
+                     this, SLOT(updateLevelAndMap(int)));
+    QObject::connect(gameEngine, SIGNAL(resetSignal()),
+                     this, SLOT(resetBoard()));
+    QObject::connect(this, SIGNAL(signalGameOver()),
+                     gameEngine, SLOT(checkLevelCompletionReset()));
     codeManager = new CodeManager(gameEngine);
     connect(codeManager, SIGNAL(signalLineChanged(int)), this, SLOT(onDebugLineChanged(int)));
     connect(codeManager, SIGNAL(signalException(const QString)), this, SLOT(onDebugException(const QString)));
@@ -49,9 +56,9 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
     ui->debugStopButton->setIconSize(QSize(33,33));
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 20);");
-//    std::array<QLabel*, 9> labels{ui->lavaLabel, ui->playField, ui->playerLabel,
-//                ui->playerTopLabel, ui->spikesLabel, ui->spikesLabel_2, ui->spikesLabel_3,
-//                ui->keyLabel, ui->lockLabel};
+
+//    std::array<QLabel*, 5> labels{ui->playField, ui->playerLabel,
+//                ui->playerTopLabel, ui->level1Label, ui->finish1Label};
 //    for(int i = 0; i < labels.size(); i++) {
 //        QPixmap pixmap = labels[i]->pixmap()->copy();
 //        pixmap = pixmap.scaled(labels[i]->width(), labels[i]->height(), Qt::KeepAspectRatio);
@@ -103,9 +110,11 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
 
         if(xOff != 0) {
             xStep = xOff/std::abs(xOff);
+            xStep = 2 * xStep;
         }
         if(yOff != 0) {
             yStep = yOff/std::abs(yOff);
+            yStep = 2 * yStep;
         }
     }
 
@@ -116,12 +125,7 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
     ui->playerTopLabel->setGeometry(x, y, ui->playerTopLabel->width(), ui->playerTopLabel->height());
 
     // Update player variable labels
-    QString xString = "x: ";
-    xString.append(QString::number((ui->playerLabel->x()-ui->playField->x())/ui->playerLabel->width()));
-    QString yString = "y: ";
-    yString.append(QString::number((ui->playerLabel->y()+ui->playerLabel->height()/3-ui->playField->y())/ui->playerLabel->width()));
-    ui->xLabel->setText(xString);
-    ui->yLabel->setText(yString);
+    updateCoordinateLabels();
 
     // If the player is not in the right spot yet...
     if(ui->playerLabel->y()+ui->playerLabel->height()/3 != ui->playField->y()+ui->playerLabel->width()*targetY || ui->playerLabel->x() != ui->playField->x()+ui->playerLabel->width()*targetX) {
@@ -148,37 +152,68 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
 
             if(xOff != 0) {
                 xStep = xOff/std::abs(xOff);
+                xStep = 2 * xStep;
             }
             if(yOff != 0) {
                 yStep = yOff/std::abs(yOff);
+                yStep = 2 * yStep;
             }
 
             // A bit of a longer delay between separate commands
             QTimer::singleShot(100, this, SLOT(movePlayer()));
-            return;
+            //return;
+        }
+        else if(gameOver) {
+            QTimer::singleShot(1000, this, SIGNAL(signalGameOver()));
         }
     }
 }
 
+void MainWindow::updateLevelAndMap(int level)
+{
+    QString levelString = "Level: ";
+    levelString.append(QString::number(level));
+    ui->levelLabel->setText(levelString);
+}
+
+void MainWindow::updateCoordinateLabels(){
+    QString xString = "x: ";
+    xString.append(QString::number((ui->playerLabel->x()-ui->playField->x())/ui->playerLabel->width()));
+    QString yString = "y: ";
+    yString.append(QString::number((ui->playerLabel->y()+ui->playerLabel->height()/3-ui->playField->y())/ui->playerLabel->width()));
+    ui->xLabel->setText(xString);
+    ui->yLabel->setText(yString);
+}
+
 void MainWindow::on_goButton_clicked()
 {
-    ui->playerLabel->setGeometry(ui->playField->x(), ui->playField->y()-ui->playerLabel->height()/3, ui->playerLabel->width(), ui->playerLabel->height());
+    resetBoard();
+    ui->goButton->setEnabled(false);
+    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
+    codeManager->run(codeEditor->toPlainText(), 1000);
+}
+
+void MainWindow::resetBoard() {
+    targetX = 0;
+    targetY = 0;
+    xStep = 0;
+    yStep = 0;
+    gameEngine->resetPlayer();
+    ui->goButton->setEnabled(true);
+    ui->playerLabel->setGeometry(ui->playField->x()+gameEngine->getPlayerX()*ui->playerLabel->width(), ui->playField->y()-ui->playerLabel->height()/3+gameEngine->getPlayerY()*ui->playerLabel->width(), ui->playerLabel->width(), ui->playerLabel->height());
     ui->playerTopLabel->setGeometry(ui->playerLabel->x(), ui->playerLabel->y(), ui->playerTopLabel->width(), ui->playerTopLabel->height());
     int numTargets = xTargets.size();
     for(int i = 0; i < numTargets; i++) {
         xTargets.pop();
         yTargets.pop();
     }
-    targetX = 0;
-    targetY = 0;
-    xStep = 0;
-    yStep = 0;
-    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
-    codeManager->run(codeEditor->toPlainText(), 1000);
+    updateCoordinateLabels();
 }
 
 void MainWindow::on_debugButton_clicked()
 {
+    resetBoard();
+    ui->goButton->setEnabled(false);
     this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
 
     ui->debugRightButton->setEnabled(true);
@@ -220,6 +255,7 @@ void MainWindow::onDebugException(const QString errorMessage)
 
 void MainWindow::onRunningFinsih()
 {
+    ui->goButton->setEnabled(true);
     qDebug() << "[Main] [onRunningFinish] Finish Debugging";
 
     this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::TextEditorInteraction);
