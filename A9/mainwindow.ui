@@ -370,6 +370,25 @@
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QFrame" name="mapSection">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>671</width>
+      <height>701</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+   </widget>
    <zorder>playField</zorder>
    <zorder>playerLabel</zorder>
    <zorder>keyLabel</zorder>
@@ -386,6 +405,7 @@
    <zorder>spikesLabel_2</zorder>
    <zorder>spikesLabel_3</zorder>
    <zorder>playerTopLabel</zorder>
+   <zorder>mapSection</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

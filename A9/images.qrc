@@ -13,5 +13,10 @@
         <file>grid_simple.png</file>
         <file>key_simple.png</file>
         <file>command.txt</file>
+        <file>blood_5.png</file>
+        <file>blood_4.png</file>
+        <file>blood_2.png</file>
+        <file>blood_3.png</file>
+        <file>blood_1.png</file>
     </qresource>
 </RCC>
