@@ -42,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     QObject::connect(gameEngine, SIGNAL(useKeySignal()), this, SLOT(usedKey()));
     QObject::connect(gameEngine, SIGNAL(useWeaponSignal()), this, SLOT(usedWeapon()));
     QObject::connect(gameEngine, SIGNAL(updateInventory(int, bool)), this, SLOT(updateInventory(int, bool)));
+    QObject::connect(gameEngine, SIGNAL(deadSignal(int, int)), this, SLOT(onPlayerDead(int, int)));
 
     codeManager = new CodeManager(gameEngine);
     connect(codeManager, SIGNAL(signalLineChanged(int)), this, SLOT(onDebugLineChanged(int)));

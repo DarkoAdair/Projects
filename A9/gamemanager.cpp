@@ -19,6 +19,10 @@ void GameManager::checkLevelCompletionReset()
         levelCount++;
         loadLevel(levelCount);
     }
+    else // player died
+    {
+        emit deadSignal(player.getX(), player.getY());
+    }
 
     // move player to start, whether its because of failure or to the start of a new level
     std::tuple<int, int> start = level.getStart();

@@ -54,6 +54,7 @@ signals:
     void useKeySignal();
     void useWeaponSignal();
     void updateInventory(int pickup, bool status);
+    void deadSignal(int x, int y);
 };
 
 #endif // GAMEMANAGER_H
