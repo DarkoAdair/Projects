@@ -237,6 +237,8 @@ void MainWindow::on_goButton_clicked()
 }
 
 void MainWindow::resetBoard() {
+    ui->playerLabel->setVisible(true);
+    ui->playerTopLabel->setVisible(true);
     targetX = 0;
     targetY = 0;
     xStep = 0;
@@ -348,6 +350,7 @@ void MainWindow::onPhysicsUpdate()
 
         if (b->GetUserData() != nullptr) {
             QLabel* spriteData = (QLabel *)b->GetUserData();
+            spriteData->raise();
 
             //If it goes out of map, delete.
             if(x < -1 || y < -1 || mapWidth < x || mapHeight < y)
@@ -368,11 +371,16 @@ void MainWindow::onPhysicsUpdate()
 
 void MainWindow::onPlayerDead(int deadPosX, int deadPosY)
 {
-    int posPlayerX = ui->playerLabel->geometry().x();
-    int posPlayerY = ui->playerLabel->geometry().y();
+    int posPlayerX = ui->playerLabel->x();
+    int posPlayerY = ui->playerLabel->y();
 
-    int posX = posPlayerX - (ui->playerLabel->geometry().width() / 2);
-    int posY = posPlayerY - (ui->playerLabel->geometry().height() / 2);
+    int posX = posPlayerX + (ui->playerLabel->width() / 2);
+    int posY = posPlayerY + (ui->playerLabel->height() / 2);
+
+    qDebug() << "[Main] [onPlayerDead] x :" << posX << " / y : " << posY;
+
+    ui->playerLabel->setVisible(false);
+    ui->playerTopLabel->setVisible(false);
 
     addBloodParticles(posX, posY, 100);
     physicsTimer->start();
@@ -380,6 +388,8 @@ void MainWindow::onPlayerDead(int deadPosX, int deadPosY)
 
 void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
 {
+    qDebug() << "[Main] [addBloodParticles] x :" << deadPosX << " / y : " << deadPosY;
+
     while(amount-- > 0)
     {
         QLabel* qSprite = new QLabel(this);
@@ -443,9 +453,5 @@ QAbstractItemModel *MainWindow::modelFromFile(const QString& fileName)
 
 int MainWindow::generateRandomNumber(int low, int high)
 {
-<<<<<<< HEAD
-=======
-
->>>>>>> ba07a7e076333fa780bec26262457ff0aa6a6720
     return qrand() % ((high + 1) - low) + low;
 }
