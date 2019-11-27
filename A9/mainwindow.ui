@@ -365,6 +365,8 @@
     </property>
     <property name="text">
      <string>Holding Weapon: false</string>
+     </property>
+    </widget>
    <widget class="QFrame" name="mapSection">
     <property name="geometry">
      <rect>
