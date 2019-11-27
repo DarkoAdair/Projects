@@ -39,6 +39,10 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
                      this, SLOT(resetBoard()));
     QObject::connect(this, SIGNAL(signalGameOver()),
                      gameEngine, SLOT(checkLevelCompletionReset()));
+    QObject::connect(gameEngine, SIGNAL(useKeySignal()), this, SLOT(usedKey()));
+    QObject::connect(gameEngine, SIGNAL(useWeaponSignal()), this, SLOT(usedWeapon()));
+    QObject::connect(gameEngine, SIGNAL(updateInventory(int, bool)), this, SLOT(updateInventory(int, bool)));
+
     codeManager = new CodeManager(gameEngine);
     connect(codeManager, SIGNAL(signalLineChanged(int)), this, SLOT(onDebugLineChanged(int)));
     connect(codeManager, SIGNAL(signalException(const QString)), this, SLOT(onDebugException(const QString)));
@@ -56,6 +60,9 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
     ui->debugStopButton->setIconSize(QSize(33,33));
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 20);");
+
+    //set console
+    ui->console->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
 
 //    std::array<QLabel*, 5> labels{ui->playField, ui->playerLabel,
 //                ui->playerTopLabel, ui->level1Label, ui->finish1Label};
@@ -174,6 +181,39 @@ void MainWindow::updateLevelAndMap(int level)
     QString levelString = "Level: ";
     levelString.append(QString::number(level));
     ui->levelLabel->setText(levelString);
+}
+
+
+void MainWindow::usedKey()
+{
+
+    // move labels to remove doorways
+}
+
+void MainWindow::usedWeapon()
+{
+
+    // move labels to remove enemys
+}
+
+void MainWindow::updateInventory(int pickup, bool status)
+{
+    QString item;
+    switch(pickup)
+    {
+        case 0:
+            item = "Holding Key: ";
+            item.append(status);
+            ui->keyLabel->setText(item);
+            break;
+        case 1:
+            item = "Holding Weapon: true";
+            item.append(status);
+            ui->weaponLabel->setText(item);
+            break;
+        default:
+            break;
+    }
 }
 
 void MainWindow::updateCoordinateLabels(){

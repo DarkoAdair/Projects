@@ -336,6 +336,40 @@
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QLabel" name="keyLabel">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>130</y>
+      <width>111</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Holding Key: false</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="weaponLabel">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>160</y>
+      <width>141</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Holding Weapon: false</string>
    <widget class="QFrame" name="mapSection">
     <property name="geometry">
      <rect>
@@ -370,14 +404,16 @@
    <zorder>playerTopLabel</zorder>
    <zorder>mapSection</zorder>
    <zorder>finish1Label</zorder>
+   <zorder>keyLabel</zorder>
+   <zorder>weaponLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1424</width>
-     <height>26</height>
+     <width>1419</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>
