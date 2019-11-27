@@ -11,10 +11,6 @@ CodeManager::CodeManager(GameManager *gameEngine)
     //Object Initalize
     commandImpl = new CommandImpl();
 
-    //RunningTimer Intialize
-    runningTimer = new QTimer();
-    connect(runningTimer, SIGNAL(timeout()), this, SLOT(onRunningProcess()));
-
     this->gameEngine = gameEngine;
 
     initalizeForDebugging();
@@ -24,7 +20,7 @@ CodeManager::~CodeManager()
 {
     deinitalizeForDebugging();
 
-    delete runningTimer;
+    //delete runningTimer;
     delete commandImpl;
 }
 
@@ -58,17 +54,19 @@ void CodeManager::deinitalizeForDebugging()
 
 void CodeManager::run(QString script, int delay)
 {
+    isDebug = false;
+
     deinitalizeForDebugging();
     initalizeForDebugging();
 
     scriptRun(script);
-
-    runningTimer->setInterval(delay);
-    runningTimer->start();
+    moveNextLine();
 }
 
 void CodeManager::debug(QString script)
 {
+    isDebug = true;
+
     deinitalizeForDebugging();
     initalizeForDebugging();
 
@@ -100,6 +98,7 @@ void CodeManager::scriptRun(QString script)
 void CodeManager::onDebugProcess()
 {
     debugger->breakAtNextStatement();
+
     QScriptValue result = engine->evaluate(script);
 
     if (engine->hasUncaughtException()) {
@@ -113,7 +112,13 @@ void CodeManager::onDebugProcess()
     qDebug() << "[CodeMangaer] Running Finished.";
     emit signalFinish();
 
-    runningTimer->stop();
+    //runningTimer->stop();
+}
+
+void CodeManager::onAnimationFinished()
+{
+    if(!isDebug)
+        moveNextLine();
 }
 
 void CodeManager::onLineNumberChanged(int currentLine)

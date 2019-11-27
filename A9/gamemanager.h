@@ -49,7 +49,7 @@ public slots:
 
 signals:
     void movePlayer(int x, int y, bool mainComman, bool gameOver);
-    void updateLevelAndMap(int levelNum);
+    void updateLevelCount(int levelNum);
     void resetSignal();
     void useKeySignal();
     void useWeaponSignal();

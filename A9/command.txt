@@ -33,7 +33,7 @@ player.moveLeft()
 player.moveRight()
 player.moveDown()
 player.moveUp()
-command.print
+command.print()
 player.useWeapon()
 player.useKey()
 

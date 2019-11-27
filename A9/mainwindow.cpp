@@ -33,8 +33,8 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
 
     QObject::connect(gameEngine, SIGNAL(movePlayer(int,int,bool,bool)),
                      this, SLOT(movePlayer(int,int,bool,bool)));
-    QObject::connect(gameEngine, SIGNAL(updateLevelAndMap(int)),
-                     this, SLOT(updateLevelAndMap(int)));
+    QObject::connect(gameEngine, SIGNAL(updateLevelCount(int)),
+                     this, SLOT(updateLevelCount(int)));
     QObject::connect(gameEngine, SIGNAL(resetSignal()),
                      this, SLOT(resetBoard()));
     QObject::connect(this, SIGNAL(signalGameOver()),
@@ -99,7 +99,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
     if(mainCommand) {
-        gameOver = _gameOver;
+        if(gameOver){
+            return;
+        }
+        else if(_gameOver){
+            gameOver = _gameOver;
+        }
         xTargets.push(_x);
         yTargets.push(_y);
 
@@ -142,6 +147,8 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
     }
     // Else move on to next target position
     else {
+        QTimer::singleShot(100, codeManager, SLOT(onAnimationFinished()));
+
         int prevX = xTargets.front();
         int prevY = yTargets.front();
 
@@ -171,9 +178,8 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
             QTimer::singleShot(100, this, SLOT(movePlayer()));
             //return;
         }
-        else if(gameOver) {
+        if(gameOver) {
             emit signalGameOver();
-            QTimer::singleShot(1000, this, SIGNAL(signalGameOver()));
         }
     }
 }
@@ -236,6 +242,7 @@ void MainWindow::on_goButton_clicked()
 }
 
 void MainWindow::resetBoard() {
+    gameOver = false;
     targetX = 0;
     targetY = 0;
     xStep = 0;
@@ -367,7 +374,13 @@ void MainWindow::onPhysicsUpdate()
 
 void MainWindow::onPlayerDead(int deadPosX, int deadPosY)
 {
-    addBloodParticles(deadPosX, deadPosY, 100);
+    int posPlayerX = ui->playerLabel->geometry().x();
+    int posPlayerY = ui->playerLabel->geometry().y();
+
+    int posX = posPlayerX - (ui->playerLabel->geometry().width() / 2);
+    int posY = posPlayerY - (ui->playerLabel->geometry().height() / 2);
+
+    addBloodParticles(posX, posY, 100);
     physicsTimer->start();
 }
 
@@ -436,6 +449,5 @@ QAbstractItemModel *MainWindow::modelFromFile(const QString& fileName)
 
 int MainWindow::generateRandomNumber(int low, int high)
 {
-
     return qrand() % ((high + 1) - low) + low;
 }
