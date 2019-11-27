@@ -10,6 +10,17 @@ GameManager::GameManager()  {
 
 }
 
+void GameManager::emitGameOverSignals()
+{
+    emit updateInventory(0, false);
+    emit updateInventory(1, false);
+    emit updateLevelCount(getLevelCount());
+
+    // set player item values to false
+    player.setKey(false);
+    player.setWeapon(false);
+}
+
 // method to reset player after dead or level completion.
 void GameManager::checkLevelCompletionReset()
 {
@@ -26,22 +37,13 @@ void GameManager::checkLevelCompletionReset()
         player.setY(std::get<1>(start));
 
         QTimer::singleShot(1000, this, SIGNAL(resetSignal()));
-        QTimer::singleShot(1000, this, SIGNAL(updateLevelCount(getLevelCount())));
+        QTimer::singleShot(1000, this, SLOT(emitGameOverSignals()));
 
-        QTimer::singleShot(1000, this, SIGNAL(updateInventory(0, false)));
-        QTimer::singleShot(1000, this, SIGNAL(updateInventory(1, false)));
-        // set player item values to false
-        player.setKey(false);
-        player.setWeapon(false);
     }
     else // player died
     {
         emit deadSignal(player.getX(), player.getY());
-        emit updateInventory(0, false);
-        emit updateInventory(1, false);
-        // set player item values to false
-        player.setKey(false);
-        player.setWeapon(false);
+        emitGameOverSignals();
     }
 }
 
