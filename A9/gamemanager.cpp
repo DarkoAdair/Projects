@@ -30,8 +30,9 @@ void GameManager::checkLevelCompletionReset()
 }
 
 void GameManager::resetPlayer() {
-    player.setX(startX);
-    player.setY(startY);
+    std::tuple<int, int> start = level.getStart();
+    player.setX(std::get<0>(start));
+    player.setY(std::get<1>(start));
 }
 
 void GameManager::moveUp(int spaces)

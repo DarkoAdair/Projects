@@ -52,7 +52,7 @@ GameMap::GameMap(int level)
 
 void GameMap::LoadLevelOne()
 {
-    start =  std::make_tuple(0, 0);
+    start =  std::make_tuple(1, 6);
     end =  std::make_tuple(9, 9);
    //TODO set up coordinates of path,walls, spikes, enemies, etc.
    // change level picture
