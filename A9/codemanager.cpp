@@ -109,6 +109,8 @@ void CodeManager::onDebugProcess()
 
     qDebug() << "[CodeMangaer] Running Finished.";
     emit signalFinish();
+
+    runningTimer->stop();
 }
 
 void CodeManager::onLineNumberChanged(int currentLine)
@@ -124,4 +126,5 @@ void CodeManager::onRunningProcess()
 void CodeManager::moveNextLine()
 {
     this->debugger->moveNext();
+
 }

@@ -13,7 +13,6 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     codeEditor = new CodeEditor(this);
     ui->setupUi(this);
 
-    codeEditor = new CodeEditor(this);
     ui->codeEditlLayout->addWidget(codeEditor);
 
     completer = new QCompleter(this);
@@ -50,14 +49,18 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
     ui->debugStopButton->setIconSize(QSize(33,33));
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 20);");
-    std::array<QLabel*, 9> labels{ui->lavaLabel, ui->playField, ui->playerLabel,
-                ui->playerTopLabel, ui->spikesLabel, ui->spikesLabel_2, ui->spikesLabel_3,
-                ui->keyLabel, ui->lockLabel};
-    for(int i = 0; i < labels.size(); i++) {
-        QPixmap pixmap = labels[i]->pixmap()->copy();
-        pixmap = pixmap.scaled(labels[i]->width(), labels[i]->height(), Qt::KeepAspectRatio);
-        labels[i]->setPixmap(pixmap);
-    }
+
+//    std::array<QLabel*, 9> labels{ui->lavaLabel, ui->playField, ui->playerLabel,
+//                   ui->playerTopLabel, ui->spikesLabel, ui->spikesLabel_2, ui->spikesLabel_3,
+//                   ui->keyLabel, ui->lockLabel};
+//       for(int i = 0; i < labels.size(); i++) {
+//           QPixmap pixmap = labels[i]->pixmap()->copy();
+//           pixmap = pixmap.scaled(labels[i]->width(), labels[i]->height(), Qt::KeepAspectRatio);
+//           labels[i]->setPixmap(pixmap);
+//       }
+//    }
+
+
 }
 
 MainWindow::~MainWindow()
@@ -148,14 +151,17 @@ void MainWindow::on_goButton_clicked()
     ui->playerLabel->setGeometry(ui->playField->x(), ui->playField->y()-ui->playerLabel->height()/3, ui->playerLabel->width(), ui->playerLabel->height());
     ui->playerTopLabel->setGeometry(ui->playerLabel->x(), ui->playerLabel->y(), ui->playerTopLabel->width(), ui->playerTopLabel->height());
     int numTargets = xTargets.size();
+
     for(int i = 0; i < numTargets; i++) {
         xTargets.pop();
         yTargets.pop();
     }
+
     targetX = 0;
     targetY = 0;
     xStep = 0;
     yStep = 0;
+
     this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
     codeManager->run(codeEditor->toPlainText(), 1000);
 }
@@ -169,6 +175,9 @@ void MainWindow::on_debugButton_clicked()
     ui->debugButton->setEnabled(false);
 
     codeManager->debug(codeEditor->toPlainText());
+
+    ui->console->append("Started Debugging Mod");
+
 }
 
 void MainWindow::on_debugRightButton_clicked()
@@ -182,11 +191,17 @@ void MainWindow::on_debugStopButton_clicked()
     ui->debugRightButton->setEnabled(false);
     ui->debugButton->setEnabled(true);
     ui->debugStopButton->setFocus();
+
+    ui->console->append("Ended Debugging Mod");
+
+
 }
 
 void MainWindow::onDebugLineChanged(int currentLine)
 {
     qDebug() << "[Main] [onDebugLineChanged] Line : " << currentLine;
+
+    codeEditor->lineHighlighter(currentLine);
 
     //TODO - highlight code editor
 }
