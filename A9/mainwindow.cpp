@@ -203,10 +203,19 @@ void MainWindow::resetBoard() {
     ui->playerLabel->setGeometry(ui->playField->x()+gameEngine->getPlayerX()*ui->playerLabel->width(), ui->playField->y()-ui->playerLabel->height()/3+gameEngine->getPlayerY()*ui->playerLabel->width(), ui->playerLabel->width(), ui->playerLabel->height());
     ui->playerTopLabel->setGeometry(ui->playerLabel->x(), ui->playerLabel->y(), ui->playerTopLabel->width(), ui->playerTopLabel->height());
     int numTargets = xTargets.size();
+
     for(int i = 0; i < numTargets; i++) {
         xTargets.pop();
         yTargets.pop();
     }
+
+    targetX = 0;
+    targetY = 0;
+    xStep = 0;
+    yStep = 0;
+
+    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
+    codeManager->run(codeEditor->toPlainText(), 1000);
     updateCoordinateLabels();
     ui->playField->setPixmap(QPixmap(":/debug.png"));
 }
@@ -221,6 +230,9 @@ void MainWindow::on_debugButton_clicked()
     ui->debugButton->setEnabled(false);
 
     codeManager->debug(codeEditor->toPlainText());
+
+    ui->console->append("Started Debugging Mod");
+
 }
 
 void MainWindow::on_debugRightButton_clicked()
@@ -233,11 +245,17 @@ void MainWindow::on_debugStopButton_clicked()
     ui->debugRightButton->setEnabled(false);
     ui->debugButton->setEnabled(true);
     ui->debugStopButton->setFocus();
+
+    ui->console->append("Ended Debugging Mod");
+
+
 }
 
 void MainWindow::onDebugLineChanged(int currentLine)
 {
     qDebug() << "[Main] [onDebugLineChanged] Line : " << currentLine;
+
+    codeEditor->lineHighlighter(currentLine);
 
     //TODO - highlight code editor
 }

@@ -128,4 +128,5 @@ void CodeManager::onRunningProcess()
 void CodeManager::moveNextLine()
 {
     this->debugger->moveNext();
+
 }
