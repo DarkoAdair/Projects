@@ -1,5 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "tutorial.h"
+#include "ui_tutorial.h"
+
 
 #include <QtCore>
 #include <QDebug>
@@ -463,3 +466,12 @@ int MainWindow::generateRandomNumber(int low, int high)
 {
     return qrand() % ((high + 1) - low) + low;
 }
+
+void MainWindow::on_helpButton_clicked()
+{
+    Tutorial *helper = new Tutorial();
+    helper->show();
+
+}
+
+
