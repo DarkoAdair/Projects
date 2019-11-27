@@ -24,10 +24,10 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     completer->setWrapAround(false);
     codeEditor->setCompleter(completer);
 
-    codeEditor->appendPlainText("player.moveRight(1)\n");
-    codeEditor->appendPlainText("player.moveDown(1)\n");
-    codeEditor->appendPlainText("player.moveLeft(1)\n");
-    codeEditor->appendPlainText("player.moveUp(1)\n");
+    codeEditor->appendPlainText("player.moveUp()\n");
+    codeEditor->appendPlainText("player.moveRight()\n");
+    codeEditor->appendPlainText("player.moveDown()\n");
+    codeEditor->appendPlainText("player.moveRight()\n");
 
     ui->debugRightButton->setEnabled(false);
 
