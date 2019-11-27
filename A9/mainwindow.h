@@ -7,6 +7,7 @@
 
 #include "codeeditor.h"
 #include "codemanager.h"
+#include "Box2D/Box2D.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -50,11 +51,15 @@ private slots:
     void usedWeapon();
     void updateInventory(int pickup, bool status);
 
-    //void lineChange(int line);
     //CodeManager
     void onDebugLineChanged(int currentLine);
     void onDebugException(const QString errorMessage);
     void onRunningFinsih();
+
+    //Physics Engine
+    void onPhysicsUpdate();
+    void onPlayerDead(int deadPosX, int deadPosY);
+
 
 private:
     Ui::MainWindow *ui;
@@ -64,6 +69,11 @@ private:
     GameManager *gameEngine;
     QCompleter *completer;
 
+    b2World* world;
+    QTimer* physicsTimer;
+
+    void addBloodParticles(int deadPosX, int deadPosY, int amount);
+    int generateRandomNumber(int low, int high);
 
     QAbstractItemModel *modelFromFile(const QString& fileName);
 };

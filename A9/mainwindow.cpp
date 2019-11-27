@@ -3,22 +3,23 @@
 
 #include <QtCore>
 #include <QDebug>
-
+#include <QPixmap>
 
 MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     gameEngine = _gameEngine;
-    codeEditor = new CodeEditor(this);
     ui->setupUi(this);
+
+    QDateTime cd = QDateTime::currentDateTime();
+    qsrand(cd.toTime_t());
 
     codeEditor = new CodeEditor(this);
     ui->codeEditlLayout->addWidget(codeEditor);
 
     completer = new QCompleter(this);
     completer->setModel(modelFromFile(":/command.txt"));
-    //completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     completer->setWrapAround(false);
     codeEditor->setCompleter(completer);
@@ -27,7 +28,6 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
    // codeEditor->appendPlainText("player.moveDown(1)\n");
    // codeEditor->appendPlainText("player.moveLeft(1)\n");
    // codeEditor->appendPlainText("player.moveUp(1)\n");
-
 
     ui->debugRightButton->setEnabled(false);
 
@@ -61,6 +61,9 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     ui->debugStopButton->setIconSize(QSize(33,33));
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 20);");
 
+    //set console
+    ui->console->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
+
 //    std::array<QLabel*, 5> labels{ui->playField, ui->playerLabel,
 //                ui->playerTopLabel, ui->level1Label, ui->finish1Label};
 //    for(int i = 0; i < labels.size(); i++) {
@@ -68,6 +71,24 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
 //        pixmap = pixmap.scaled(labels[i]->width(), labels[i]->height(), Qt::KeepAspectRatio);
 //        labels[i]->setPixmap(pixmap);
 //    }
+    ui->mapSection->setStyleSheet("QWidget {border-style: none;}");
+
+    //Set gravity to 0
+    b2Vec2 gravity = b2Vec2(0.0f, 0.0f);
+    world = new b2World(gravity);
+    world->SetAllowSleeping(true);
+    world->SetContinuousPhysics(true);
+
+    b2BodyDef groundBodyDef;
+    groundBodyDef.position.Set(0, 0);
+
+    b2EdgeShape groundEdge;
+    b2FixtureDef boxShapeDef;
+    boxShapeDef.shape = &groundEdge;
+
+    physicsTimer = new QTimer(this);
+    connect(physicsTimer, SIGNAL(timeout()), this, SLOT(onPhysicsUpdate()));
+    physicsTimer->setInterval(1);
 }
 
 MainWindow::~MainWindow()
@@ -222,11 +243,21 @@ void MainWindow::resetBoard() {
     ui->playerLabel->setGeometry(ui->playField->x()+gameEngine->getPlayerX()*ui->playerLabel->width(), ui->playField->y()-ui->playerLabel->height()/3+gameEngine->getPlayerY()*ui->playerLabel->width(), ui->playerLabel->width(), ui->playerLabel->height());
     ui->playerTopLabel->setGeometry(ui->playerLabel->x(), ui->playerLabel->y(), ui->playerTopLabel->width(), ui->playerTopLabel->height());
     int numTargets = xTargets.size();
+
     for(int i = 0; i < numTargets; i++) {
         xTargets.pop();
         yTargets.pop();
     }
+
+    targetX = 0;
+    targetY = 0;
+    xStep = 0;
+    yStep = 0;
+
+    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
+    codeManager->run(codeEditor->toPlainText(), 1000);
     updateCoordinateLabels();
+    ui->playField->setPixmap(QPixmap(":/debug.png"));
 }
 
 void MainWindow::on_debugButton_clicked()
@@ -239,6 +270,9 @@ void MainWindow::on_debugButton_clicked()
     ui->debugButton->setEnabled(false);
 
     codeManager->debug(codeEditor->toPlainText());
+
+    ui->console->append("Started Debugging Mod");
+
 }
 
 void MainWindow::on_debugRightButton_clicked()
@@ -248,15 +282,20 @@ void MainWindow::on_debugRightButton_clicked()
 
 void MainWindow::on_debugStopButton_clicked()
 {
-
     ui->debugRightButton->setEnabled(false);
     ui->debugButton->setEnabled(true);
     ui->debugStopButton->setFocus();
+
+    ui->console->append("Ended Debugging Mod");
+
+
 }
 
 void MainWindow::onDebugLineChanged(int currentLine)
 {
     qDebug() << "[Main] [onDebugLineChanged] Line : " << currentLine;
+
+    codeEditor->lineHighlighter(currentLine);
 
     //TODO - highlight code editor
 }
@@ -284,6 +323,88 @@ void MainWindow::onRunningFinsih()
     ui->debugButton->setEnabled(true);
 }
 
+void MainWindow::onPhysicsUpdate()
+{
+    int velocityIterations = 8;
+    int positionIterations = 3;
+
+    // Simiulate
+    world->Step(1, velocityIterations, positionIterations);
+
+    // Update all objects.
+    for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
+    {
+        int x = b->GetPosition().x;
+        int y = b->GetPosition().y;
+        int mapWidth = ui->mapSection->geometry().width();
+        int mapHeight = ui->mapSection->geometry().height();
+
+        if (b->GetUserData() != nullptr) {
+            QLabel* spriteData = (QLabel *)b->GetUserData();
+
+            //If it goes out of map, delete.
+            if(x < -1 || y < -1 || mapWidth < x || mapHeight < y)
+            {
+                 world->DestroyBody(b);
+                 delete spriteData;
+            }
+            else
+            {
+                spriteData->setGeometry(x, y, spriteData->width(), spriteData->height());
+            }
+        }
+    }
+
+    if(world->GetBodyCount() == 0)
+        physicsTimer->stop();
+}
+
+void MainWindow::onPlayerDead(int deadPosX, int deadPosY)
+{
+    addBloodParticles(deadPosX, deadPosY, 100);
+    physicsTimer->start();
+}
+
+void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
+{
+    while(amount-- > 0)
+    {
+        QLabel* qSprite = new QLabel(this);
+        qSprite->setGeometry(deadPosX, deadPosY, 16, 16);
+
+        // Pick random blood particle
+        int randomBlood = generateRandomNumber(1, 5);
+        QPixmap pixmap = QPixmap(":/blood_" + QString::number(randomBlood) + ".png");
+        pixmap = pixmap.scaled(qSprite->width(), qSprite->height(), Qt::KeepAspectRatio);
+        qSprite->setPixmap(pixmap);
+        qSprite->raise();
+
+        // Set body position
+        b2BodyDef bodyDef;
+        bodyDef.type = b2_dynamicBody;
+        bodyDef.position.Set(deadPosX, deadPosY);
+        bodyDef.userData = qSprite;
+        b2Body* body = world->CreateBody(&bodyDef);
+
+        // Set velocity
+        int vX = generateRandomNumber(-10, 10);
+        int vY = generateRandomNumber(-10, 10);
+
+        body->SetLinearVelocity(b2Vec2(vX, vY));
+
+        b2CircleShape circle;
+        circle.m_radius = 0.55f;
+
+        // Set fixture for object
+        b2FixtureDef fixtureDef;
+        fixtureDef.shape = &circle;
+        fixtureDef.density = 1.0f;
+        fixtureDef.friction = 0.2f;
+        fixtureDef.restitution = 0.9f;
+        body->CreateFixture(&fixtureDef);
+    }
+}
+
 QAbstractItemModel *MainWindow::modelFromFile(const QString& fileName)
 {
     QFile file(fileName);
@@ -305,4 +426,12 @@ QAbstractItemModel *MainWindow::modelFromFile(const QString& fileName)
     QGuiApplication::restoreOverrideCursor();
 #endif
     return new QStringListModel(words, completer);
+}
+
+int MainWindow::generateRandomNumber(int low, int high)
+{
+
+
+
+    return qrand() % ((high + 1) - low) + low;
 }

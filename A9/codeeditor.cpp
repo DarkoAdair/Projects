@@ -4,6 +4,7 @@
 
 #include <QAbstractItemView>
 #include <QScrollBar>
+#include <QDebug>
 
 CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent), c(nullptr)
 {
@@ -121,40 +122,50 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
 
 void CodeEditor::lineHighlighter(int line)
 {
+    line--;
+
     QList<QTextEdit::ExtraSelection> extraSelections;
 
-    if (!isReadOnly()) {
-        QTextEdit::ExtraSelection selection;
 
-        QStringList lines = this->toPlainText().split("\n");
-        int startPos = 0;
-        int endPos = 0;
+    QTextEdit::ExtraSelection selection;
 
-        //get startPos
-        for(int i = 0; i < line-1; i++)
-        {
-            startPos += lines[i].size();
+    QStringList lines = this->toPlainText().split("\n");
 
-        }
+    int startPos = 0;
+    int endPos = 0;
 
-        //get endPos
-        endPos = startPos + lines[line].size();
+    //get startPos
+    for(int i = 0; i < line-1; i++)
+    {
+        startPos += lines[i].size();
 
-//        QTextCursor c = this->textCursor();
-//        c.setPosition(startPos);
-//        c.setPosition(endPos, QTextCursor::KeepAnchor);
-
-        QColor lineColor = QColor(Qt::green).lighter(160);
-
-        selection.format.setBackground(lineColor);
-        selection.format.setProperty(QTextFormat::FullWidthSelection, true);
-
-        selection.cursor.setPosition(startPos);
-        selection.cursor.setPosition(endPos, QTextCursor::KeepAnchor);
-
-        selection.cursor.clearSelection();
-        extraSelections.append(selection);
     }
+
+    //get endPos
+    endPos = startPos + lines[line].size();
+
+    qDebug() << "[lineHighlighter] startPos : " << startPos << "  endPos : " << endPos;
+
+    //highlighter setting
+    QColor lineColor = QColor(Qt::green).lighter(160);
+
+    selection.format.setBackground(lineColor);
+    selection.format.setProperty(QTextFormat::FullWidthSelection, true);
+
+    QTextCursor tempC = textCursor();
+    tempC.setPosition(startPos);
+    tempC.setPosition(endPos, QTextCursor::MoveAnchor);
+    setTextCursor(tempC);
+
+    selection.cursor = tempC;
+
+    selection.format.setBackground(lineColor);
+    selection.format.setProperty(QTextFormat::FullWidthSelection, true);
+
+    selection.cursor.clearSelection();
+    extraSelections.append(selection);
+
+
 
     setExtraSelections(extraSelections);
 }
@@ -210,17 +221,17 @@ void CodeEditor::keyPressEvent(QKeyEvent *e)
 {
     if (c && c->popup()->isVisible()) {
         // The following keys are forwarded by the completer to the widget
-       switch (e->key()) {
-       case Qt::Key_Enter:
-       case Qt::Key_Return:
-       case Qt::Key_Escape:
-       case Qt::Key_Tab:
-       case Qt::Key_Backtab:
+        switch (e->key()) {
+        case Qt::Key_Enter:
+        case Qt::Key_Return:
+        case Qt::Key_Escape:
+        case Qt::Key_Tab:
+        case Qt::Key_Backtab:
             e->ignore();
             return; // let the completer do default behavior
-       default:
-           break;
-       }
+        default:
+            break;
+        }
     }
 
     bool isShortcut = ((e->modifiers() & Qt::ControlModifier) && e->key() == Qt::Key_E); // CTRL+E
@@ -236,7 +247,7 @@ void CodeEditor::keyPressEvent(QKeyEvent *e)
     QString completionPrefix = textUnderCursor();
 
     if (!isShortcut && (hasModifier || e->text().isEmpty()|| completionPrefix.length() < 2
-                      || eow.contains(e->text().right(1)))) {
+                        || eow.contains(e->text().right(1)))) {
         c->popup()->hide();
         return;
     }

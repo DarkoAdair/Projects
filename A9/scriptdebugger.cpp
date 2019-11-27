@@ -110,7 +110,7 @@
      this->q_ptr->emit signalLineChange(lineNumber);
 
      //TODO - Breakpoint
-     //if (m_bpManager->hasBreakpoints()) {
+     //if (m_bpManager->hasBreakpoints()) {t
      //
      //}
 

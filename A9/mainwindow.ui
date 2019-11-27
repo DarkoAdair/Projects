@@ -365,6 +365,23 @@
     </property>
     <property name="text">
      <string>Holding Weapon: false</string>
+   <widget class="QFrame" name="mapSection">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>671</width>
+      <height>701</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
     </property>
    </widget>
    <zorder>label</zorder>
@@ -380,6 +397,7 @@
    <zorder>levelLabel</zorder>
    <zorder>level1Label</zorder>
    <zorder>playerTopLabel</zorder>
+   <zorder>mapSection</zorder>
    <zorder>finish1Label</zorder>
    <zorder>keyLabel</zorder>
    <zorder>weaponLabel</zorder>
