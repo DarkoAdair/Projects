@@ -24,10 +24,10 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     completer->setWrapAround(false);
     codeEditor->setCompleter(completer);
 
-    codeEditor->appendPlainText("player.moveUp()\n");
-    codeEditor->appendPlainText("player.moveRight()\n");
-    codeEditor->appendPlainText("player.moveDown()\n");
-    codeEditor->appendPlainText("player.moveRight()\n");
+//    codeEditor->appendPlainText("player.moveUp()\n");
+//    codeEditor->appendPlainText("player.moveRight()\n");
+//    codeEditor->appendPlainText("player.moveDown()\n");
+//    codeEditor->appendPlainText("player.moveRight()\n");
 
     ui->debugRightButton->setEnabled(false);
 
@@ -179,7 +179,7 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
             //return;
         }
         if(gameOver) {
-            QTimer::singleShot(1000, this, SIGNAL(signalGameOver()));
+            emit signalGameOver();
         }
     }
 }
@@ -242,6 +242,8 @@ void MainWindow::on_goButton_clicked()
 }
 
 void MainWindow::resetBoard() {
+    ui->playerLabel->setVisible(true);
+    ui->playerTopLabel->setVisible(true);
     gameOver = false;
     targetX = 0;
     targetY = 0;
@@ -354,6 +356,7 @@ void MainWindow::onPhysicsUpdate()
 
         if (b->GetUserData() != nullptr) {
             QLabel* spriteData = (QLabel *)b->GetUserData();
+            spriteData->raise();
 
             //If it goes out of map, delete.
             if(x < -1 || y < -1 || mapWidth < x || mapHeight < y)
@@ -374,11 +377,16 @@ void MainWindow::onPhysicsUpdate()
 
 void MainWindow::onPlayerDead(int deadPosX, int deadPosY)
 {
-    int posPlayerX = ui->playerLabel->geometry().x();
-    int posPlayerY = ui->playerLabel->geometry().y();
+    int posPlayerX = ui->playerLabel->x();
+    int posPlayerY = ui->playerLabel->y();
 
-    int posX = posPlayerX - (ui->playerLabel->geometry().width() / 2);
-    int posY = posPlayerY - (ui->playerLabel->geometry().height() / 2);
+    int posX = posPlayerX + (ui->playerLabel->width() / 2);
+    int posY = posPlayerY + (ui->playerLabel->height() / 2);
+
+    qDebug() << "[Main] [onPlayerDead] x :" << posX << " / y : " << posY;
+
+    ui->playerLabel->setVisible(false);
+    ui->playerTopLabel->setVisible(false);
 
     addBloodParticles(posX, posY, 100);
     physicsTimer->start();
@@ -386,6 +394,8 @@ void MainWindow::onPlayerDead(int deadPosX, int deadPosY)
 
 void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
 {
+    qDebug() << "[Main] [addBloodParticles] x :" << deadPosX << " / y : " << deadPosY;
+
     while(amount-- > 0)
     {
         QLabel* qSprite = new QLabel(this);
@@ -397,6 +407,7 @@ void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
         pixmap = pixmap.scaled(qSprite->width(), qSprite->height(), Qt::KeepAspectRatio);
         qSprite->setPixmap(pixmap);
         qSprite->raise();
+        qSprite->show();
 
         // Set body position
         b2BodyDef bodyDef;
