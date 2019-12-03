@@ -44,6 +44,8 @@ public:
     int getLevelCount();
 
     std::tuple<int,int> getDoorCoords();
+    std::tuple<int,int> getKeyCoords();
+
 
 
 public slots:

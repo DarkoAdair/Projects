@@ -398,10 +398,13 @@
     </widget>
    </widget>
    <widget class="QLabel" name="doorLabel">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>590</y>
+      <x>30</x>
+      <y>460</y>
       <width>64</width>
       <height>96</height>
      </rect>
@@ -414,6 +417,31 @@
     </property>
     <property name="pixmap">
      <pixmap resource="images.qrc">:/lock_simple.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="goldKeyLabel">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>570</y>
+      <width>64</width>
+      <height>96</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="images.qrc">:/key_simple.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -435,6 +463,7 @@
    <zorder>playerTopLabel</zorder>
    <zorder>mapSection</zorder>
    <zorder>doorLabel</zorder>
+   <zorder>goldKeyLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

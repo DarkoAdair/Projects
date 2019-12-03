@@ -209,3 +209,7 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
      return level.getDoorCoords();
  }
 
+ std::tuple<int,int> GameManager::getKeyCoords() {
+     return level.getKeyCoords();
+ }
+

@@ -17,8 +17,7 @@ private:
     std::tuple<int, int> start;
     std::tuple<int, int> end;
     std::tuple<int, int> doorCoords;
-
-
+    std::tuple<int, int> keyCoords;
 
 public:
     GameMap();
@@ -29,6 +28,7 @@ public:
     void openDoorWays();
     void killEnemies();
     std::tuple<int,int> getDoorCoords();
+    std::tuple<int,int> getKeyCoords();
 
 };
 
