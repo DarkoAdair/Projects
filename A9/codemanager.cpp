@@ -52,7 +52,7 @@ void CodeManager::deinitalizeForDebugging()
     engine = nullptr;
 }
 
-void CodeManager::run(QString script, int delay)
+void CodeManager::run(QString script, int /*delay*/)
 {
     isDebug = false;
 
@@ -105,20 +105,35 @@ void CodeManager::onDebugProcess()
         int line = engine->uncaughtExceptionLineNumber();
         QString errorMessage = "Uncaught exception at line " + QString::number(line)  + " : " + result.toString();
 
-        qDebug() << "[CodeManager] exception : " << errorMessage;
-        emit signalException(errorMessage);
+        if(!debugger->isIntrrupted())
+        {
+            qDebug() << "[CodeManager] exception : " << errorMessage;
+            emit signalException(errorMessage);
+        }
     }
 
     qDebug() << "[CodeMangaer] Running Finished.";
     emit signalFinish();
 
-    //runningTimer->stop();
+    deinitalizeForDebugging();
 }
 
 void CodeManager::onAnimationFinished()
 {
     if(!isDebug)
         moveNextLine();
+}
+
+void CodeManager::onInterrupted()
+{
+    if(debugger)
+    {
+        QScriptValue command = engine->newQObject(commandImpl);
+        engine->globalObject().setProperty("player", command);
+        engine->globalObject().setProperty("command", command);
+
+        debugger->interrupt();
+    }
 }
 
 void CodeManager::onLineNumberChanged(int currentLine)
@@ -133,6 +148,6 @@ void CodeManager::onRunningProcess()
 
 void CodeManager::moveNextLine()
 {
-    this->debugger->moveNext();
-
+    if(debugger)
+        debugger->moveNext();
 }

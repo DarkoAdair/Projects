@@ -44,6 +44,7 @@ public slots:
     void onRunningProcess();
     void onLineNumberChanged(int currentLine);
     void onAnimationFinished();
+    void onInterrupted();
 
 signals:
     void signalLineChanged(int currentLine);
