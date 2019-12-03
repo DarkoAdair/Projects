@@ -45,6 +45,8 @@ public:
     bool inRangeOfDoor();
     bool inRangeOfEnemy();
 
+    std::tuple<int,int> getDoorCoords();
+
 
 public slots:
     void checkLevelCompletionReset();

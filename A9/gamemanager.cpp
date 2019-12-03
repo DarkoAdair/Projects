@@ -57,7 +57,7 @@ void GameManager::resetPlayer() {
 
 void GameManager::moveUp(int spaces)
 {
-    qDebug() << "MOVEUP : " << spaces;
+    qDebug() << "[GameManager] MOVEUP : " << spaces;
 
     std::vector<std::tuple<int, int>> traversed = player.moveUp(spaces);
     bool gameOver = checkPathSetActualSpot(traversed);
@@ -67,7 +67,7 @@ void GameManager::moveUp(int spaces)
 
 void GameManager::moveDown(int spaces)
 {
-    qDebug() << "MOVEDOWN : " << spaces;
+    qDebug() << "[GameManager] MOVEDOWN : " << spaces;
 
     std::vector<std::tuple<int, int>> traversed = player.moveDown(spaces);
     bool gameOver = checkPathSetActualSpot(traversed);
@@ -77,7 +77,7 @@ void GameManager::moveDown(int spaces)
 
 void GameManager::moveLeft(int spaces)
 {
-    qDebug() << "MOVELEFT : " << spaces;
+    qDebug() << "[GameManager] MOVELEFT : " << spaces;
 
     std::vector<std::tuple<int, int>> traversed = player.moveLeft(spaces);
     bool gameOver = checkPathSetActualSpot(traversed);
@@ -87,7 +87,7 @@ void GameManager::moveLeft(int spaces)
 
 void GameManager::moveRight(int spaces)
 {
-    qDebug() << "MOVERIGHT : " << spaces;
+    qDebug() << "[GameManager] MOVERIGHT : " << spaces;
 
     std::vector<std::tuple<int, int>> traversed = player.moveRight(spaces);
     bool gameOver = checkPathSetActualSpot(traversed);
@@ -187,12 +187,12 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
     {
         if(player.hasAKey())
         {
-           qDebug() << "USEKEY : true";
+           qDebug() << "[GameManager] USEKEY : true";
            level.openDoorWays();
            emit useKeySignal();
         }
         else
-           qDebug() << "USEKEY : false";
+           qDebug() << "[GameManager] USEKEY : false";
     }
      emit movePlayer(player.getX(),player.getY(),true,false);
  }
@@ -203,12 +203,12 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
      {
         if(player.canAttack())
         {
-           qDebug() << "USEWEAPON : true";
+           qDebug() << "[GameManager] USEWEAPON : true";
            level.killEnemies();
            emit useKeySignal();
         }
         else
-           qDebug() << "USEWEAPON : false";
+           qDebug() << "[GameManager] USEWEAPON : false";
      }
  }
 
@@ -239,5 +239,7 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
      return false;
  }
 
-
+ std::tuple<int,int> GameManager::getDoorCoords() {
+     return level.getDoorCoords();
+ }
 
