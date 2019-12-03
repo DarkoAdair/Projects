@@ -172,11 +172,11 @@ std::vector<std::tuple<int, int>> Player::moveUp(int spaces)
     return coordinateList;
 }
 
-std::string Player::readSpell()
+QString Player::readSpell()
 {
 
 }
-void Player::castSpell(std::string)
+void Player::castSpell(QString v)
 {
 
 }

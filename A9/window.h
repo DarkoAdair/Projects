@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include "mainwindow.h"
-
+#include "gamemanager.h"
 namespace Ui {
 class window;
 }
@@ -11,9 +11,11 @@ class window;
 class window : public QMainWindow
 {
     Q_OBJECT
+    QMediaPlaylist *playlist;
+    QMediaPlayer *music;
 
 public:
-    explicit window(QWidget *widget);
+    window(GameManager* gameManager);
     ~window();
 
 private slots:
@@ -21,6 +23,7 @@ private slots:
 
 private:
     Ui::window *ui;
+    GameManager *gameManager;
 };
 
 #endif // WINDOW_H

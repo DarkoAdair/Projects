@@ -86,15 +86,7 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     connect(physicsTimer, SIGNAL(timeout()), this, SLOT(onPhysicsUpdate()));
     physicsTimer->setInterval(1);
 
-    //BGM Player
-    playlist = new QMediaPlaylist();
-    playlist->addMedia(QUrl("qrc:/ChipTune3.1.mp3"));
-    playlist->setPlaybackMode(QMediaPlaylist::Loop);
 
-    music = new QMediaPlayer();
-    music->setPlaylist(playlist);
-    music->setVolume(25);
-    music->play();
 
 }
 
