@@ -3,8 +3,8 @@
 
 #include <QApplication>
 
-window::window(QWidget *widget) :
-    QMainWindow(widget),
+window::window(GameManager *gameManager) :
+    QMainWindow(nullptr),
     ui(new Ui::window)
 {
     ui->setupUi(this);
@@ -19,21 +19,18 @@ window::window(QWidget *widget) :
     music->setVolume(25);
     music->play();
 
+    this->gameManager = gameManager;
 }
 
 window::~window()
 {
     delete ui;
+    gameManager = nullptr;
 }
 
 void window::on_pushButton_clicked()
 {
     close();
-
-    GameManager gameEngine;
-    MainWindow *w = new MainWindow(this, &gameEngine);
+    MainWindow *w = new MainWindow(nullptr, gameManager);
     w->show();
-
-
-
 }

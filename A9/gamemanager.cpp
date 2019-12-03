@@ -120,6 +120,7 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
         // if the checking space is available path
         if(level.getWhatsAtCoordinate(mapBlock) == 0)
             actualSpot = mapBlock;
+
         else
         {
             switch (level.getWhatsAtCoordinate(mapBlock))
@@ -212,6 +213,36 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
      }
  }
 
+ std::string GameManager::spellBookRead(int phase)
+ {
+    if(!spellBookActive())
+    {
+        emit deadSignal(player.getX(), player.getY());
+        emitGameOverSignals();
+        return "";
+    }
+    else
+    {
+
+    }
+ }
+
+ void GameManager::spellBookCast(int phase)
+ {
+     if(!spellBookActive())
+     {
+
+     }
+     else
+     {
+
+     }
+ }
+
+ bool GameManager::spellBookActive()
+ {
+    return player.getX() == 4 && player.getY() == 4 && levelCount == 4; //player should be in center
+ }
 // bool GameManager::guardIsAsleep()
 // {
 

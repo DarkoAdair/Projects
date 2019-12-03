@@ -9,8 +9,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     GameManager gameEngine;
-    //MainWindow *main(nullptr, &gameEngine);
-    window w(nullptr);
+    window w(&gameEngine);
     w.show();
+
     return a.exec();
 }
