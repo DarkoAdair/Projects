@@ -3,7 +3,7 @@
 #define OBJECT_AVAILABLEPATH 0
 #define OBJECT_WALL 1
 #define OBJECT_SPIKES 2
-#define OBJECT_LAVA 3
+#define OBJECT_ENEMYLINEOFSIGHT 3
 #define OBJECT_ENEMY 4
 #define OBJECT_KEY 5
 #define OBJECT_WEAPON 6
@@ -37,7 +37,7 @@ GameMap::GameMap(int level)
  *  0 is availablePath
  *  1 is walls
  *  2 is spikes
- *  3 is lava
+ *  3 is enemy line of sight
  *  4 is enemies
  *  5 is key
  *  6 is weapons
@@ -160,6 +160,83 @@ void GameMap::killEnemies()
                 mapCoordinates[i][j] = OBJECT_AVAILABLEPATH;
         }
     }
+}
+
+bool GameMap::guardAsleep()
+{
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            if (mapCoordinates[i][j] == OBJECT_ENEMYLINEOFSIGHT)
+                return false;
+        }
+    }
+    return true;
+}
+
+std::vector<std::tuple<int, int>> GameMap::getDoorRange()
+{
+    std::vector<std::tuple<int, int>> validSpots;
+
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            if (mapCoordinates[i][j] == OBJECT_DOORWAYTOOPEN)
+            {
+                // get adjacent blocks around doorway that are available
+                if(i+1 < 10)
+                    if(mapCoordinates[i+1][j] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i+1, j));
+
+                if(i-1 > 0)
+                    if(mapCoordinates[i-1][j] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i-1, j));
+
+                if(j+1 < 10)
+                    if(mapCoordinates[i][j+1] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i, j+1));
+
+                if(j-1 > 0)
+                    if(mapCoordinates[i][j-1] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i, j-1));
+            }
+        }
+    }
+    return validSpots;
+}
+
+std::vector<std::tuple<int, int>> GameMap::getEnemyRange()
+{
+    std::vector<std::tuple<int, int>> validSpots;
+
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            if (mapCoordinates[i][j] == OBJECT_ENEMY)
+            {
+                // get adjacent blocks around doorway that are available
+                if(i+1 < 10)
+                    if(mapCoordinates[i+1][j] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i+1, j));
+
+                if(i-1 > 0)
+                    if(mapCoordinates[i-1][j] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i-1, j));
+
+                if(j+1 < 10)
+                    if(mapCoordinates[i][j+1] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i, j+1));
+
+                if(j-1 > 0)
+                    if(mapCoordinates[i][j-1] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i, j-1));
+            }
+        }
+    }
+    return validSpots;
 }
 
 std::tuple<int, int> GameMap::getStart()

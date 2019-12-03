@@ -173,29 +173,29 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
         xTargets.pop();
         yTargets.pop();
 
-        if(!xTargets.empty()) {
-            targetX = xTargets.front();
-            targetY = yTargets.front();
+//        if(!xTargets.empty()) {
+//            targetX = xTargets.front();
+//            targetY = yTargets.front();
 
-            int xOff = xTargets.front()-prevX;
-            int yOff = yTargets.front()-prevY;
+//            int xOff = xTargets.front()-prevX;
+//            int yOff = yTargets.front()-prevY;
 
-            xStep = 0;
-            yStep = 0;
+//            xStep = 0;
+//            yStep = 0;
 
-            if(xOff != 0) {
-                xStep = xOff/std::abs(xOff);
-                xStep = 2 * xStep;
-            }
-            if(yOff != 0) {
-                yStep = yOff/std::abs(yOff);
-                yStep = 2 * yStep;
-            }
+//            if(xOff != 0) {
+//                xStep = xOff/std::abs(xOff);
+//                xStep = 2 * xStep;
+//            }
+//            if(yOff != 0) {
+//                yStep = yOff/std::abs(yOff);
+//                yStep = 2 * yStep;
+//            }
 
-            // A bit of a longer delay between separate commands
-            QTimer::singleShot(100, this, SLOT(movePlayer()));
-            //return;
-        }
+//            // A bit of a longer delay between separate commands
+//            QTimer::singleShot(100, this, SLOT(movePlayer()));
+//            //return;
+//        }
         if(gameOver)
         {
             emit signalGameOver();

@@ -42,6 +42,8 @@ public:
     int getWhatsAtMove(int x, int y);
 
     int getLevelCount();
+    bool inRangeOfDoor();
+    bool inRangeOfEnemy();
 
 
 public slots:

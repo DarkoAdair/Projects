@@ -27,6 +27,9 @@ public:
     int getWhatsAtCoordinate(std::tuple<int,int> coordinates);
     void openDoorWays();
     void killEnemies();
+    bool guardAsleep();
+    std::vector<std::tuple<int, int>> getDoorRange();
+    std::vector<std::tuple<int, int>> getEnemyRange();
 
 };
 
