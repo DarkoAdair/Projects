@@ -42,7 +42,6 @@ public:
     bool guardAsleep();
     std::vector<std::tuple<int, int>> getDoorRange();
     std::vector<std::tuple<int, int>> getEnemyRange();
-    std::tuple<int,int> getDoorCoords();
 };
 
 #endif // GAMEMAP_H
