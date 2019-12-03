@@ -31,16 +31,13 @@ public:
     int getWhatsAtCoordinate(std::tuple<int,int> coordinates);
     void openDoorWays();
     void killEnemies();
-<<<<<<< HEAD
 
     std::string getSpell1();
     std::string getSpell2();
-=======
     bool guardAsleep();
     std::vector<std::tuple<int, int>> getDoorRange();
     std::vector<std::tuple<int, int>> getEnemyRange();
     std::tuple<int,int> getDoorCoords();
->>>>>>> 4e91c842095a76b92b2937d41d3e86139c50ecd0
 };
 
 #endif // GAMEMAP_H
