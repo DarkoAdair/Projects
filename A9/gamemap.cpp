@@ -1,6 +1,7 @@
 #include "gamemap.h"
 
 #include <QDebug>
+#include <QString>
 
 #define OBJECT_AVAILABLEPATH 0
 #define OBJECT_WALL 1
@@ -163,8 +164,8 @@ void GameMap::LoadLevelFour()
         mapCoordinates[i+2][j] = OBJECT_WALL; //only narrow pathway
     }
 
-    std::string spell1 = setSpell1();
-    std::string spell2 = setSpell2();
+    QString spell1 = setSpell1();
+    QString spell2 = setSpell2();
 
     // change level picture
 }
@@ -282,19 +283,19 @@ std::tuple<int, int> GameMap::getEnd()
     return end;
 }
 
-std::string GameMap::setSpell1()
+QString GameMap::setSpell1()
 {
 
 }
-std::string GameMap::setSpell2()
+QString GameMap::setSpell2()
 {
 
 }
-std::string GameMap::getSpell1()
+QString GameMap::getSpell1()
 {
 
 }
-std::string GameMap::getSpell2()
+QString GameMap::getSpell2()
 {
 
 }
