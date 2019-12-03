@@ -143,9 +143,9 @@
     <property name="geometry">
      <rect>
       <x>830</x>
-      <y>150</y>
+      <y>153</y>
       <width>571</width>
-      <height>361</height>
+      <height>381</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="codeEditlLayout"/>
@@ -206,7 +206,7 @@
     <property name="geometry">
      <rect>
       <x>823</x>
-      <y>516</y>
+      <y>538</y>
       <width>581</width>
       <height>151</height>
      </rect>
@@ -471,7 +471,7 @@
      <x>0</x>
      <y>0</y>
      <width>1424</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

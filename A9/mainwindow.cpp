@@ -86,15 +86,7 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     connect(physicsTimer, SIGNAL(timeout()), this, SLOT(onPhysicsUpdate()));
     physicsTimer->setInterval(1);
 
-    //BGM Player
-    playlist = new QMediaPlaylist();
-    playlist->addMedia(QUrl("qrc:/ChipTune3.1.mp3"));
-    playlist->setPlaybackMode(QMediaPlaylist::Loop);
 
-    music = new QMediaPlayer();
-    music->setPlaylist(playlist);
-    music->setVolume(25);
-    music->play();
 
     ui->doorLabel->setVisible(false);
     ui->goldKeyLabel->setVisible(false);
@@ -164,35 +156,9 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
     else {
         QTimer::singleShot(100, codeManager, SLOT(onAnimationFinished()));
 
-        int prevX = xTargets.front();
-        int prevY = yTargets.front();
-
         xTargets.pop();
         yTargets.pop();
 
-        if(!xTargets.empty()) {
-            targetX = xTargets.front();
-            targetY = yTargets.front();
-
-            int xOff = xTargets.front()-prevX;
-            int yOff = yTargets.front()-prevY;
-
-            xStep = 0;
-            yStep = 0;
-
-            if(xOff != 0) {
-                xStep = xOff/std::abs(xOff);
-                xStep = 2 * xStep;
-            }
-            if(yOff != 0) {
-                yStep = yOff/std::abs(yOff);
-                yStep = 2 * yStep;
-            }
-
-            // A bit of a longer delay between separate commands
-            QTimer::singleShot(100, this, SLOT(movePlayer()));
-            //return;
-        }
         if(gameOver)
         {
             emit signalGameOver();
@@ -253,6 +219,8 @@ void MainWindow::updateCoordinateLabels(){
 
 
 void MainWindow::resetBoard() {
+    gameEngine->loadLevel(gameEngine->getLevelCount());
+
     ui->playerLabel->setVisible(true);
     ui->playerTopLabel->setVisible(true);
     gameOver = false;
@@ -275,7 +243,6 @@ void MainWindow::resetBoard() {
     targetY = 0;
     xStep = 0;
     yStep = 0;
-
     updateCoordinateLabels();
 
     ui->doorLabel->setVisible(false);
@@ -283,7 +250,7 @@ void MainWindow::resetBoard() {
 
     if(std::get<0>(gameEngine->getDoorCoords()) != -1) {
         int x1 = ui->playField->x() + std::get<0>(gameEngine->getDoorCoords()) * ui->doorLabel->width();
-        int y1 = ui->playField->y() + std::get<1>(gameEngine->getDoorCoords()) * ui->doorLabel->width() + ui->doorLabel->height()/3;
+        int y1 = ui->playField->y() + std::get<1>(gameEngine->getDoorCoords()) * ui->doorLabel->width() - ui->doorLabel->height()/3;
         ui->doorLabel->setGeometry(x1,y1, ui->doorLabel->width(), ui->doorLabel->height());
         ui->doorLabel->setVisible(true);
         int x2 = ui->playField->x() + std::get<0>(gameEngine->getKeyCoords()) * ui->goldKeyLabel->width();
@@ -330,7 +297,7 @@ void MainWindow::on_debugRightButton_clicked()
 }
 
 void MainWindow::on_debugStopButton_clicked()
-{   
+{
     ui->debugStopButton->setEnabled(false);
     ui->debugRightButton->setEnabled(false);
     ui->debugButton->setEnabled(true);
@@ -509,15 +476,15 @@ void MainWindow::tutorial(int level) {
 
     //left, right, up and down
     case 1:
-        text.append("//Use only moveRight, moveLeft, moveUp, moveDown to complete\n");
+        text.append("//Use only moveRight, moveLeft, moveUp, moveDown to complete\n\n");
         text.append("//the player can move up\n");
-        text.append("player.moveUp()\n");
+        text.append("player.moveUp()\n\n");
         text.append("//the player can move up\n");
-        text.append("player.moveRight()\n");
+        text.append("player.moveRight()\n\n");
         text.append("//the player can move down\n");
-        text.append("player.moveDown()\n");
+        text.append("player.moveDown()\n\n");
         text.append("//the player can move right\n");
-        text.append("player.moveRight()\n");
+        text.append("player.moveRight()\n\n");
         break;
 
     //
@@ -541,5 +508,3 @@ void MainWindow::tutorial(int level) {
     codeEditor->appendPlainText(text);
 
 }
-
-

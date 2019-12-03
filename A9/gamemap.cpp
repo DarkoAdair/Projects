@@ -1,9 +1,11 @@
 #include "gamemap.h"
 
+#include <QDebug>
+
 #define OBJECT_AVAILABLEPATH 0
 #define OBJECT_WALL 1
 #define OBJECT_SPIKES 2
-#define OBJECT_LAVA 3
+#define OBJECT_ENEMYLINEOFSIGHT 3
 #define OBJECT_ENEMY 4
 #define OBJECT_KEY 5
 #define OBJECT_WEAPON 6
@@ -37,7 +39,7 @@ GameMap::GameMap(int level)
  *  0 is availablePath
  *  1 is walls
  *  2 is spikes
- *  3 is lava
+ *  3 is enemy line of sight
  *  4 is enemies
  *  5 is key
  *  6 is weapons
@@ -87,7 +89,7 @@ void GameMap::LoadLevelOne()
     mapCoordinates[5][7] = OBJECT_WALL;
     mapCoordinates[6][7] = OBJECT_WALL;
 
-    mapCoordinates[0][0] = OBJECT_KEY;
+    mapCoordinates[0][2] = OBJECT_KEY;
     mapCoordinates[0][7] = OBJECT_DOORWAYTOOPEN;
 
     //mapCoordinates[0][0] = OBJECT_WEAPON;
@@ -145,6 +147,30 @@ void GameMap::LoadLevelThree()
     // change level picture
 }
 
+void GameMap::LoadLevelFour()
+{
+    start =  std::make_tuple(5, 9);
+    end =  std::make_tuple(5, 4);
+    int i = 5;
+    for(int j = 5; j < 10; j++)
+        {
+            mapCoordinates[i][j] = OBJECT_AVAILABLEPATH;
+        }
+    mapCoordinates[5][4] = OBJECT_ENDPOINT;// set spellbook location
+
+    i = 4;
+    for(int j = 0; j < 10; j++)
+    {
+        mapCoordinates[i][j] = OBJECT_WALL;
+        mapCoordinates[i+2][j] = OBJECT_WALL; //only narrow pathway
+    }
+
+    std::string spell1 = setSpell1();
+    std::string spell2 = setSpell2();
+
+    // change level picture
+}
+
 void GameMap::openDoorWays()
 {
     for (int i = 0; i < 10; i++)
@@ -169,6 +195,85 @@ void GameMap::killEnemies()
     }
 }
 
+bool GameMap::guardAsleep()
+{
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            if (mapCoordinates[i][j] == OBJECT_ENEMYLINEOFSIGHT)
+                return false;
+        }
+    }
+    return true;
+}
+
+std::vector<std::tuple<int, int>> GameMap::getDoorRange()
+{
+    std::vector<std::tuple<int, int>> validSpots;
+
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            if (mapCoordinates[i][j] == OBJECT_DOORWAYTOOPEN)
+            {
+                // get adjacent blocks around doorway that are available
+                if(i+1 < 10)
+                    if(mapCoordinates[i+1][j] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i+1, j));
+
+                if(i-1 > 0)
+                    if(mapCoordinates[i-1][j] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i-1, j));
+
+                if(j+1 < 10)
+                    if(mapCoordinates[i][j+1] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i, j+1));
+
+                if(j-1 > 0)
+                    if(mapCoordinates[i][j-1] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i, j-1));
+            }
+        }
+    }
+    return validSpots;
+}
+
+std::vector<std::tuple<int, int>> GameMap::getEnemyRange()
+{
+    std::vector<std::tuple<int, int>> validSpots;
+
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            if (mapCoordinates[i][j] == OBJECT_ENEMY)
+            {
+                // get adjacent blocks around doorway that are available
+                if(i+1 < 10)
+                    if(mapCoordinates[i+1][j] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i+1, j));
+
+                if(i-1 > 0)
+                    if(mapCoordinates[i-1][j] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i-1, j));
+
+                if(j+1 < 10)
+                    if(mapCoordinates[i][j+1] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i, j+1));
+
+                if(j-1 > 0)
+                    if(mapCoordinates[i][j-1] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i, j-1));
+            }
+        }
+    }
+
+
+    return validSpots;
+}
+
 std::tuple<int, int> GameMap::getStart()
 {
     return start;
@@ -178,6 +283,26 @@ std::tuple<int, int> GameMap::getEnd()
 {
     return end;
 }
+
+std::string GameMap::setSpell1()
+{
+
+}
+std::string GameMap::setSpell2()
+{
+
+}
+std::string GameMap::getSpell1()
+{
+
+}
+std::string GameMap::getSpell2()
+{
+
+}
+
+
+
 
 // used to see if player walked over spikes, hit enemy, hit walls, etc.
 // returns an int which is a representation of whats at a map coordinate.
