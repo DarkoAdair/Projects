@@ -1,6 +1,7 @@
 #ifndef GAMEMAP_H
 #define GAMEMAP_H
 
+#include <QString>
 #include <vector>
 #include <tuple>
 
@@ -14,16 +15,16 @@ private:
     void LoadLevelTwo();
     void LoadLevelThree();
     void LoadLevelFour();
-    std::string setSpell1();
-    std::string setSpell2();
+    QString setSpell1();
+    QString setSpell2();
 
     std::tuple<int, int> start;
     std::tuple<int, int> end;
     std::tuple<int, int> doorCoords;
     std::tuple<int, int> keyCoords;
 
-    std::string spellArr1 [4] = {"Vrin", "Gol", "Meind", "Shktov"};
-    std::string spellArr2 [4] = {"Nim", "Grok", "Val", "Anon"};
+    QString spellArr1 [4] = {"Vrin", "Gol", "Meind", "Shktov"};
+    QString spellArr2 [4] = {"Nim", "Grok", "Val", "Anon"};
 
 public:
     GameMap();
@@ -36,8 +37,8 @@ public:
     std::tuple<int,int> getDoorCoords();
     std::tuple<int,int> getKeyCoords();
 
-    std::string getSpell1();
-    std::string getSpell2();
+    QString getSpell1();
+    QString getSpell2();
     bool guardAsleep();
     std::vector<std::tuple<int, int>> getDoorRange();
     std::vector<std::tuple<int, int>> getEnemyRange();
