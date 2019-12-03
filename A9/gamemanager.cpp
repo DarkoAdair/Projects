@@ -253,7 +253,7 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
 
      for (std::tuple<int, int> coordinate : validSpots)
      {
-         if(player.getX() == std::get<0>(coordinate) || player.getY() == std::get<1>(coordinate))
+         if(player.getX() == std::get<0>(coordinate) && player.getY() == std::get<1>(coordinate))
              return true;
      }
      return false;
@@ -264,7 +264,7 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
 
      for (std::tuple<int, int> coordinate : validSpots)
      {
-         if(player.getX() == std::get<0>(coordinate) || player.getY() == std::get<1>(coordinate))
+         if(player.getX() == std::get<0>(coordinate) && player.getY() == std::get<1>(coordinate))
              return true;
      }
      return false;
