@@ -13,28 +13,29 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     gameEngine = _gameEngine;
     ui->setupUi(this);
 
+    // Make a seed for random number generater.
     QDateTime cd = QDateTime::currentDateTime();
     qsrand(cd.toTime_t());
 
+    // Init Code editor
     codeEditor = new CodeEditor(this);
     ui->codeEditlLayout->addWidget(codeEditor);
 
+    // Init Code completer.
     completer = new QCompleter(this);
     completer->setModel(modelFromFile(":/command.txt"));
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     completer->setWrapAround(false);
     codeEditor->setCompleter(completer);
 
+    // Init debugging
     ui->debugRightButton->setEnabled(false);
 
-    QObject::connect(gameEngine, SIGNAL(movePlayer(int,int,bool,bool)),
-                     this, SLOT(movePlayer(int,int,bool,bool)));
-    QObject::connect(gameEngine, SIGNAL(updateLevelCount(int)),
-                     this, SLOT(updateLevelCount(int)));
-    QObject::connect(gameEngine, SIGNAL(resetSignal()),
-                     this, SLOT(resetBoard()));
-    QObject::connect(this, SIGNAL(signalGameOver()),
-                     gameEngine, SLOT(checkLevelCompletionReset()));
+    // Connect all things for gameEngine
+    QObject::connect(gameEngine, SIGNAL(movePlayer(int,int,bool,bool)), this, SLOT(movePlayer(int,int,bool,bool)));
+    QObject::connect(gameEngine, SIGNAL(updateLevelCount(int)), this, SLOT(updateLevelCount(int)));
+    QObject::connect(gameEngine, SIGNAL(resetSignal()), this, SLOT(resetBoard()));
+    QObject::connect(this, SIGNAL(signalGameOver()), gameEngine, SLOT(checkLevelCompletionReset()));
     QObject::connect(gameEngine, SIGNAL(useKeySignal()), this, SLOT(usedKey()));
     QObject::connect(gameEngine, SIGNAL(useWeaponSignal()), this, SLOT(usedWeapon()));
     QObject::connect(gameEngine, SIGNAL(updateInventory(int, bool)), this, SLOT(updateInventory(int, bool)));
@@ -43,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
 
     tutorial(1);
 
-
+    // Init code manager
     codeManager = new CodeManager(gameEngine);
     connect(codeManager, SIGNAL(signalLineChanged(int)), this, SLOT(onDebugLineChanged(int)));
     connect(codeManager, SIGNAL(signalException(const QString)), this, SLOT(onDebugException(const QString)));
@@ -65,16 +66,10 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     //set console
     ui->console->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
 
-//    std::array<QLabel*, 5> labels{ui->playField, ui->playerLabel,
-//                ui->playerTopLabel, ui->level1Label, ui->finish1Label};
-//    for(int i = 0; i < labels.size(); i++) {
-//        QPixmap pixmap = labels[i]->pixmap()->copy();
-//        pixmap = pixmap.scaled(labels[i]->width(), labels[i]->height(), Qt::KeepAspectRatio);
-//        labels[i]->setPixmap(pixmap);
-//    }
+    //Hide map section.
     ui->mapSection->setStyleSheet("QWidget {border-style: none;}");
 
-    //Set gravity to 0
+    //Init Physics Engine
     b2Vec2 gravity = b2Vec2(0.0f, 0.0f);
     world = new b2World(gravity);
     world->SetAllowSleeping(true);
@@ -91,6 +86,7 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     connect(physicsTimer, SIGNAL(timeout()), this, SLOT(onPhysicsUpdate()));
     physicsTimer->setInterval(1);
 
+    //BGM Player
     playlist = new QMediaPlaylist();
     playlist->addMedia(QUrl("qrc:/ChipTune3.1.mp3"));
     playlist->setPlaybackMode(QMediaPlaylist::Loop);
@@ -112,7 +108,6 @@ MainWindow::~MainWindow()
     delete ui;
     delete music;
     delete playlist;
-
 }
 
 void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
@@ -253,13 +248,6 @@ void MainWindow::updateCoordinateLabels(){
     ui->yLabel->setText(yString);
 }
 
-void MainWindow::on_goButton_clicked()
-{
-    resetBoard();
-    ui->goButton->setEnabled(false);
-    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
-    codeManager->run(codeEditor->toPlainText(), 1000);
-}
 
 void MainWindow::resetBoard() {
     ui->playerLabel->setVisible(true);
@@ -300,15 +288,30 @@ void MainWindow::resetBoard() {
     ui->level1Label->setPixmap(pixmap);
 }
 
+void MainWindow::on_goButton_clicked()
+{
+    resetBoard();
+
+    ui->goButton->setEnabled(false);
+    ui->debugStopButton->setEnabled(false);
+    ui->debugButton->setEnabled(false);
+    ui->debugRightButton->setEnabled(false);
+
+    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
+
+    codeManager->run(codeEditor->toPlainText(), 1000);
+}
+
 void MainWindow::on_debugButton_clicked()
 {
     resetBoard();
-    ui->goButton->setEnabled(false);
-    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
 
+    ui->goButton->setEnabled(false);
     ui->debugRightButton->setEnabled(true);
     ui->debugButton->setEnabled(false);
     ui->debugStopButton->setEnabled(true);
+
+    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
 
     codeManager->debug(codeEditor->toPlainText());
 }
@@ -319,13 +322,12 @@ void MainWindow::on_debugRightButton_clicked()
 }
 
 void MainWindow::on_debugStopButton_clicked()
-{
+{   
+    ui->debugStopButton->setEnabled(false);
     ui->debugRightButton->setEnabled(false);
     ui->debugButton->setEnabled(true);
 
     this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::TextEditorInteraction);
-
-    ui->debugStopButton->setEnabled(false);
 
     //Finish the game.
     emit signalGameOver();
@@ -337,8 +339,6 @@ void MainWindow::onDebugLineChanged(int currentLine)
     qDebug() << "[Main] [onDebugLineChanged] Line : " << currentLine;
 
     codeEditor->lineHighlighter(currentLine);
-
-    //TODO - highlight code editor
 }
 
 void MainWindow::onDebugException(const QString errorMessage)
@@ -349,22 +349,22 @@ void MainWindow::onDebugException(const QString errorMessage)
 
     this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::TextEditorInteraction);
 
-    ui->debugRightButton->setEnabled(false);
+    ui->goButton->setEnabled(true);
     ui->debugButton->setEnabled(true);
+    ui->debugRightButton->setEnabled(false);
+    ui->debugStopButton->setEnabled(false);
 }
 
 void MainWindow::onRunningFinsih()
 {
-    ui->goButton->setEnabled(true);
     qDebug() << "[Main] [onRunningFinish] Finish Debugging";
 
     this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::TextEditorInteraction);
 
-    ui->debugRightButton->setEnabled(false);
+    ui->goButton->setEnabled(true);
     ui->debugButton->setEnabled(true);
-
+    ui->debugRightButton->setEnabled(false);
     ui->debugStopButton->setEnabled(false);
-
 }
 
 void MainWindow::onPhysicsUpdate()
@@ -514,7 +514,15 @@ void MainWindow::tutorial(int level) {
 
     //
     case 2:
-        text.append("//hi2");
+        text.append("//Use only moveRight, moveLeft, moveUp, moveDown to complete\n");
+        text.append("//the player can move up\n");
+        text.append("player.moveUp()\n");
+        text.append("//the player can move up\n");
+        text.append("player.moveRight()\n");
+        text.append("//the player can move down\n");
+        text.append("player.moveDown()\n");
+        text.append("//the player can move right\n");
+        text.append("player.moveRight()\n");
         break;
 
     case 3:
