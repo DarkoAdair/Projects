@@ -21,7 +21,8 @@ private:
     std::tuple<int, int> end;
     std::tuple<int, int> doorCoords;
 
-
+    std::string spellArr1 [4] = {"Vrin", "Gol", "Meind", "Shktov"};
+    std::string spellArr2 [4] = {"Nim", "Grok", "Val", "Anon"};
 
 public:
     GameMap();
