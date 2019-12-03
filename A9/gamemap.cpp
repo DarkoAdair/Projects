@@ -166,8 +166,8 @@ void GameMap::LoadLevelFour()
         mapCoordinates[i+2][j] = OBJECT_WALL; //only narrow pathway
     }
 
-    QString spell1 = setSpell1();
-    QString spell2 = setSpell2();
+    QString spell1 = setSpell(1);
+    QString spell2 = setSpell(2);
 
     // change level picture
 }
@@ -285,23 +285,25 @@ std::tuple<int, int> GameMap::getEnd()
     return end;
 }
 
-QString GameMap::setSpell1()
+QString GameMap::setSpell(int phase)
+{
+    int index = generateRandomNumber(0, 3);
+    if (phase == 1)
+    {
+        return spellArr1[index];
+    }
+    else return spellArr2[index];
+}
+
+QString GameMap::getSpell(int phase)
 {
 
 }
-QString GameMap::setSpell2()
+
+int GameMap::generateRandomNumber(int low, int high)
 {
-
+    return qrand() % ((high + 1) - low) + low;
 }
-QString GameMap::getSpell1()
-{
-
-}
-QString GameMap::getSpell2()
-{
-
-}
-
 
 
 
