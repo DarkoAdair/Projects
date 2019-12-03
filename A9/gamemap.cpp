@@ -3,7 +3,7 @@
 #define OBJECT_AVAILABLEPATH 0
 #define OBJECT_WALL 1
 #define OBJECT_SPIKES 2
-#define OBJECT_LAVA 3
+#define OBJECT_ENEMYLINEOFSIGHT 3
 #define OBJECT_ENEMY 4
 #define OBJECT_KEY 5
 #define OBJECT_WEAPON 6
@@ -37,7 +37,7 @@ GameMap::GameMap(int level)
  *  0 is availablePath
  *  1 is walls
  *  2 is spikes
- *  3 is lava
+ *  3 is enemy line of sight
  *  4 is enemies
  *  5 is key
  *  6 is weapons
@@ -54,6 +54,7 @@ void GameMap::LoadLevelOne()
 {
     start =  std::make_tuple(1, 6);
     end =  std::make_tuple(9, 9);
+    doorCoords = std::make_tuple(0,7);
    //TODO set up coordinates of path,walls, spikes, enemies, etc.
    // change level picture
 
@@ -69,6 +70,7 @@ void GameMap::LoadLevelOne()
     }
 
     mapCoordinates[9][9] = OBJECT_ENDPOINT;// set endpoint
+    mapCoordinates[0][1] = OBJECT_WALL;
     mapCoordinates[1][1] = OBJECT_WALL;
     mapCoordinates[2][1] = OBJECT_WALL;
     mapCoordinates[3][1] = OBJECT_WALL;
@@ -95,6 +97,8 @@ void GameMap::LoadLevelTwo()
 {
     start =  std::make_tuple(1, 6);
     end =  std::make_tuple(9, 9);
+    doorCoords = std::make_tuple(-1,-1);
+
     //fill with available space
     for(int i = 0; i < 10; i++)
     {
@@ -104,6 +108,7 @@ void GameMap::LoadLevelTwo()
         }
     }
     mapCoordinates[9][9] = OBJECT_ENDPOINT;// set endpoint
+    mapCoordinates[0][1] = OBJECT_SPIKES;
     mapCoordinates[1][1] = OBJECT_SPIKES;
     mapCoordinates[2][1] = OBJECT_SPIKES;
     mapCoordinates[3][1] = OBJECT_SPIKES;
@@ -186,6 +191,83 @@ void GameMap::killEnemies()
     }
 }
 
+bool GameMap::guardAsleep()
+{
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            if (mapCoordinates[i][j] == OBJECT_ENEMYLINEOFSIGHT)
+                return false;
+        }
+    }
+    return true;
+}
+
+std::vector<std::tuple<int, int>> GameMap::getDoorRange()
+{
+    std::vector<std::tuple<int, int>> validSpots;
+
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            if (mapCoordinates[i][j] == OBJECT_DOORWAYTOOPEN)
+            {
+                // get adjacent blocks around doorway that are available
+                if(i+1 < 10)
+                    if(mapCoordinates[i+1][j] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i+1, j));
+
+                if(i-1 > 0)
+                    if(mapCoordinates[i-1][j] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i-1, j));
+
+                if(j+1 < 10)
+                    if(mapCoordinates[i][j+1] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i, j+1));
+
+                if(j-1 > 0)
+                    if(mapCoordinates[i][j-1] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i, j-1));
+            }
+        }
+    }
+    return validSpots;
+}
+
+std::vector<std::tuple<int, int>> GameMap::getEnemyRange()
+{
+    std::vector<std::tuple<int, int>> validSpots;
+
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            if (mapCoordinates[i][j] == OBJECT_ENEMY)
+            {
+                // get adjacent blocks around doorway that are available
+                if(i+1 < 10)
+                    if(mapCoordinates[i+1][j] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i+1, j));
+
+                if(i-1 > 0)
+                    if(mapCoordinates[i-1][j] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i-1, j));
+
+                if(j+1 < 10)
+                    if(mapCoordinates[i][j+1] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i, j+1));
+
+                if(j-1 > 0)
+                    if(mapCoordinates[i][j-1] == OBJECT_AVAILABLEPATH)
+                        validSpots.push_back(std::tuple<int, int>(i, j-1));
+            }
+        }
+    }
+    return validSpots;
+}
+
 std::tuple<int, int> GameMap::getStart()
 {
     return start;
@@ -222,4 +304,10 @@ int GameMap::getWhatsAtCoordinate(std::tuple<int,int> coordinates)
 {
     return mapCoordinates[std::get<0>(coordinates)][std::get<1>(coordinates)];
 
+}
+
+// returns the coordinates of the door in the level if it has one. If no
+// door is used, (-1, -1) is returned
+std::tuple<int,int> GameMap::getDoorCoords() {
+    return doorCoords;
 }

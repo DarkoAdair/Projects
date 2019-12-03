@@ -168,29 +168,29 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
         xTargets.pop();
         yTargets.pop();
 
-        if(!xTargets.empty()) {
-            targetX = xTargets.front();
-            targetY = yTargets.front();
+//        if(!xTargets.empty()) {
+//            targetX = xTargets.front();
+//            targetY = yTargets.front();
 
-            int xOff = xTargets.front()-prevX;
-            int yOff = yTargets.front()-prevY;
+//            int xOff = xTargets.front()-prevX;
+//            int yOff = yTargets.front()-prevY;
 
-            xStep = 0;
-            yStep = 0;
+//            xStep = 0;
+//            yStep = 0;
 
-            if(xOff != 0) {
-                xStep = xOff/std::abs(xOff);
-                xStep = 2 * xStep;
-            }
-            if(yOff != 0) {
-                yStep = yOff/std::abs(yOff);
-                yStep = 2 * yStep;
-            }
+//            if(xOff != 0) {
+//                xStep = xOff/std::abs(xOff);
+//                xStep = 2 * xStep;
+//            }
+//            if(yOff != 0) {
+//                yStep = yOff/std::abs(yOff);
+//                yStep = 2 * yStep;
+//            }
 
-            // A bit of a longer delay between separate commands
-            QTimer::singleShot(100, this, SLOT(movePlayer()));
-            //return;
-        }
+//            // A bit of a longer delay between separate commands
+//            QTimer::singleShot(100, this, SLOT(movePlayer()));
+//            //return;
+//        }
         if(gameOver)
         {
             emit signalGameOver();
@@ -211,7 +211,7 @@ void MainWindow::updateLevelCount(int level)
 
 void MainWindow::usedKey()
 {
-    // move labels to remove doorways
+    ui->doorLabel->setVisible(false);
 }
 
 void MainWindow::usedWeapon()
@@ -274,6 +274,15 @@ void MainWindow::resetBoard() {
     yStep = 0;
 
     updateCoordinateLabels();
+
+    ui->doorLabel->setVisible(false);
+
+    if(std::get<0>(gameEngine->getDoorCoords()) != -1) {
+        int x1 = ui->playField->x() + std::get<0>(gameEngine->getDoorCoords()) * ui->doorLabel->width();
+        int y1 = ui->playField->y() + std::get<1>(gameEngine->getDoorCoords()) * ui->doorLabel->width() + ui->doorLabel->height()/3;
+        ui->doorLabel->setGeometry(x1,y1, ui->doorLabel->width(), ui->doorLabel->height());
+        ui->doorLabel->setVisible(true);
+    }
 
     QPixmap pixmap = QPixmap(":/level_" + QString::number(gameEngine->getLevelCount()) + ".png");
     ui->level1Label->setPixmap(pixmap);
