@@ -13,6 +13,9 @@ private:
     void LoadLevelOne();
     void LoadLevelTwo();
     void LoadLevelThree();
+    void LoadLevelFour();
+    std::string setSpell1();
+    std::string setSpell2();
 
     std::tuple<int, int> start;
     std::tuple<int, int> end;
@@ -28,6 +31,8 @@ public:
     void openDoorWays();
     void killEnemies();
 
+    std::string getSpell1();
+    std::string getSpell2();
 };
 
 #endif // GAMEMAP_H

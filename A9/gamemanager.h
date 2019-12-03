@@ -27,6 +27,9 @@ public:
     Q_INVOKABLE void moveRight(int spaces = 0);
     Q_INVOKABLE void useKey();
     Q_INVOKABLE void useWeapon();
+    Q_INVOKABLE void spellBookCast(int phase);
+    Q_INVOKABLE std::string spellBookRead(int phase);
+
 
     int getPlayerX();
     int getPlayerY();
@@ -42,6 +45,9 @@ public:
     int getWhatsAtMove(int x, int y);
 
     int getLevelCount();
+
+    bool spellBookActive();
+
 
 
 public slots:
