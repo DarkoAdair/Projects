@@ -201,3 +201,6 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
     else
        qDebug() << "USEWEAPON : false";
  }
+
+
+

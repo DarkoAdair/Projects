@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <QPixmap>
 
+
 MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -93,11 +94,24 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     physicsTimer = new QTimer(this);
     connect(physicsTimer, SIGNAL(timeout()), this, SLOT(onPhysicsUpdate()));
     physicsTimer->setInterval(1);
+
+    playlist = new QMediaPlaylist();
+    playlist->addMedia(QUrl("qrc:/ChipTune3.1.mp3"));
+    playlist->setPlaybackMode(QMediaPlaylist::Loop);
+
+    music = new QMediaPlayer();
+    music->setPlaylist(playlist);
+    music->setVolume(25);
+    music->play();
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete music;
+    delete playlist;
+
 }
 
 void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {

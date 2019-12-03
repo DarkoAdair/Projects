@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QTimer>
 #include <queue>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 
 #include "codeeditor.h"
 #include "codemanager.h"
@@ -26,6 +28,10 @@ class MainWindow : public QMainWindow
     std::queue<int> yTargets;
     bool gameOver = false;
     QPixmap *fieldPixmap;
+    QMediaPlaylist *playlist;
+    QMediaPlayer *music;
+
+
 
 public:
     MainWindow(QWidget *parent = nullptr, GameManager *gameEngine = nullptr);
