@@ -57,6 +57,9 @@ signals:
     void useWeaponSignal();
     void updateInventory(int pickup, bool status);
     void deadSignal(int x, int y);
+    void tutorial(int level);
+
+
 
 };
 

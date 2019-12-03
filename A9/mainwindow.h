@@ -60,9 +60,7 @@ private slots:
     //Physics Engine
     void onPhysicsUpdate();
     void onPlayerDead(int deadPosX, int deadPosY);
-
-
-    void on_helpButton_clicked();
+    void tutorial(int level);
 
 private:
     Ui::MainWindow *ui;

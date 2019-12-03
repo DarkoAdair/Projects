@@ -71,8 +71,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     player.cpp \
-    scriptdebugger.cpp \
-    tutorial.cpp
+    scriptdebugger.cpp
     player.cpp
 
 HEADERS += \
@@ -131,13 +130,11 @@ HEADERS += \
     highlighter.h \
     mainwindow.h \
     player.h \
-    scriptdebugger.h \
-    tutorial.h
+    scriptdebugger.h
     player.h
 
 FORMS += \
-    mainwindow.ui \
-    tutorial.ui
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
