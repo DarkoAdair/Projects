@@ -11,6 +11,8 @@ class window;
 class window : public QMainWindow
 {
     Q_OBJECT
+    QMediaPlaylist *playlist;
+    QMediaPlayer *music;
 
 public:
     explicit window(QWidget *widget);
