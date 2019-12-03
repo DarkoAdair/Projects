@@ -505,7 +505,15 @@ void MainWindow::tutorial(int level) {
 
     //
     case 2:
-        text.append("//hi2");
+        text.append("//Use only moveRight, moveLeft, moveUp, moveDown to complete\n");
+        text.append("//the player can move up\n");
+        text.append("player.moveUp()\n");
+        text.append("//the player can move up\n");
+        text.append("player.moveRight()\n");
+        text.append("//the player can move down\n");
+        text.append("player.moveDown()\n");
+        text.append("//the player can move right\n");
+        text.append("player.moveRight()\n");
         break;
 
     case 3:
