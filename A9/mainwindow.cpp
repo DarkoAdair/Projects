@@ -290,8 +290,8 @@ void MainWindow::resetBoard() {
     ui->doorLabel->setVisible(false);
 
     if(std::get<0>(gameEngine->getDoorCoords()) != -1) {
-        int x1 = std::get<0>(gameEngine->getDoorCoords());
-        int y1 = std::get<1>(gameEngine->getDoorCoords());
+        int x1 = ui->playField->x() + std::get<0>(gameEngine->getDoorCoords()) * ui->doorLabel->width();
+        int y1 = ui->playField->y() + std::get<1>(gameEngine->getDoorCoords()) * ui->doorLabel->width() + ui->doorLabel->height()/3;
         ui->doorLabel->setGeometry(x1,y1, ui->doorLabel->width(), ui->doorLabel->height());
         ui->doorLabel->setVisible(true);
     }
