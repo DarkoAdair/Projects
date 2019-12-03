@@ -19,6 +19,8 @@
      void breakAtNextStatement();
      void setBreakpoint(int lineNumber);
      void moveNext();
+     void interrupt();
+     bool isIntrrupted();
 
  protected:
      ScriptDebuggerPrivate *d_ptr;

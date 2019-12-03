@@ -7,7 +7,6 @@
 GameManager::GameManager()  {
     levelCount = 1;
     loadLevel(1);
-
 }
 
 void GameManager::emitGameOverSignals()

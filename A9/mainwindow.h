@@ -33,19 +33,17 @@ public:
     void updateCoordinateLabels();
 
 signals:
-   void signalGameOver();
+    void signalGameOver();
 
 private slots:
     void resetBoard();
 
     void on_goButton_clicked();
-
     void on_debugButton_clicked();
-
     void on_debugRightButton_clicked();
-
     void on_debugStopButton_clicked();
 
+    //GameEngine
     void movePlayer(int x = 0, int y = 0, bool mainCommand = false, bool gameOver = false);
     void updateLevelCount(int level);
     void usedKey();
@@ -57,7 +55,7 @@ private slots:
     void onDebugException(const QString errorMessage);
     void onRunningFinsih();
 
-    //Physics Engine
+    //PhysicsEngine
     void onPhysicsUpdate();
     void onPlayerDead(int deadPosX, int deadPosY);
 
@@ -67,13 +65,13 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    CodeEditor *codeEditor;
-    CodeManager *codeManager;
-    GameManager *gameEngine;
-    QCompleter *completer;
+    CodeEditor *codeEditor = nullptr;
+    CodeManager *codeManager = nullptr;
+    GameManager *gameEngine = nullptr;
+    QCompleter *completer = nullptr;
 
-    b2World* world;
-    QTimer* physicsTimer;
+    b2World* world = nullptr;
+    QTimer* physicsTimer = nullptr;
 
     void addBloodParticles(int deadPosX, int deadPosY, int amount);
     int generateRandomNumber(int low, int high);

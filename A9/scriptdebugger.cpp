@@ -39,8 +39,6 @@
      void exceptionThrow(qint64 scriptId,
                          const QScriptValue &exception, bool hasHandler);
 
-     void interactive();
-
      void setMode(Mode mode);
      Mode mode() const;
 
@@ -51,6 +49,7 @@
 
      ScriptDebugger *q_ptr;
 
+     bool interrupted = false;
      bool moveNext = false;
  };
 
@@ -76,6 +75,16 @@
  void ScriptDebugger::moveNext()
  {
      d_ptr->moveNext = true;
+ }
+
+ void ScriptDebugger::interrupt()
+ {
+     d_ptr->interrupted = true;
+ }
+
+ bool ScriptDebugger::isIntrrupted()
+ {
+     return d_ptr->interrupted;
  }
 
  void ScriptDebuggerPrivate::scriptLoad(qint64 id, const QString &program,
@@ -123,7 +132,7 @@
      }
 
      if (enterInteractiveMode) { 
-         while(!moveNext)
+         while(!moveNext && !interrupted)
             QApplication::processEvents();
 
          moveNext = false;

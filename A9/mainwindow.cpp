@@ -97,6 +97,11 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
 
 MainWindow::~MainWindow()
 {
+    delete world;
+    delete physicsTimer;
+    delete completer;
+    delete codeManager;
+    delete codeEditor;
     delete ui;
 }
 
@@ -181,8 +186,10 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
             QTimer::singleShot(100, this, SLOT(movePlayer()));
             //return;
         }
-        if(gameOver) {
+        if(gameOver)
+        {
             emit signalGameOver();
+            QTimer::singleShot(0, codeManager, SLOT(onInterrupted()));
         }
     }
 }
@@ -197,13 +204,11 @@ void MainWindow::updateLevelCount(int level)
 
 void MainWindow::usedKey()
 {
-
     // move labels to remove doorways
 }
 
 void MainWindow::usedWeapon()
 {
-
     // move labels to remove enemys
 }
 
@@ -268,7 +273,6 @@ void MainWindow::resetBoard() {
     xStep = 0;
     yStep = 0;
 
-    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
     updateCoordinateLabels();
 
     QPixmap pixmap = QPixmap(":/level_" + QString::number(gameEngine->getLevelCount()) + ".png");
@@ -286,7 +290,6 @@ void MainWindow::on_debugButton_clicked()
     ui->debugStopButton->setEnabled(true);
 
     codeManager->debug(codeEditor->toPlainText());
-
 }
 
 void MainWindow::on_debugRightButton_clicked()
@@ -303,6 +306,9 @@ void MainWindow::on_debugStopButton_clicked()
 
     ui->debugStopButton->setEnabled(false);
 
+    //Finish the game.
+    emit signalGameOver();
+    QTimer::singleShot(0, codeManager, SLOT(onInterrupted()));
 }
 
 void MainWindow::onDebugLineChanged(int currentLine)
