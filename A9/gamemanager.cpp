@@ -131,7 +131,7 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
                 case 2: actualSpot = mapBlock;
                         gameOver = true;
                         break;
-                // lava
+                // enemy line of sight
                 case 3: actualSpot = mapBlock;
                         gameOver = true;
                         break;
@@ -183,27 +183,63 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
 
  void GameManager::useKey()
  {
-    if(player.hasAKey())
+    if(inRangeOfDoor())
     {
-       qDebug() << "[GameManager] USEKEY : true";
-       level.openDoorWays();
-       emit useKeySignal();
+        if(player.hasAKey())
+        {
+           qDebug() << "[GameManager] USEKEY : true";
+           level.openDoorWays();
+           emit useKeySignal();
+        }
+        else
+           qDebug() << "[GameManager] USEKEY : false";
     }
-    else
-       qDebug() << "[GameManager] USEKEY : false";
+     emit movePlayer(player.getX(),player.getY(),true,false);
  }
 
  void GameManager::useWeapon()
  {
-    if(player.canAttack())
-    {
-       qDebug() << "[GameManager] USEWEAPON : true";
-       level.killEnemies();
-       emit useKeySignal();
-    }
-    else
-       qDebug() << "[GameManager] USEWEAPON : false";
+     if(inRangeOfEnemy())
+     {
+        if(player.canAttack())
+        {
+           qDebug() << "[GameManager] USEWEAPON : true";
+           level.killEnemies();
+           emit useKeySignal();
+        }
+        else
+           qDebug() << "[GameManager] USEWEAPON : false";
+     }
  }
 
+// bool GameManager::guardIsAsleep()
+// {
 
+// }
+
+ bool GameManager::inRangeOfDoor(){
+     std::vector<std::tuple<int, int>> validSpots = level.getDoorRange();
+
+     for (std::tuple<int, int> coordinate : validSpots)
+     {
+         if(player.getX() == std::get<0>(coordinate) && player.getY() == std::get<1>(coordinate))
+             return true;
+     }
+     return false;
+ }
+
+ bool GameManager::inRangeOfEnemy(){
+     std::vector<std::tuple<int, int>> validSpots = level.getEnemyRange();
+
+     for (std::tuple<int, int> coordinate : validSpots)
+     {
+         if(player.getX() == std::get<0>(coordinate) && player.getY() == std::get<1>(coordinate))
+             return true;
+     }
+     return false;
+ }
+
+ std::tuple<int,int> GameManager::getDoorCoords() {
+     return level.getDoorCoords();
+ }
 

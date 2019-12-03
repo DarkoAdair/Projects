@@ -42,6 +42,10 @@ public:
     int getWhatsAtMove(int x, int y);
 
     int getLevelCount();
+    bool inRangeOfDoor();
+    bool inRangeOfEnemy();
+
+    std::tuple<int,int> getDoorCoords();
 
 
 public slots:

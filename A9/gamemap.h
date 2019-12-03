@@ -16,6 +16,7 @@ private:
 
     std::tuple<int, int> start;
     std::tuple<int, int> end;
+    std::tuple<int, int> doorCoords;
 
 
 
@@ -27,7 +28,10 @@ public:
     int getWhatsAtCoordinate(std::tuple<int,int> coordinates);
     void openDoorWays();
     void killEnemies();
-
+    bool guardAsleep();
+    std::vector<std::tuple<int, int>> getDoorRange();
+    std::vector<std::tuple<int, int>> getEnemyRange();
+    std::tuple<int,int> getDoorCoords();
 };
 
 #endif // GAMEMAP_H
