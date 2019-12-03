@@ -1,8 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "tutorial.h"
-#include "ui_tutorial.h"
-
 
 #include <QtCore>
 #include <QDebug>
@@ -28,11 +25,6 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     completer->setWrapAround(false);
     codeEditor->setCompleter(completer);
 
-    codeEditor->appendPlainText("player.moveUp()\n");
-    codeEditor->appendPlainText("player.moveRight()\n");
-    codeEditor->appendPlainText("player.moveDown()\n");
-    codeEditor->appendPlainText("player.moveRight()\n");
-
     ui->debugRightButton->setEnabled(false);
 
     QObject::connect(gameEngine, SIGNAL(movePlayer(int,int,bool,bool)),
@@ -47,6 +39,10 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     QObject::connect(gameEngine, SIGNAL(useWeaponSignal()), this, SLOT(usedWeapon()));
     QObject::connect(gameEngine, SIGNAL(updateInventory(int, bool)), this, SLOT(updateInventory(int, bool)));
     QObject::connect(gameEngine, SIGNAL(deadSignal(int, int)), this, SLOT(onPlayerDead(int, int)));
+    QObject::connect(gameEngine, SIGNAL(tutorial(int)), this, SLOT(tutorial(int)));
+
+    tutorial(1);
+
 
     codeManager = new CodeManager(gameEngine);
     connect(codeManager, SIGNAL(signalLineChanged(int)), this, SLOT(onDebugLineChanged(int)));
@@ -108,6 +104,11 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
 
 MainWindow::~MainWindow()
 {
+    delete world;
+    delete physicsTimer;
+    delete completer;
+    delete codeManager;
+    delete codeEditor;
     delete ui;
     delete music;
     delete playlist;
@@ -195,8 +196,10 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
             QTimer::singleShot(100, this, SLOT(movePlayer()));
             //return;
         }
-        if(gameOver) {
+        if(gameOver)
+        {
             emit signalGameOver();
+            QTimer::singleShot(0, codeManager, SLOT(onInterrupted()));
         }
     }
 }
@@ -206,18 +209,18 @@ void MainWindow::updateLevelCount(int level)
     QString levelString = "Level: ";
     levelString.append(QString::number(level));
     ui->levelLabel->setText(levelString);
+
+    codeEditor->clear();
 }
 
 
 void MainWindow::usedKey()
 {
-
     // move labels to remove doorways
 }
 
 void MainWindow::usedWeapon()
 {
-
     // move labels to remove enemys
 }
 
@@ -282,7 +285,6 @@ void MainWindow::resetBoard() {
     xStep = 0;
     yStep = 0;
 
-    this->codeEditor->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
     updateCoordinateLabels();
 
     QPixmap pixmap = QPixmap(":/level_" + QString::number(gameEngine->getLevelCount()) + ".png");
@@ -300,7 +302,6 @@ void MainWindow::on_debugButton_clicked()
     ui->debugStopButton->setEnabled(true);
 
     codeManager->debug(codeEditor->toPlainText());
-
 }
 
 void MainWindow::on_debugRightButton_clicked()
@@ -317,6 +318,9 @@ void MainWindow::on_debugStopButton_clicked()
 
     ui->debugStopButton->setEnabled(false);
 
+    //Finish the game.
+    emit signalGameOver();
+    QTimer::singleShot(0, codeManager, SLOT(onInterrupted()));
 }
 
 void MainWindow::onDebugLineChanged(int currentLine)
@@ -481,10 +485,31 @@ int MainWindow::generateRandomNumber(int low, int high)
     return qrand() % ((high + 1) - low) + low;
 }
 
-void MainWindow::on_helpButton_clicked()
-{
-    Tutorial *helper = new Tutorial();
-    helper->show();
+void MainWindow::tutorial(int level) {
+
+    QString text;
+    switch (level) {
+
+    //left, right, up and down
+    case 1:
+        text.append("//Use only moveRight, moveLeft, moveUp, moveDown to complete\n");
+        text.append("player.moveUp()\n");
+        text.append("player.moveRight()\n");
+        text.append("player.moveDown()\n");
+        text.append("player.moveRight()\n");
+        break;
+
+    //
+    case 2:
+        text.append("//hi2");
+        break;
+
+    case 3:
+        text.append("//hi3");
+        break;
+    }
+
+    codeEditor->appendPlainText(text);
 
 }
 

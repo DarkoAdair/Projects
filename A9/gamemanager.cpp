@@ -7,7 +7,6 @@
 GameManager::GameManager()  {
     levelCount = 1;
     loadLevel(1);
-
 }
 
 void GameManager::emitGameOverSignals()
@@ -15,6 +14,9 @@ void GameManager::emitGameOverSignals()
     emit updateInventory(0, false);
     emit updateInventory(1, false);
     emit updateLevelCount(getLevelCount());
+    emit tutorial(getLevelCount());
+
+
 
     // set player item values to false
     player.setKey(false);
@@ -176,6 +178,7 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
  int GameManager::getLevelCount()
  {
      return levelCount;
+
  }
 
  void GameManager::useKey()

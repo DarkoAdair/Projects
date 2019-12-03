@@ -43,12 +43,12 @@ Highlighter::Highlighter(QTextDocument *parent)
         rule.format = functionFormat;
         highlightingRules.append(rule);
 
-        singleLineCommentFormat.setForeground(Qt::red);
+        singleLineCommentFormat.setForeground(Qt::darkGreen);
         rule.pattern = QRegularExpression(QStringLiteral("//[^\n]*"));
         rule.format = singleLineCommentFormat;
         highlightingRules.append(rule);
 
-        multiLineCommentFormat.setForeground(Qt::red);
+        multiLineCommentFormat.setForeground(Qt::darkGreen);
 
         commentStartExpression = QRegularExpression(QStringLiteral("/\\*"));
         commentEndExpression = QRegularExpression(QStringLiteral("\\*/"));
