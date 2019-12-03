@@ -125,27 +125,26 @@ void CodeEditor::lineHighlighter(int line)
     line--;
 
     QList<QTextEdit::ExtraSelection> extraSelections;
-
-
     QTextEdit::ExtraSelection selection;
 
     QStringList lines = this->toPlainText().split("\n");
 
+
     int startPos = 0;
     int endPos = 0;
 
+
     //get startPos
-    for(int i = 0; i < line-1; i++)
+    for(int i = 0; i < line; i++)
     {
         startPos += lines[i].size();
-
-        QColor lineColor = QColor(Qt::green).lighter(160);
     }
 
     //get endPos
     endPos = startPos + lines[line].size();
 
-    qDebug() << "[lineHighlighter] startPos : " << startPos << "  endPos : " << endPos;
+    qDebug() << "[lineHighlighter] line : " << line << " / startPos : " << startPos << "/ endPos : " << endPos;
+
 
     //highlighter setting
     QColor lineColor = QColor(Qt::green).lighter(160);
