@@ -19,8 +19,8 @@
         <file>blood_3.png</file>
         <file>blood_1.png</file>
         <file>finish_tile.png</file>
+        <file>ChipTune3.1.mp3</file>
         <file>level_1.png</file>
         <file>level_2.png</file>
-        <file>ChipTune3.1.mp3</file>
     </qresource>
 </RCC>

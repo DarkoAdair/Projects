@@ -43,6 +43,8 @@ public:
 
     int getLevelCount();
 
+    std::tuple<int,int> getDoorCoords();
+
 
 public slots:
     void checkLevelCompletionReset();

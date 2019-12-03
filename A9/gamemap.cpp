@@ -54,6 +54,7 @@ void GameMap::LoadLevelOne()
 {
     start =  std::make_tuple(1, 6);
     end =  std::make_tuple(9, 9);
+    doorCoords = std::make_tuple(0,7);
    //TODO set up coordinates of path,walls, spikes, enemies, etc.
    // change level picture
 
@@ -69,6 +70,7 @@ void GameMap::LoadLevelOne()
     }
 
     mapCoordinates[9][9] = OBJECT_ENDPOINT;// set endpoint
+    mapCoordinates[0][1] = OBJECT_WALL;
     mapCoordinates[1][1] = OBJECT_WALL;
     mapCoordinates[2][1] = OBJECT_WALL;
     mapCoordinates[3][1] = OBJECT_WALL;
@@ -95,6 +97,8 @@ void GameMap::LoadLevelTwo()
 {
     start =  std::make_tuple(1, 6);
     end =  std::make_tuple(9, 9);
+    doorCoords = std::make_tuple(-1,-1);
+
     //fill with available space
     for(int i = 0; i < 10; i++)
     {
@@ -104,6 +108,7 @@ void GameMap::LoadLevelTwo()
         }
     }
     mapCoordinates[9][9] = OBJECT_ENDPOINT;// set endpoint
+    mapCoordinates[0][1] = OBJECT_SPIKES;
     mapCoordinates[1][1] = OBJECT_SPIKES;
     mapCoordinates[2][1] = OBJECT_SPIKES;
     mapCoordinates[3][1] = OBJECT_SPIKES;
@@ -178,4 +183,10 @@ int GameMap::getWhatsAtCoordinate(std::tuple<int,int> coordinates)
 {
     return mapCoordinates[std::get<0>(coordinates)][std::get<1>(coordinates)];
 
+}
+
+// returns the coordinates of the door in the level if it has one. If no
+// door is used, (-1, -1) is returned
+std::tuple<int,int> GameMap::getDoorCoords() {
+    return doorCoords;
 }

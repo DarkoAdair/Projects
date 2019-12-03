@@ -216,7 +216,7 @@ void MainWindow::updateLevelCount(int level)
 
 void MainWindow::usedKey()
 {
-    // move labels to remove doorways
+    ui->doorLabel->setVisible(false);
 }
 
 void MainWindow::usedWeapon()
@@ -286,6 +286,15 @@ void MainWindow::resetBoard() {
     yStep = 0;
 
     updateCoordinateLabels();
+
+    ui->doorLabel->setVisible(false);
+
+    if(std::get<0>(gameEngine->getDoorCoords()) != -1) {
+        int x1 = std::get<0>(gameEngine->getDoorCoords());
+        int y1 = std::get<1>(gameEngine->getDoorCoords());
+        ui->doorLabel->setGeometry(x1,y1, ui->doorLabel->width(), ui->doorLabel->height());
+        ui->doorLabel->setVisible(true);
+    }
 
     QPixmap pixmap = QPixmap(":/level_" + QString::number(gameEngine->getLevelCount()) + ".png");
     ui->level1Label->setPixmap(pixmap);

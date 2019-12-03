@@ -205,5 +205,7 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
        qDebug() << "USEWEAPON : false";
  }
 
-
+ std::tuple<int,int> GameManager::getDoorCoords() {
+     return level.getDoorCoords();
+ }
 
