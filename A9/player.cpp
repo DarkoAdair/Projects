@@ -172,6 +172,15 @@ std::vector<std::tuple<int, int>> Player::moveUp(int spaces)
     return coordinateList;
 }
 
+std::string Player::readSpell()
+{
+
+}
+void Player::castSpell(std::string)
+{
+
+}
+
 bool Player::collectItem()
 {
     //TODO

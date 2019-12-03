@@ -32,6 +32,8 @@ public:
     std::vector<std::tuple<int, int>> moveLeft(int spaces = 0);
     std::vector<std::tuple<int, int>> moveUp(int spaces = 0);
     std::vector<std::tuple<int, int>> moveDown(int spaces = 0);
+    std::string readSpell();
+    void castSpell(std::string);
     bool collectItem();
     bool hasAKey();
     bool canAttack();

@@ -145,6 +145,30 @@ void GameMap::LoadLevelThree()
     // change level picture
 }
 
+void GameMap::LoadLevelFour()
+{
+    start =  std::make_tuple(5, 9);
+    end =  std::make_tuple(5, 4);
+    int i = 5;
+    for(int j = 5; j < 10; j++)
+        {
+            mapCoordinates[i][j] = OBJECT_AVAILABLEPATH;
+        }
+    mapCoordinates[5][4] = OBJECT_ENDPOINT;// set spellbook location
+
+    i = 4;
+    for(int j = 0; j < 10; j++)
+    {
+        mapCoordinates[i][j] = OBJECT_WALL;
+        mapCoordinates[i+2][j] = OBJECT_WALL; //only narrow pathway
+    }
+
+    std::string spell1 = setSpell1();
+    std::string spell2 = setSpell2();
+
+    // change level picture
+}
+
 void GameMap::openDoorWays()
 {
     for (int i = 0; i < 10; i++)
@@ -257,6 +281,26 @@ std::tuple<int, int> GameMap::getEnd()
 {
     return end;
 }
+
+std::string GameMap::setSpell1()
+{
+
+}
+std::string GameMap::setSpell2()
+{
+
+}
+std::string GameMap::getSpell1()
+{
+
+}
+std::string GameMap::getSpell2()
+{
+
+}
+
+
+
 
 // used to see if player walked over spikes, hit enemy, hit walls, etc.
 // returns an int which is a representation of whats at a map coordinate.
