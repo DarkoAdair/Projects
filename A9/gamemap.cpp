@@ -1,5 +1,7 @@
 #include "gamemap.h"
 
+#include <QDebug>
+
 #define OBJECT_AVAILABLEPATH 0
 #define OBJECT_WALL 1
 #define OBJECT_SPIKES 2
@@ -86,7 +88,7 @@ void GameMap::LoadLevelOne()
     mapCoordinates[5][7] = OBJECT_WALL;
     mapCoordinates[6][7] = OBJECT_WALL;
 
-    mapCoordinates[0][0] = OBJECT_KEY;
+    mapCoordinates[0][2] = OBJECT_KEY;
     mapCoordinates[0][7] = OBJECT_DOORWAYTOOPEN;
 
     //mapCoordinates[0][0] = OBJECT_WEAPON;
@@ -241,6 +243,8 @@ std::vector<std::tuple<int, int>> GameMap::getEnemyRange()
             }
         }
     }
+
+
     return validSpots;
 }
 

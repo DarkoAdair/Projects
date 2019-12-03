@@ -162,35 +162,9 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
     else {
         QTimer::singleShot(100, codeManager, SLOT(onAnimationFinished()));
 
-        int prevX = xTargets.front();
-        int prevY = yTargets.front();
-
         xTargets.pop();
         yTargets.pop();
 
-//        if(!xTargets.empty()) {
-//            targetX = xTargets.front();
-//            targetY = yTargets.front();
-
-//            int xOff = xTargets.front()-prevX;
-//            int yOff = yTargets.front()-prevY;
-
-//            xStep = 0;
-//            yStep = 0;
-
-//            if(xOff != 0) {
-//                xStep = xOff/std::abs(xOff);
-//                xStep = 2 * xStep;
-//            }
-//            if(yOff != 0) {
-//                yStep = yOff/std::abs(yOff);
-//                yStep = 2 * yStep;
-//            }
-
-//            // A bit of a longer delay between separate commands
-//            QTimer::singleShot(100, this, SLOT(movePlayer()));
-//            //return;
-//        }
         if(gameOver)
         {
             emit signalGameOver();
@@ -250,6 +224,8 @@ void MainWindow::updateCoordinateLabels(){
 
 
 void MainWindow::resetBoard() {
+    gameEngine->loadLevel(gameEngine->getLevelCount());
+
     ui->playerLabel->setVisible(true);
     ui->playerTopLabel->setVisible(true);
     gameOver = false;
@@ -272,14 +248,12 @@ void MainWindow::resetBoard() {
     targetY = 0;
     xStep = 0;
     yStep = 0;
-
     updateCoordinateLabels();
 
     ui->doorLabel->setVisible(false);
-
     if(std::get<0>(gameEngine->getDoorCoords()) != -1) {
         int x1 = ui->playField->x() + std::get<0>(gameEngine->getDoorCoords()) * ui->doorLabel->width();
-        int y1 = ui->playField->y() + std::get<1>(gameEngine->getDoorCoords()) * ui->doorLabel->width() + ui->doorLabel->height()/3;
+        int y1 = ui->playField->y() + std::get<1>(gameEngine->getDoorCoords()) * ui->doorLabel->width() - ui->doorLabel->height()/3;
         ui->doorLabel->setGeometry(x1,y1, ui->doorLabel->width(), ui->doorLabel->height());
         ui->doorLabel->setVisible(true);
     }
