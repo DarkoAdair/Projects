@@ -537,7 +537,7 @@ void MainWindow::tutorial(int level) {
 
     //
     case 2:
-        text.append("//Level 2 : Use only moveRight, moveLeft, moveUp, moveDown to complete\n\n");
+        text.append("//Level 2 : Try to experiment with parameters. e.g. player.moveUp(1) \n\n");
         text.append("//the player can move up\n");
         text.append("player.moveUp()\n\n");
         text.append("//the player can move up\n");
@@ -550,7 +550,14 @@ void MainWindow::tutorial(int level) {
         break;
 
     case 3:
-        text.append("//hi3");
+        text.append("// Some methods have return types, one is called a bool which can either return a true or false value. \n");
+        text.append("// Loops like this while-loop can be used to continuously do stuff until variables change. \n");
+        text.append("// Try using the checkGuardIsAwake() method together with the while-loop. \n");
+
+        text.append("// Hint: use the player.wait() method \n\n");
+        text.append("while (    ) { \n");
+        text.append("\n");
+        text.append("}");
         break;
     }
 
