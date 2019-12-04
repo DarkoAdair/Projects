@@ -52,10 +52,7 @@ public:
     std::tuple<int,int> getDoorCoords();
     std::tuple<int,int> getKeyCoords();
 
-
     bool spellBookActive();
-
-
 
 public slots:
     void checkLevelCompletionReset();
@@ -70,7 +67,9 @@ signals:
     void useWeaponSignal();
     void updateInventory(int pickup, bool status);
     void deadSignal(int x, int y);
+
     void tutorial(int level);
+
 
 
 
