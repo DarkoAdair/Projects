@@ -65,6 +65,7 @@ void GameManager::moveUp(int spaces)
     std::vector<std::tuple<int, int>> traversed = player.moveUp(spaces);
     bool gameOver = checkPathSetActualSpot(traversed);
 
+    void triggerGuardSleepState();
     emit movePlayer(player.getX(),player.getY(),true,gameOver);
 }
 
@@ -75,6 +76,7 @@ void GameManager::moveDown(int spaces)
     std::vector<std::tuple<int, int>> traversed = player.moveDown(spaces);
     bool gameOver = checkPathSetActualSpot(traversed);
 
+    void triggerGuardSleepState();
     emit movePlayer(player.getX(),player.getY(),true,gameOver);
 }
 
@@ -85,6 +87,7 @@ void GameManager::moveLeft(int spaces)
     std::vector<std::tuple<int, int>> traversed = player.moveLeft(spaces);
     bool gameOver = checkPathSetActualSpot(traversed);
 
+    void triggerGuardSleepState();
     emit movePlayer(player.getX(),player.getY(),true,gameOver);
 }
 
@@ -95,7 +98,16 @@ void GameManager::moveRight(int spaces)
     std::vector<std::tuple<int, int>> traversed = player.moveRight(spaces);
     bool gameOver = checkPathSetActualSpot(traversed);
 
+    void triggerGuardSleepState();
     emit movePlayer(player.getX(),player.getY(),true,gameOver);
+}
+
+void GameManager::wait()
+{
+    qDebug() << "[GameManager] WAIT ";
+
+    void triggerGuardSleepState();
+    emit movePlayer(player.getX(),player.getY(),true,false);
 }
 
 int GameManager::getPlayerX() {
@@ -110,6 +122,18 @@ int GameManager::getPlayerY() {
 void GameManager::loadLevel(int levelNum)
 {
     level = GameMap(levelNum);
+    moveCount = 0;
+}
+
+
+void GameManager::triggerGuardSleepState()
+{
+    moveCount++;
+    // every 3 moves turn the guard awake
+    if(moveCount % 3 == 0)
+        emit toggleEnemyState(1);
+    else
+        emit toggleEnemyState(0);
 }
 
 bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryingPath)
@@ -182,7 +206,6 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
  int GameManager::getLevelCount()
  {
      return levelCount;
-
  }
 
  void GameManager::useKey()
@@ -198,7 +221,9 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
         else
            qDebug() << "[GameManager] USEKEY : false";
     }
-     emit movePlayer(player.getX(),player.getY(),true,false);
+
+    void triggerGuardSleepState();
+    emit movePlayer(player.getX(),player.getY(),true,false);
  }
 
  void GameManager::useWeapon()
@@ -214,7 +239,11 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
         else
            qDebug() << "[GameManager] USEWEAPON : false";
      }
+
+     void triggerGuardSleepState();
+     emit movePlayer(player.getX(),player.getY(),true,false);
  }
+
 
  QString GameManager::spellBookRead()
  {
@@ -278,10 +307,14 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
  {
     return player.getX() == 4 && player.getY() == 4 && levelCount == 4; //player should be in center
  }
-// bool GameManager::guardIsAsleep()
-// {
 
-// }
+
+bool GameManager::checkGuardIsAwake()
+{
+    void triggerGuardSleepState();
+    emit movePlayer(player.getX(),player.getY(),true,false);// allows for animations to proceed
+    return level.guardAwake();
+ }
 
  bool GameManager::inRangeOfDoor(){
      std::vector<std::tuple<int, int>> validSpots = level.getDoorRange();

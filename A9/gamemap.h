@@ -39,6 +39,7 @@ public:
     int getWhatsAtCoordinate(std::tuple<int,int> coordinates);
     void openDoorWays();
     void killEnemies();
+    bool guardAwake();
     std::tuple<int,int> getDoorCoords();
     std::tuple<int,int> getKeyCoords();
     std::tuple<int,int> getEnemyCoords();

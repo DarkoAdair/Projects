@@ -28,6 +28,8 @@ public:
     Q_INVOKABLE void moveRight(int spaces = 0);
     Q_INVOKABLE void useKey();
     Q_INVOKABLE void useWeapon();
+    Q_INVOKABLE bool checkGuardIsAwake();
+    Q_INVOKABLE void wait();
     Q_INVOKABLE void spellBookCast(QString);
     Q_INVOKABLE QString spellBookRead();
 
@@ -36,6 +38,7 @@ public:
     int getPlayerY();
     int startX = 1;
     int startY = 6;
+    int moveCount = 0;
 
     //std::tuple<int, int, bool>
     // takes in a list of coordinates that a move would propose, sets players coordinates to where the player should be
@@ -48,6 +51,9 @@ public:
     int getLevelCount();
     bool inRangeOfDoor();
     bool inRangeOfEnemy();
+    void triggerGuardSleepState();
+
+
 
     std::tuple<int,int> getDoorCoords();
     std::tuple<int,int> getKeyCoords();
@@ -62,6 +68,7 @@ public slots:
     void emitGameOverSignals();
 
 
+
 signals:
     void movePlayer(int x, int y, bool mainComman, bool gameOver);
     void updateLevelCount(int levelNum);
@@ -71,6 +78,7 @@ signals:
     void updateInventory(int pickup, bool status);
     void deadSignal(int x, int y);
     void tutorial(int level);
+    void toggleEnemyState(int state);
 
 
 

@@ -33,7 +33,6 @@ public:
     std::vector<std::tuple<int, int>> moveLeft(int spaces = 0);
     std::vector<std::tuple<int, int>> moveUp(int spaces = 0);
     std::vector<std::tuple<int, int>> moveDown(int spaces = 0);
-    bool collectItem();
     bool hasAKey();
     bool canAttack();
 

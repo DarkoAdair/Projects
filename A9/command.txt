@@ -36,4 +36,6 @@ player.moveUp()
 command.print()
 player.useWeapon()
 player.useKey()
+player.checkGuardIsAwake()
+player.wait()
 
