@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     QObject::connect(gameEngine, SIGNAL(updateInventory(int, bool)), this, SLOT(updateInventory(int, bool)));
     QObject::connect(gameEngine, SIGNAL(deadSignal(int, int)), this, SLOT(onPlayerDead(int, int)));
     QObject::connect(gameEngine, SIGNAL(tutorial(int)), this, SLOT(tutorial(int)));
+    QObject::connect(gameEngine, SIGNAL(toggleEnemyState(int)), this, SLOT(setEnemyState(int)));
 
     tutorial(1);
 
@@ -208,14 +209,14 @@ void MainWindow::updateInventory(int pickup, bool status)
 }
 
 void MainWindow::setEnemyState(int state) {
-    QPixmap pixmap;
-    if(state) {
-        pixmap = QPixmap("enemy_awake.png");
+    if(state==1) {
+        QPixmap pixmap = QPixmap(":/enemy_awake.png");
+        ui->enemyLabel->setPixmap(pixmap);
     }
     else {
-        pixmap = QPixmap("enemy_sleep.png");
+        QPixmap pixmap = QPixmap(":/enemy_sleep.png");
+        ui->enemyLabel->setPixmap(pixmap);
     }
-    ui->enemyLabel->setPixmap(pixmap);
 }
 
 void MainWindow::updateCoordinateLabels(){
@@ -257,6 +258,7 @@ void MainWindow::resetBoard() {
 
     ui->doorLabel->setVisible(false);
     ui->goldKeyLabel->setVisible(false);
+    ui->enemyLabel->setVisible(false);
 
     if(std::get<0>(gameEngine->getDoorCoords()) != -1) {
         int x1 = ui->playField->x() + std::get<0>(gameEngine->getDoorCoords()) * ui->doorLabel->width();
@@ -278,7 +280,7 @@ void MainWindow::resetBoard() {
 
     QPixmap pixmap = QPixmap(":/level_" + QString::number(gameEngine->getLevelCount()) + ".png");
     ui->level1Label->setPixmap(pixmap);
-    setEnemyState(0);
+    setEnemyState(1);
 }
 
 void MainWindow::on_goButton_clicked()

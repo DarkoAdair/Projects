@@ -41,9 +41,10 @@ public:
     std::tuple<int,int> getDoorCoords();
     std::tuple<int,int> getKeyCoords();
     std::tuple<int,int> getEnemyCoords();
+    void turnGuardAwake();
+    void turnGuardAsleep();
 
     QString getSpell(int phase);
-    bool guardAsleep();
     std::vector<std::tuple<int, int>> getDoorRange();
     std::vector<std::tuple<int, int>> getEnemyRange();
 };

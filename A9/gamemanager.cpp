@@ -62,10 +62,11 @@ void GameManager::moveUp(int spaces)
 {
     qDebug() << "[GameManager] MOVEUP : " << spaces;
 
+    triggerGuardSleepState();
+
     std::vector<std::tuple<int, int>> traversed = player.moveUp(spaces);
     bool gameOver = checkPathSetActualSpot(traversed);
 
-    void triggerGuardSleepState();
     emit movePlayer(player.getX(),player.getY(),true,gameOver);
 }
 
@@ -73,10 +74,11 @@ void GameManager::moveDown(int spaces)
 {
     qDebug() << "[GameManager] MOVEDOWN : " << spaces;
 
+    triggerGuardSleepState();
+
     std::vector<std::tuple<int, int>> traversed = player.moveDown(spaces);
     bool gameOver = checkPathSetActualSpot(traversed);
 
-    void triggerGuardSleepState();
     emit movePlayer(player.getX(),player.getY(),true,gameOver);
 }
 
@@ -84,10 +86,11 @@ void GameManager::moveLeft(int spaces)
 {
     qDebug() << "[GameManager] MOVELEFT : " << spaces;
 
+    triggerGuardSleepState();
+
     std::vector<std::tuple<int, int>> traversed = player.moveLeft(spaces);
     bool gameOver = checkPathSetActualSpot(traversed);
 
-    void triggerGuardSleepState();
     emit movePlayer(player.getX(),player.getY(),true,gameOver);
 }
 
@@ -95,10 +98,11 @@ void GameManager::moveRight(int spaces)
 {
     qDebug() << "[GameManager] MOVERIGHT : " << spaces;
 
+    triggerGuardSleepState();
+
     std::vector<std::tuple<int, int>> traversed = player.moveRight(spaces);
     bool gameOver = checkPathSetActualSpot(traversed);
 
-    void triggerGuardSleepState();
     emit movePlayer(player.getX(),player.getY(),true,gameOver);
 }
 
@@ -106,8 +110,13 @@ void GameManager::wait()
 {
     qDebug() << "[GameManager] WAIT ";
 
-    void triggerGuardSleepState();
-    emit movePlayer(player.getX(),player.getY(),true,false);
+    triggerGuardSleepState();
+
+    std::vector<std::tuple<int, int>> spot;
+    spot.push_back(std::tuple<int, int>(player.getX(), player.getY()));
+    bool gameOver = checkPathSetActualSpot(spot);
+
+    emit movePlayer(player.getX(),player.getY(),true,gameOver);
 }
 
 int GameManager::getPlayerX() {
@@ -129,11 +138,17 @@ void GameManager::loadLevel(int levelNum)
 void GameManager::triggerGuardSleepState()
 {
     moveCount++;
-    // every 3 moves turn the guard awake
+    // every 3 moves turn the guard asleep
     if(moveCount % 3 == 0)
-        emit toggleEnemyState(1);
-    else
+    {
+        level.turnGuardAsleep();
         emit toggleEnemyState(0);
+    }
+    else
+    {
+        level.turnGuardAwake();
+        emit toggleEnemyState(1);
+    }
 }
 
 bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryingPath)
@@ -221,9 +236,13 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
         else
            qDebug() << "[GameManager] USEKEY : false";
     }
+    triggerGuardSleepState();
 
-    void triggerGuardSleepState();
-    emit movePlayer(player.getX(),player.getY(),true,false);
+    std::vector<std::tuple<int, int>> spot;
+    spot.push_back(std::tuple<int, int>(player.getX(), player.getY()));
+    bool gameOver = checkPathSetActualSpot(spot);
+
+    emit movePlayer(player.getX(),player.getY(),true,gameOver);
  }
 
  void GameManager::useWeapon()
@@ -239,9 +258,13 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
         else
            qDebug() << "[GameManager] USEWEAPON : false";
      }
+     triggerGuardSleepState();
 
-     void triggerGuardSleepState();
-     emit movePlayer(player.getX(),player.getY(),true,false);
+     std::vector<std::tuple<int, int>> spot;
+     spot.push_back(std::tuple<int, int>(player.getX(), player.getY()));
+     bool gameOver = checkPathSetActualSpot(spot);
+
+     emit movePlayer(player.getX(),player.getY(),true,gameOver);
  }
 
 
@@ -280,8 +303,12 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
 
 bool GameManager::checkGuardIsAwake()
 {
-    void triggerGuardSleepState();
-    emit movePlayer(player.getX(),player.getY(),true,false);// allows for animations to proceed
+    std::vector<std::tuple<int, int>> spot;
+    spot.push_back(std::tuple<int, int>(player.getX(), player.getY()));
+    bool gameOver = checkPathSetActualSpot(spot);
+
+    triggerGuardSleepState();
+    emit movePlayer(player.getX(),player.getY(),true,gameOver);// allows for animations to proceed
     return level.guardAwake();
  }
 

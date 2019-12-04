@@ -57,9 +57,12 @@ void GameMap::LoadLevelOne()
 {
     start =  std::make_tuple(1, 6);
     end =  std::make_tuple(9, 9);
-    doorCoords = std::make_tuple(0,7);
-    keyCoords = std::make_tuple(0,2);
-    enemyCoords = std::make_tuple(-1,-1);
+    //doorCoords = std::make_tuple(0,7);
+    doorCoords = std::make_tuple(-1,-1);
+    //keyCoords = std::make_tuple(0,2);
+    keyCoords = std::make_tuple(-1,-1);
+    //enemyCoords = std::make_tuple(-1,-1);
+    enemyCoords = std::make_tuple(0,7);
 
     // TEST
     // fill mapCoordinates with available space
@@ -88,11 +91,12 @@ void GameMap::LoadLevelOne()
     mapCoordinates[5][7] = OBJECT_WALL;
     mapCoordinates[6][7] = OBJECT_WALL;
 
-    mapCoordinates[0][2] = OBJECT_KEY;
-    mapCoordinates[0][7] = OBJECT_DOORWAYTOOPEN;
+//    mapCoordinates[0][2] = OBJECT_KEY;
+//    mapCoordinates[0][7] = OBJECT_DOORWAYTOOPEN;
 
-    //mapCoordinates[0][0] = OBJECT_WEAPON;
-    //mapCoordinates[0][7] = OBJECT_ENEMY;
+    mapCoordinates[0][0] = OBJECT_WEAPON;
+    mapCoordinates[0][7] = OBJECT_ENEMY;
+    mapCoordinates[0][8] = OBJECT_ENEMYLINEOFSIGHT;
 }
 
 void GameMap::LoadLevelTwo()
@@ -194,6 +198,9 @@ void GameMap::killEnemies()
         {
             if (mapCoordinates[i][j] == OBJECT_ENEMY)
                 mapCoordinates[i][j] = OBJECT_AVAILABLEPATH;
+            if (mapCoordinates[i][j] == OBJECT_ENEMYLINEOFSIGHT)
+                mapCoordinates[i][j] = OBJECT_AVAILABLEPATH;
+
         }
     }
 }
@@ -210,6 +217,32 @@ bool GameMap::guardAwake()
     }
     return false;
 }
+
+
+void GameMap::turnGuardAwake()
+{
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            if (mapCoordinates[i][j] == OBJECT_ENEMY)
+                mapCoordinates[i][j+1] = OBJECT_ENEMYLINEOFSIGHT;
+        }
+    }
+}
+
+void GameMap::turnGuardAsleep()
+{
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            if (mapCoordinates[i][j] == OBJECT_ENEMYLINEOFSIGHT)
+                mapCoordinates[i][j] = OBJECT_AVAILABLEPATH;
+        }
+    }
+}
+
 
 std::vector<std::tuple<int, int>> GameMap::getDoorRange()
 {
