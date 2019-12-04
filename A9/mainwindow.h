@@ -41,6 +41,7 @@ public:
 signals:
     void signalGameOver();
 
+
 private slots:
     void resetBoard();
 
@@ -65,9 +66,11 @@ private slots:
     //PhysicsEngine
     void onPhysicsUpdate();
     void onPlayerDead(int deadPosX, int deadPosY);
-    void tutorial(int level);
+    void tutorial(int n);
+
 
 private:
+    int currentLevel = -1;
     Ui::MainWindow *ui;
 
     CodeEditor *codeEditor = nullptr;

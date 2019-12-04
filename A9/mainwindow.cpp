@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
 
     tutorial(1);
 
+
     // Init code manager
     codeManager = new CodeManager(gameEngine);
     connect(codeManager, SIGNAL(signalLineChanged(int)), this, SLOT(onDebugLineChanged(int)));
@@ -172,7 +173,7 @@ void MainWindow::updateLevelCount(int level)
     levelString.append(QString::number(level));
     ui->levelLabel->setText(levelString);
 
-    codeEditor->clear();
+    tutorial(level);
 }
 
 
@@ -441,9 +442,9 @@ void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
         bodyDef.userData = qSprite;
         b2Body* body = world->CreateBody(&bodyDef);
 
-        // Set velocity
-        int vX = generateRandomNumber(-10, 10);
-        int vY = generateRandomNumber(-10, 10);
+        // Set velocity randomly
+        int vX = generateRandomNumber(5, 10) * generateRandomNumber(0, 100) < 50 ? 1 : -1;
+        int vY = generateRandomNumber(5, 10) * generateRandomNumber(0, 100) < 50 ? 1 : -1;
 
         body->SetLinearVelocity(b2Vec2(vX, vY));
 
@@ -490,12 +491,17 @@ int MainWindow::generateRandomNumber(int low, int high)
 
 void MainWindow::tutorial(int level) {
 
+    if(currentLevel == level)
+        return;
+    else
+        currentLevel = level;
+
     QString text;
     switch (level) {
 
     //left, right, up and down
     case 1:
-        text.append("//Use only moveRight, moveLeft, moveUp, moveDown to complete\n\n");
+        text.append("//Level 1 : Use only moveRight, moveLeft, moveUp, moveDown to complete\n\n");
         text.append("//the player can move up\n");
         text.append("player.moveUp()\n\n");
         text.append("//the player can move up\n");
@@ -504,19 +510,21 @@ void MainWindow::tutorial(int level) {
         text.append("player.moveDown()\n\n");
         text.append("//the player can move right\n");
         text.append("player.moveRight()\n\n");
+
         break;
 
     //
     case 2:
-        text.append("//Use only moveRight, moveLeft, moveUp, moveDown to complete\n");
+        text.append("//Level 2 : Use only moveRight, moveLeft, moveUp, moveDown to complete\n\n");
         text.append("//the player can move up\n");
-        text.append("player.moveUp()\n");
+        text.append("player.moveUp()\n\n");
         text.append("//the player can move up\n");
-        text.append("player.moveRight()\n");
+        text.append("player.moveRight()\n\n");
         text.append("//the player can move down\n");
-        text.append("player.moveDown()\n");
+        text.append("player.moveDown()\n\n");
         text.append("//the player can move right\n");
-        text.append("player.moveRight()\n");
+        text.append("player.moveRight()\n\n");
+
         break;
 
     case 3:
@@ -524,6 +532,5 @@ void MainWindow::tutorial(int level) {
         break;
     }
 
-    codeEditor->appendPlainText(text);
-
+    codeEditor->setPlainText(text);
 }

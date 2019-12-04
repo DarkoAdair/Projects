@@ -132,7 +132,9 @@
      }
 
      if (enterInteractiveMode) { 
+
          while(!moveNext && !interrupted)
+            //THIS IS IMPORTANT! WAIT FOR UI THREAD!
             QApplication::processEvents();
 
          moveNext = false;
@@ -146,10 +148,6 @@
                                             bool hasHandler)
  {
      qDebug() << "[ScriptDebugger] [Exception Throw] ScriptId" << scriptId << " / exception : " << exception.toString() << " / hasHandler : " << hasHandler;
-
-     if (!hasHandler) {
-        //TODO - Exception Singal
-     }
  }
 
  ScriptDebugger::ScriptDebugger(QScriptEngine *engine)

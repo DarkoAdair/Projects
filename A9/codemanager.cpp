@@ -105,6 +105,7 @@ void CodeManager::onDebugProcess()
         int line = engine->uncaughtExceptionLineNumber();
         QString errorMessage = "Uncaught exception at line " + QString::number(line)  + " : " + result.toString();
 
+        //When debugger is intrrupted, do not print exception to user console.
         if(!debugger->isIntrrupted())
         {
             qDebug() << "[CodeManager] exception : " << errorMessage;
@@ -126,9 +127,11 @@ void CodeManager::onAnimationFinished()
 
 void CodeManager::onInterrupted()
 {
-    if(debugger)
+    if(debugger != nullptr)
     {
-        QScriptValue command = engine->newQObject(commandImpl);
+        //Code is interrupted, so replace the all obejcts to empty object.
+        //Then, game won't be changed anything.
+        QScriptValue command = engine->newQObject(new QObject());
         engine->globalObject().setProperty("player", command);
         engine->globalObject().setProperty("command", command);
 
@@ -148,6 +151,6 @@ void CodeManager::onRunningProcess()
 
 void CodeManager::moveNextLine()
 {
-    if(debugger)
+    if(debugger != nullptr)
         debugger->moveNext();
 }

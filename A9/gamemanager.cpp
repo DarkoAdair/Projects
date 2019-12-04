@@ -1,3 +1,5 @@
+#include "gamemap.h"
+#include "player.h"
 #include "gamemanager.h"
 #include <QDebug>
 #include <vector>
@@ -15,9 +17,6 @@ void GameManager::emitGameOverSignals()
     emit updateInventory(0, false);
     emit updateInventory(1, false);
     emit updateLevelCount(getLevelCount());
-    emit tutorial(getLevelCount());
-
-
 
     // set player item values to false
     player.setKey(false);
@@ -63,6 +62,7 @@ void GameManager::moveUp(int spaces)
     std::vector<std::tuple<int, int>> traversed = player.moveUp(spaces);
     bool gameOver = checkPathSetActualSpot(traversed);
 
+    void triggerGuardSleepState();
     emit movePlayer(player.getX(),player.getY(),true,gameOver);
 }
 
@@ -73,6 +73,7 @@ void GameManager::moveDown(int spaces)
     std::vector<std::tuple<int, int>> traversed = player.moveDown(spaces);
     bool gameOver = checkPathSetActualSpot(traversed);
 
+    void triggerGuardSleepState();
     emit movePlayer(player.getX(),player.getY(),true,gameOver);
 }
 
@@ -83,6 +84,7 @@ void GameManager::moveLeft(int spaces)
     std::vector<std::tuple<int, int>> traversed = player.moveLeft(spaces);
     bool gameOver = checkPathSetActualSpot(traversed);
 
+    void triggerGuardSleepState();
     emit movePlayer(player.getX(),player.getY(),true,gameOver);
 }
 
@@ -93,7 +95,16 @@ void GameManager::moveRight(int spaces)
     std::vector<std::tuple<int, int>> traversed = player.moveRight(spaces);
     bool gameOver = checkPathSetActualSpot(traversed);
 
+    void triggerGuardSleepState();
     emit movePlayer(player.getX(),player.getY(),true,gameOver);
+}
+
+void GameManager::wait()
+{
+    qDebug() << "[GameManager] WAIT ";
+
+    void triggerGuardSleepState();
+    emit movePlayer(player.getX(),player.getY(),true,false);
 }
 
 int GameManager::getPlayerX() {
@@ -108,6 +119,18 @@ int GameManager::getPlayerY() {
 void GameManager::loadLevel(int levelNum)
 {
     level = GameMap(levelNum);
+    moveCount = 0;
+}
+
+
+void GameManager::triggerGuardSleepState()
+{
+    moveCount++;
+    // every 3 moves turn the guard awake
+    if(moveCount % 3 == 0)
+        emit toggleEnemyState(1);
+    else
+        emit toggleEnemyState(0);
 }
 
 bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryingPath)
@@ -180,7 +203,6 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
  int GameManager::getLevelCount()
  {
      return levelCount;
-
  }
 
  void GameManager::useKey()
@@ -196,7 +218,9 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
         else
            qDebug() << "[GameManager] USEKEY : false";
     }
-     emit movePlayer(player.getX(),player.getY(),true,false);
+
+    void triggerGuardSleepState();
+    emit movePlayer(player.getX(),player.getY(),true,false);
  }
 
  void GameManager::useWeapon()
@@ -212,9 +236,13 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
         else
            qDebug() << "[GameManager] USEWEAPON : false";
      }
+
+     void triggerGuardSleepState();
+     emit movePlayer(player.getX(),player.getY(),true,false);
  }
 
- QString GameManager::spellBookRead(int phase)
+
+ QString GameManager::spellBookRead()
  {
     if(!spellBookActive())
     {
@@ -224,19 +252,51 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
     }
     else
     {
-
+        if(level.getBookReadPhase() == 3) //tried reading an invalid, extra line
+        {
+            emit deadSignal(player.getX(), player.getY());
+            emitGameOverSignals();
+        }
+        else
+        {
+            level.incrementBookReadPhase();
+        }
+        return (level.getBookSpell(level.getBookReadPhase()-1)); //pre-incrementing
     }
  }
 
- void GameManager::spellBookCast(int phase)
+ void GameManager::spellBookCast(QString cast)
  {
      if(!spellBookActive())
      {
-
+         emit deadSignal(player.getX(), player.getY());
+         emitGameOverSignals();
      }
      else
      {
+         if(level.getSpellcastPhase() == 3) //tried reading an invalid, extra line
+         {
+             emit deadSignal(player.getX(), player.getY());
+             emitGameOverSignals();
+         }
 
+         if (cast != (level.getCorrectSpell(level.getSpellcastPhase()))) //not returning, use base index
+         {
+             emit deadSignal(player.getX(), player.getY());
+             emitGameOverSignals();
+         }
+         else
+         {
+             if (level.getSpellcastPhase() == 1)
+             {
+                 level.incrementSpellcastPhase();
+                 //TODO: minor gold explosion
+             }
+             else
+             {
+                 //TODO: Big gold explosion, player won!
+             }
+         }
      }
  }
 
@@ -244,10 +304,14 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
  {
     return player.getX() == 4 && player.getY() == 4 && levelCount == 4; //player should be in center
  }
-// bool GameManager::guardIsAsleep()
-// {
 
-// }
+
+bool GameManager::checkGuardIsAwake()
+{
+    void triggerGuardSleepState();
+    emit movePlayer(player.getX(),player.getY(),true,false);// allows for animations to proceed
+    return level.guardAwake();
+ }
 
  bool GameManager::inRangeOfDoor(){
      std::vector<std::tuple<int, int>> validSpots = level.getDoorRange();
