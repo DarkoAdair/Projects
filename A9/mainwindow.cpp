@@ -257,6 +257,7 @@ void MainWindow::resetBoard() {
 
     ui->doorLabel->setVisible(false);
     ui->goldKeyLabel->setVisible(false);
+    ui->enemyLabel->setVisible(false);
 
     if(std::get<0>(gameEngine->getDoorCoords()) != -1) {
         int x1 = ui->playField->x() + std::get<0>(gameEngine->getDoorCoords()) * ui->doorLabel->width();
