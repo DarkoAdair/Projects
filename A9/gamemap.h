@@ -1,6 +1,7 @@
 #ifndef GAMEMAP_H
 #define GAMEMAP_H
 
+#include <QString>
 #include <vector>
 #include <tuple>
 
@@ -14,14 +15,19 @@ private:
     void LoadLevelTwo();
     void LoadLevelThree();
     void LoadLevelFour();
-    std::string setSpell1();
-    std::string setSpell2();
+    QString setSpell(int phase);
+    QString spell1, spell2;
 
     std::tuple<int, int> start;
     std::tuple<int, int> end;
     std::tuple<int, int> doorCoords;
+    std::tuple<int, int> keyCoords;
+    std::tuple<int, int> enemyCoords;
 
+    QString spellArr1 [4] = {"Vrin", "Gol", "Meind", "Shktov"};
+    QString spellArr2 [4] = {"Nim", "Grok", "Val", "Anon"};
 
+    int generateRandomNumber(int low, int high);
 
 public:
     GameMap();
@@ -31,13 +37,15 @@ public:
     int getWhatsAtCoordinate(std::tuple<int,int> coordinates);
     void openDoorWays();
     void killEnemies();
+    bool guardAwake();
+    std::tuple<int,int> getDoorCoords();
+    std::tuple<int,int> getKeyCoords();
+    std::tuple<int,int> getEnemyCoords();
 
-    std::string getSpell1();
-    std::string getSpell2();
+    QString getSpell(int phase);
     bool guardAsleep();
     std::vector<std::tuple<int, int>> getDoorRange();
     std::vector<std::tuple<int, int>> getEnemyRange();
-    std::tuple<int,int> getDoorCoords();
 };
 
 #endif // GAMEMAP_H

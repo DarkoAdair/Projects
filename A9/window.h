@@ -11,13 +11,17 @@ class window;
 class window : public QMainWindow
 {
     Q_OBJECT
+    QMediaPlaylist *playlist;
+    QMediaPlayer *music;
 
 public:
     window(GameManager* gameManager);
     ~window();
 
 private slots:
-    void on_pushButton_clicked();
+
+
+    void on_startButton_clicked();
 
 private:
     Ui::window *ui;
