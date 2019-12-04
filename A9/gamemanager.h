@@ -59,6 +59,7 @@ public:
     std::tuple<int,int> getDoorCoords();
     std::tuple<int,int> getKeyCoords();
     std::tuple<int,int> getEnemyCoords();
+    std::tuple<int,int> getEnd();
 
     bool spellBookActive();
 

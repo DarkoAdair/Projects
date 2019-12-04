@@ -137,8 +137,8 @@ void GameMap::LoadLevelTwo()
 
 void GameMap::LoadLevelThree()
 {
-    start =  std::make_tuple(1, 8);
-    end =  std::make_tuple(9, 1);
+    start = std::make_tuple(1, 8);
+    end = std::make_tuple(9, 1);
     doorCoords = std::make_tuple(-1,-1);
     keyCoords = std::make_tuple(-1,-1);
     enemyCoords = std::make_tuple(8,6);
