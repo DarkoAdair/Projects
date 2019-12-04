@@ -166,8 +166,11 @@ void GameMap::LoadLevelFour()
         mapCoordinates[i+2][j] = OBJECT_WALL; //only narrow pathway
     }
 
-    QString spell1 = setSpell(1);
-    QString spell2 = setSpell(2);
+    spell1 = setSpell(1);
+    spell2 = setSpell(2);
+
+    QString correctSpell1 = spell1.left(1) + spell1.mid(1,1);
+    QString correctSpell2 = correctSpell1 + spell2.right(2);
 
     // change level picture
 }
@@ -297,7 +300,11 @@ QString GameMap::setSpell(int phase)
 
 QString GameMap::getSpell(int phase)
 {
-
+    if (phase == 1)
+    {
+        return spell1;
+    }
+    else return spell2;
 }
 
 int GameMap::generateRandomNumber(int low, int high)

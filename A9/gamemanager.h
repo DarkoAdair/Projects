@@ -28,8 +28,8 @@ public:
     Q_INVOKABLE void moveRight(int spaces = 0);
     Q_INVOKABLE void useKey();
     Q_INVOKABLE void useWeapon();
-    Q_INVOKABLE void spellBookCast(int phase);
-    Q_INVOKABLE QString spellBookRead(int phase);
+    Q_INVOKABLE void spellBookCast(QString);
+    Q_INVOKABLE QString spellBookRead();
 
 
     int getPlayerX();

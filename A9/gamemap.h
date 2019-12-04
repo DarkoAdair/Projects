@@ -16,6 +16,7 @@ private:
     void LoadLevelThree();
     void LoadLevelFour();
     QString setSpell(int phase);
+    QString spell1, spell2;
 
     std::tuple<int, int> start;
     std::tuple<int, int> end;

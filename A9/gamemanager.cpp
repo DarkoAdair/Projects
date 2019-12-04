@@ -1,3 +1,5 @@
+#include "gamemap.h"
+#include "player.h"
 #include "gamemanager.h"
 #include <QDebug>
 #include <vector>
@@ -214,7 +216,7 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
      }
  }
 
- QString GameManager::spellBookRead(int phase)
+ QString GameManager::spellBookRead()
  {
     if(!spellBookActive())
     {
@@ -228,11 +230,12 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
     }
  }
 
- void GameManager::spellBookCast(int phase)
+ void GameManager::spellBookCast(QString)
  {
      if(!spellBookActive())
      {
-
+         emit deadSignal(player.getX(), player.getY());
+         emitGameOverSignals();
      }
      else
      {
