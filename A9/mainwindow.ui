@@ -485,11 +485,11 @@
    <zorder>groupBox_2</zorder>
    <zorder>levelLabel</zorder>
    <zorder>level1Label</zorder>
-   <zorder>playerTopLabel</zorder>
    <zorder>mapSection</zorder>
    <zorder>doorLabel</zorder>
    <zorder>goldKeyLabel</zorder>
    <zorder>enemyLabel</zorder>
+   <zorder>playerTopLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -497,7 +497,7 @@
      <x>0</x>
      <y>0</y>
      <width>1424</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

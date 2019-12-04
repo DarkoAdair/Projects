@@ -279,6 +279,10 @@ void MainWindow::resetBoard() {
         ui->enemyLabel->setVisible(true);
     }
 
+    int x1 = ui->playField->x() + std::get<0>(gameEngine->getEnd()) * ui->finish1Label->width();
+    int y1 = ui->playField->y() + std::get<1>(gameEngine->getEnd()) * ui->finish1Label->width() - 8;
+    ui->finish1Label->setGeometry(x1,y1, ui->finish1Label->width(), ui->finish1Label->height());
+
     QPixmap pixmap = QPixmap(":/level_" + QString::number(gameEngine->getLevelCount()) + ".png");
     ui->level1Label->setPixmap(pixmap);
     setEnemyState(1);

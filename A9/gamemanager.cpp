@@ -8,8 +8,8 @@
 #include <QString>
 
 GameManager::GameManager()  {
-    levelCount = 1;
-    loadLevel(1);
+levelCount = 1;
+loadLevel(1);
 }
 
 void GameManager::emitGameOverSignals()
@@ -150,10 +150,10 @@ void GameManager::triggerGuardSleepState()
 
 bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryingPath)
 {
-    std::tuple<int, int> actualSpot;
-    bool gameOver = false;
+std::tuple<int, int> actualSpot;
+bool gameOver = false;
 
-    // check if there were any objects in the way of that coordinate and set player accordingly
+// check if there were any objects in the way of that coordinate and set player accordingly
     for (std::tuple<int, int> mapBlock: tryingPath)
     {
         // if the checking space is available path
@@ -210,18 +210,18 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
     return  gameOver;
 }
 
- int GameManager::getWhatsAtMove(int x, int y)
- {
-     return level.getWhatsAtCoordinate(std::tuple<int, int>(x, y));
- }
+int GameManager::getWhatsAtMove(int x, int y)
+{
+    return level.getWhatsAtCoordinate(std::tuple<int, int>(x, y));
+}
 
- int GameManager::getLevelCount()
- {
-     return levelCount;
- }
+int GameManager::getLevelCount()
+{
+    return levelCount;
+}
 
- void GameManager::useKey()
- {
+void GameManager::useKey()
+{
     if(inRangeOfDoor())
     {
         if(player.hasAKey())
@@ -240,12 +240,12 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
     bool gameOver = checkPathSetActualSpot(spot);
 
     emit movePlayer(player.getX(),player.getY(),true,gameOver);
- }
+}
 
- void GameManager::useWeapon()
- {
-     if(inRangeOfEnemy())
-     {
+void GameManager::useWeapon()
+{
+    if(inRangeOfEnemy())
+    {
         if(player.canAttack())
         {
            qDebug() << "[GameManager] USEWEAPON : true";
@@ -254,19 +254,19 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
         }
         else
            qDebug() << "[GameManager] USEWEAPON : false";
-     }
-     triggerGuardSleepState();
+    }
+    triggerGuardSleepState();
 
-     std::vector<std::tuple<int, int>> spot;
-     spot.push_back(std::tuple<int, int>(player.getX(), player.getY()));
-     bool gameOver = checkPathSetActualSpot(spot);
+    std::vector<std::tuple<int, int>> spot;
+    spot.push_back(std::tuple<int, int>(player.getX(), player.getY()));
+    bool gameOver = checkPathSetActualSpot(spot);
 
-     emit movePlayer(player.getX(),player.getY(),true,gameOver);
- }
+    emit movePlayer(player.getX(),player.getY(),true,gameOver);
+}
 
 
- QString GameManager::spellBookRead()
- {
+QString GameManager::spellBookRead()
+{
     if(!spellBookActive())
     {
         emit deadSignal(player.getX(), player.getY());
@@ -286,47 +286,47 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
         }
         return (level.getBookSpell(level.getBookReadPhase()-1)); //pre-incrementing
     }
- }
+}
 
- void GameManager::spellBookCast(QString cast)
- {
-     if(!spellBookActive())
-     {
-         emit deadSignal(player.getX(), player.getY());
-         emitGameOverSignals();
-     }
-     else
-     {
-         if(level.getSpellcastPhase() == 3) //tried reading an invalid, extra line
-         {
-             emit deadSignal(player.getX(), player.getY());
-             emitGameOverSignals();
-         }
+void GameManager::spellBookCast(QString cast)
+{
+    if(!spellBookActive())
+    {
+        emit deadSignal(player.getX(), player.getY());
+        emitGameOverSignals();
+    }
+    else
+    {
+        if(level.getSpellcastPhase() == 3) //tried reading an invalid, extra line
+        {
+            emit deadSignal(player.getX(), player.getY());
+            emitGameOverSignals();
+        }
 
-         if (cast != (level.getCorrectSpell(level.getSpellcastPhase()))) //not returning, use base index
-         {
-             emit deadSignal(player.getX(), player.getY());
-             emitGameOverSignals();
-         }
-         else
-         {
-             if (level.getSpellcastPhase() == 1)
-             {
-                 level.incrementSpellcastPhase();
-                 //TODO: minor gold explosion
-             }
-             else
-             {
-                 //TODO: Big gold explosion, player won!
-             }
-         }
-     }
- }
+        if (cast != (level.getCorrectSpell(level.getSpellcastPhase()))) //not returning, use base index
+        {
+            emit deadSignal(player.getX(), player.getY());
+            emitGameOverSignals();
+        }
+        else
+        {
+            if (level.getSpellcastPhase() == 1)
+            {
+                level.incrementSpellcastPhase();
+                //TODO: minor gold explosion
+            }
+            else
+            {
+                //TODO: Big gold explosion, player won!
+            }
+        }
+    }
+}
 
- bool GameManager::spellBookActive()
- {
+bool GameManager::spellBookActive()
+{
     return player.getX() == 4 && player.getY() == 4 && levelCount == 4; //player should be in center
- }
+}
 
 
 bool GameManager::checkGuardIsAwake()
@@ -338,39 +338,43 @@ bool GameManager::checkGuardIsAwake()
     triggerGuardSleepState();
     emit movePlayer(player.getX(),player.getY(),true,gameOver);// allows for animations to proceed
     return level.guardAwake();
- }
+}
 
- bool GameManager::inRangeOfDoor(){
-     std::vector<std::tuple<int, int>> validSpots = level.getDoorRange();
+bool GameManager::inRangeOfDoor(){
+    std::vector<std::tuple<int, int>> validSpots = level.getDoorRange();
 
-     for (std::tuple<int, int> coordinate : validSpots)
-     {
-         if(player.getX() == std::get<0>(coordinate) && player.getY() == std::get<1>(coordinate))
-             return true;
-     }
-     return false;
- }
+    for (std::tuple<int, int> coordinate : validSpots)
+    {
+        if(player.getX() == std::get<0>(coordinate) && player.getY() == std::get<1>(coordinate))
+        return true;
+    }
+    return false;
+}
 
- bool GameManager::inRangeOfEnemy(){
-     std::vector<std::tuple<int, int>> validSpots = level.getEnemyRange();
+bool GameManager::inRangeOfEnemy(){
+    std::vector<std::tuple<int, int>> validSpots = level.getEnemyRange();
 
-     for (std::tuple<int, int> coordinate : validSpots)
-     {
-         if(player.getX() == std::get<0>(coordinate) && player.getY() == std::get<1>(coordinate))
-             return true;
-     }
-     return false;
- }
+    for (std::tuple<int, int> coordinate : validSpots)
+    {
+        if(player.getX() == std::get<0>(coordinate) && player.getY() == std::get<1>(coordinate))
+            return true;
+    }
+    return false;
+}
 
- std::tuple<int,int> GameManager::getDoorCoords() {
-     return level.getDoorCoords();
- }
+std::tuple<int,int> GameManager::getDoorCoords() {
+    return level.getDoorCoords();
+}
 
- std::tuple<int,int> GameManager::getKeyCoords() {
-     return level.getKeyCoords();
- }
+std::tuple<int,int> GameManager::getKeyCoords() {
+    return level.getKeyCoords();
+}
 
- std::tuple<int,int> GameManager::getEnemyCoords() {
-     return level.getEnemyCoords();
- }
+std::tuple<int,int> GameManager::getEnemyCoords() {
+    return level.getEnemyCoords();
+}
+
+std::tuple<int,int> GameManager::getEnd() {
+    return level.getEnd();
+}
 
