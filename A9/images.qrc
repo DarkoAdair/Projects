@@ -21,8 +21,11 @@
         <file>ChipTune3.1.mp3</file>
         <file>level_1.png</file>
         <file>level_2.png</file>
+        <file>test.gif</file>
+        <file>pixel.gif</file>
         <file>enemy_awake.png</file>
         <file>enemy_sleep.png</file>
         <file>key_simple.png</file>
+        <file>level_3.png</file>
     </qresource>
 </RCC>

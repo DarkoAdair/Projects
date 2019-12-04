@@ -22,6 +22,7 @@ private:
     std::tuple<int, int> end;
     std::tuple<int, int> doorCoords;
     std::tuple<int, int> keyCoords;
+    std::tuple<int, int> enemyCoords;
 
     QString spellArr1 [4] = {"Vrin", "Gol", "Meind", "Shktov"};
     QString spellArr2 [4] = {"Nim", "Grok", "Val", "Anon"};
@@ -38,6 +39,7 @@ public:
     void killEnemies();
     std::tuple<int,int> getDoorCoords();
     std::tuple<int,int> getKeyCoords();
+    std::tuple<int,int> getEnemyCoords();
 
     QString getSpell(int phase);
     bool guardAsleep();

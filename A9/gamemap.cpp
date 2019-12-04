@@ -59,9 +59,7 @@ void GameMap::LoadLevelOne()
     end =  std::make_tuple(9, 9);
     doorCoords = std::make_tuple(0,7);
     keyCoords = std::make_tuple(0,2);
-   //TODO set up coordinates of path,walls, spikes, enemies, etc.
-   // change level picture
-
+    enemyCoords = std::make_tuple(-1,-1);
 
     // TEST
     // fill mapCoordinates with available space
@@ -103,6 +101,7 @@ void GameMap::LoadLevelTwo()
     end =  std::make_tuple(9, 9);
     doorCoords = std::make_tuple(-1,-1);
     keyCoords = std::make_tuple(-1,-1);
+    enemyCoords = std::make_tuple(-1,-1);
 
     //fill with available space
     for(int i = 0; i < 10; i++)
@@ -332,4 +331,10 @@ std::tuple<int,int> GameMap::getDoorCoords() {
 // key is used, (-1, -1) is returned
 std::tuple<int,int> GameMap::getKeyCoords() {
     return keyCoords;
+}
+
+// returns the coordinates of the enemy in the level if it has one. If no
+// enemy is used, (-1, -1) is returned
+std::tuple<int,int> GameMap::getEnemyCoords() {
+    return enemyCoords;
 }
