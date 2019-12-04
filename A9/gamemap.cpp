@@ -59,9 +59,7 @@ void GameMap::LoadLevelOne()
     end =  std::make_tuple(9, 9);
     doorCoords = std::make_tuple(0,7);
     keyCoords = std::make_tuple(0,2);
-   //TODO set up coordinates of path,walls, spikes, enemies, etc.
-   // change level picture
-
+    enemyCoords = std::make_tuple(-1,-1);
 
     // TEST
     // fill mapCoordinates with available space
@@ -103,6 +101,7 @@ void GameMap::LoadLevelTwo()
     end =  std::make_tuple(9, 9);
     doorCoords = std::make_tuple(-1,-1);
     keyCoords = std::make_tuple(-1,-1);
+    enemyCoords = std::make_tuple(-1,-1);
 
     //fill with available space
     for(int i = 0; i < 10; i++)
@@ -166,8 +165,14 @@ void GameMap::LoadLevelFour()
         mapCoordinates[i+2][j] = OBJECT_WALL; //only narrow pathway
     }
 
-    QString spell1 = setSpell(1);
-    QString spell2 = setSpell(2);
+    bookSpell1 = setSpell(1);
+    bookSpell2 = setSpell(2);
+
+    correctSpell1 = bookSpell1.left(1) + bookSpell1.mid(1,1);
+    correctSpell2 = correctSpell1 + bookSpell2.right(2);
+
+    spellcastPhase = 1;
+    bookReadPhase = 1;
 
     // change level picture
 }
@@ -196,17 +201,17 @@ void GameMap::killEnemies()
     }
 }
 
-bool GameMap::guardAsleep()
+bool GameMap::guardAwake()
 {
     for (int i = 0; i < 10; i++)
     {
         for (int j = 0; j < 10; j++)
         {
             if (mapCoordinates[i][j] == OBJECT_ENEMYLINEOFSIGHT)
-                return false;
+                return true;
         }
     }
-    return true;
+    return false;
 }
 
 std::vector<std::tuple<int, int>> GameMap::getDoorRange()
@@ -251,7 +256,7 @@ std::vector<std::tuple<int, int>> GameMap::getEnemyRange()
         {
             if (mapCoordinates[i][j] == OBJECT_ENEMY)
             {
-                // get adjacent blocks around doorway that are available
+                // get adjacent blocks around enemy that are available
                 if(i+1 < 10)
                     if(mapCoordinates[i+1][j] == OBJECT_AVAILABLEPATH)
                         validSpots.push_back(std::tuple<int, int>(i+1, j));
@@ -295,9 +300,38 @@ QString GameMap::setSpell(int phase)
     else return spellArr2[index];
 }
 
-QString GameMap::getSpell(int phase)
+QString GameMap::getBookSpell(int phase)
 {
+    if (phase == 1)  return bookSpell1;
+    if (phase == 2) return bookSpell2;
+    return "";
+}
 
+QString GameMap::getCorrectSpell(int phase)
+{
+    if (phase == 1) return correctSpell1;
+    if (phase == 2) return correctSpell2;
+    return "";
+}
+
+
+void GameMap::incrementSpellcastPhase()
+{
+    spellcastPhase++;
+}
+void GameMap::incrementBookReadPhase()
+{
+    bookReadPhase++;
+}
+
+int GameMap::getBookReadPhase()
+{
+    return bookReadPhase;
+}
+
+int GameMap::getSpellcastPhase()
+{
+    return spellcastPhase;
 }
 
 int GameMap::generateRandomNumber(int low, int high)
@@ -325,4 +359,10 @@ std::tuple<int,int> GameMap::getDoorCoords() {
 // key is used, (-1, -1) is returned
 std::tuple<int,int> GameMap::getKeyCoords() {
     return keyCoords;
+}
+
+// returns the coordinates of the enemy in the level if it has one. If no
+// enemy is used, (-1, -1) is returned
+std::tuple<int,int> GameMap::getEnemyCoords() {
+    return enemyCoords;
 }
