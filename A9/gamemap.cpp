@@ -57,9 +57,12 @@ void GameMap::LoadLevelOne()
 {
     start =  std::make_tuple(1, 6);
     end =  std::make_tuple(9, 9);
-    doorCoords = std::make_tuple(0,7);
-    keyCoords = std::make_tuple(0,2);
-    enemyCoords = std::make_tuple(-1,-1);
+    //doorCoords = std::make_tuple(0,7);
+    doorCoords = std::make_tuple(-1,-1);
+    //keyCoords = std::make_tuple(0,2);
+    keyCoords = std::make_tuple(-1,-1);
+    //enemyCoords = std::make_tuple(-1,-1);
+    enemyCoords = std::make_tuple(0,7);
 
     // TEST
     // fill mapCoordinates with available space
@@ -88,11 +91,12 @@ void GameMap::LoadLevelOne()
     mapCoordinates[5][7] = OBJECT_WALL;
     mapCoordinates[6][7] = OBJECT_WALL;
 
-    mapCoordinates[0][2] = OBJECT_KEY;
-    mapCoordinates[0][7] = OBJECT_DOORWAYTOOPEN;
+//    mapCoordinates[0][2] = OBJECT_KEY;
+//    mapCoordinates[0][7] = OBJECT_DOORWAYTOOPEN;
 
-    //mapCoordinates[0][0] = OBJECT_WEAPON;
-    //mapCoordinates[0][7] = OBJECT_ENEMY;
+    mapCoordinates[0][0] = OBJECT_WEAPON;
+    mapCoordinates[0][7] = OBJECT_ENEMY;
+    mapCoordinates[0][8] = OBJECT_ENEMYLINEOFSIGHT;
 }
 
 void GameMap::LoadLevelTwo()
@@ -131,8 +135,11 @@ void GameMap::LoadLevelTwo()
 
 void GameMap::LoadLevelThree()
 {
-    start =  std::make_tuple(0, 0);
-    end =  std::make_tuple(9, 9);
+    start =  std::make_tuple(1, 8);
+    end =  std::make_tuple(9, 1);
+    doorCoords = std::make_tuple(-1,-1);
+    keyCoords = std::make_tuple(-1,-1);
+    enemyCoords = std::make_tuple(8,6);
     for(int i = 0; i < 10; i++)
     {
         for(int j = 0; j < 10; j++)
@@ -140,11 +147,37 @@ void GameMap::LoadLevelThree()
             mapCoordinates[i][j] = OBJECT_AVAILABLEPATH;
         }
     }
-    mapCoordinates[9][9] = OBJECT_ENDPOINT;// set endpoint
 
-    //TODO set up coordinates of path,walls, spikes, enemies, etc.
+    mapCoordinates[9][0] = OBJECT_WALL;
+    mapCoordinates[8][1] = OBJECT_WALL;
+    mapCoordinates[8][2] = OBJECT_WALL;
+    mapCoordinates[8][3] = OBJECT_WALL;
+    mapCoordinates[7][4] = OBJECT_WALL;
+    mapCoordinates[7][5] = OBJECT_WALL;
+    mapCoordinates[9][5] = OBJECT_WALL;
+    mapCoordinates[6][6] = OBJECT_WALL;
+    mapCoordinates[7][6] = OBJECT_WALL;
+    mapCoordinates[9][6] = OBJECT_WALL;
+    mapCoordinates[0][7] = OBJECT_WALL;
+    mapCoordinates[1][7] = OBJECT_WALL;
+    mapCoordinates[2][7] = OBJECT_WALL;
+    mapCoordinates[3][7] = OBJECT_WALL;
+    mapCoordinates[4][7] = OBJECT_WALL;
+    mapCoordinates[5][7] = OBJECT_WALL;
+    mapCoordinates[7][8] = OBJECT_WALL;
+    mapCoordinates[8][8] = OBJECT_WALL;
+    mapCoordinates[0][9] = OBJECT_WALL;
+    mapCoordinates[1][9] = OBJECT_WALL;
+    mapCoordinates[2][9] = OBJECT_WALL;
+    mapCoordinates[3][9] = OBJECT_WALL;
+    mapCoordinates[4][9] = OBJECT_WALL;
+    mapCoordinates[5][9] = OBJECT_WALL;
+    mapCoordinates[6][9] = OBJECT_WALL;
+    mapCoordinates[8][9] = OBJECT_WALL;
 
-    // change level picture
+    mapCoordinates[9][1] = OBJECT_ENDPOINT;
+    mapCoordinates[9][9] = OBJECT_WEAPON;
+    mapCoordinates[8][6] = OBJECT_ENEMY;
 }
 
 void GameMap::LoadLevelFour()
@@ -197,6 +230,9 @@ void GameMap::killEnemies()
         {
             if (mapCoordinates[i][j] == OBJECT_ENEMY)
                 mapCoordinates[i][j] = OBJECT_AVAILABLEPATH;
+            if (mapCoordinates[i][j] == OBJECT_ENEMYLINEOFSIGHT)
+                mapCoordinates[i][j] = OBJECT_AVAILABLEPATH;
+
         }
     }
 }
@@ -213,6 +249,32 @@ bool GameMap::guardAwake()
     }
     return false;
 }
+
+
+void GameMap::turnGuardAwake()
+{
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            if (mapCoordinates[i][j] == OBJECT_ENEMY)
+                mapCoordinates[i][j+1] = OBJECT_ENEMYLINEOFSIGHT;
+        }
+    }
+}
+
+void GameMap::turnGuardAsleep()
+{
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            if (mapCoordinates[i][j] == OBJECT_ENEMYLINEOFSIGHT)
+                mapCoordinates[i][j] = OBJECT_AVAILABLEPATH;
+        }
+    }
+}
+
 
 std::vector<std::tuple<int, int>> GameMap::getDoorRange()
 {

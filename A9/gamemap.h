@@ -43,7 +43,10 @@ public:
     std::tuple<int,int> getDoorCoords();
     std::tuple<int,int> getKeyCoords();
     std::tuple<int,int> getEnemyCoords();
+    void turnGuardAwake();
+    void turnGuardAsleep();
 
+    QString getSpell(int phase);
     void incrementSpellcastPhase();
     void incrementBookReadPhase();
     int getBookReadPhase();
