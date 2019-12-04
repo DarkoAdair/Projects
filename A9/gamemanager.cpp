@@ -226,11 +226,20 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
     }
     else
     {
-
+        if(level.getBookReadPhase() == 3) //tried reading an invalid, extra line
+        {
+            emit deadSignal(player.getX(), player.getY());
+            emitGameOverSignals();
+        }
+        else
+        {
+            level.incrementBookReadPhase();
+        }
+        return (level.getBookSpell(level.getBookReadPhase()-1)); //pre-incrementing
     }
  }
 
- void GameManager::spellBookCast(QString)
+ void GameManager::spellBookCast(QString cast)
  {
      if(!spellBookActive())
      {
@@ -239,7 +248,29 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
      }
      else
      {
+         if(level.getSpellcastPhase() == 3) //tried reading an invalid, extra line
+         {
+             emit deadSignal(player.getX(), player.getY());
+             emitGameOverSignals();
+         }
 
+         if (cast != (level.getCorrectSpell(level.getSpellcastPhase()))) //not returning, use base index
+         {
+             emit deadSignal(player.getX(), player.getY());
+             emitGameOverSignals();
+         }
+         else
+         {
+             if (level.getSpellcastPhase() == 1)
+             {
+                 level.incrementSpellcastPhase();
+                 //TODO: minor gold explosion
+             }
+             else
+             {
+                 //TODO: Big gold explosion, player won!
+             }
+         }
      }
  }
 

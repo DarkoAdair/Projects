@@ -165,11 +165,13 @@ void GameMap::LoadLevelFour()
         mapCoordinates[i+2][j] = OBJECT_WALL; //only narrow pathway
     }
 
-    spell1 = setSpell(1);
-    spell2 = setSpell(2);
+    bookSpell1 = setSpell(1);
+    bookSpell2 = setSpell(2);
 
-    QString correctSpell1 = spell1.left(1) + spell1.mid(1,1);
-    QString correctSpell2 = correctSpell1 + spell2.right(2);
+    correctSpell1 = spell1.left(1) + spell1.mid(1,1);
+    correctSpell2 = correctSpell1 + spell2.right(2);
+
+    spellPhase = 1;
 
     // change level picture
 }
@@ -297,13 +299,38 @@ QString GameMap::setSpell(int phase)
     else return spellArr2[index];
 }
 
-QString GameMap::getSpell(int phase)
+QString GameMap::getBookSpell(int phase)
 {
-    if (phase == 1)
-    {
-        return spell1;
-    }
-    else return spell2;
+    if (phase == 1)  return bookSpell1;
+    if (phase == 2) return bookSpell2;
+    return "";
+}
+
+QString GameMap::getCorrectSpell(int phase)
+{
+    if (phase == 1) return correctSpell1;
+    if (phase == 2) return correctSpell2;
+    return "";
+}
+
+
+void GameMap::incrementSpellcastPhase()
+{
+    spellcastPhase++;
+}
+void GameMap::incrementBookReadPhase()
+{
+    bookReadPhase++;
+}
+
+int GameMap::getBookReadPhase()
+{
+    return bookReadPhase;
+}
+
+int GameMap::getSpellcastPhase()
+{
+    return spellcastPhase;
 }
 
 int GameMap::generateRandomNumber(int low, int high)
