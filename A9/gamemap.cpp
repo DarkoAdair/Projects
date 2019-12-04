@@ -169,17 +169,17 @@ void GameMap::killEnemies()
     }
 }
 
-bool GameMap::guardAsleep()
+bool GameMap::guardAwake()
 {
     for (int i = 0; i < 10; i++)
     {
         for (int j = 0; j < 10; j++)
         {
             if (mapCoordinates[i][j] == OBJECT_ENEMYLINEOFSIGHT)
-                return false;
+                return true;
         }
     }
-    return true;
+    return false;
 }
 
 std::vector<std::tuple<int, int>> GameMap::getDoorRange()
@@ -224,7 +224,7 @@ std::vector<std::tuple<int, int>> GameMap::getEnemyRange()
         {
             if (mapCoordinates[i][j] == OBJECT_ENEMY)
             {
-                // get adjacent blocks around doorway that are available
+                // get adjacent blocks around enemy that are available
                 if(i+1 < 10)
                     if(mapCoordinates[i+1][j] == OBJECT_AVAILABLEPATH)
                         validSpots.push_back(std::tuple<int, int>(i+1, j));

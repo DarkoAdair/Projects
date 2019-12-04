@@ -172,10 +172,6 @@ std::vector<std::tuple<int, int>> Player::moveUp(int spaces)
     return coordinateList;
 }
 
-bool Player::collectItem()
-{
-    //TODO
-}
 
 bool Player::hasAKey()
 {
