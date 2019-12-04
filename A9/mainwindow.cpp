@@ -41,6 +41,8 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     QObject::connect(gameEngine, SIGNAL(updateInventory(int, bool)), this, SLOT(updateInventory(int, bool)));
     QObject::connect(gameEngine, SIGNAL(deadSignal(int, int)), this, SLOT(onPlayerDead(int, int)));
     QObject::connect(gameEngine, SIGNAL(tutorial(int)), this, SLOT(tutorial(int)));
+    QObject::connect(gameEngine, SIGNAL(spellCastSignal(int)), this, SLOT(onPlayerCastSpell(int)));
+
 
     tutorial(1);
 
@@ -416,6 +418,16 @@ void MainWindow::onPlayerDead(int deadPosX, int deadPosY)
     physicsTimer->start();
 }
 
+void MainWindow::onPlayerCastSpell(int spellCastPhase)
+{
+    //int posX = posBookX + (ui->bookLabel->width() / 2);
+    //int posy = posBookY + (ui->bookLabel->height() / 2);
+
+    //need to add book position for label
+    //addGoldParticles(posX, posY, 20);
+
+}
+
 void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
 {
     qDebug() << "[Main] [addBloodParticles] x :" << deadPosX << " / y : " << deadPosY;
@@ -458,6 +470,12 @@ void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
         body->CreateFixture(&fixtureDef);
     }
 }
+
+void MainWindow::addGoldParticles(int bookPosX, int bookPosY, int amount)
+{
+
+}
+
 
 QAbstractItemModel *MainWindow::modelFromFile(const QString& fileName)
 {
