@@ -238,6 +238,7 @@ void MainWindow::updateCoordinateLabels(){
 
 void MainWindow::resetBoard() {
     gameEngine->loadLevel(gameEngine->getLevelCount());
+    gameEngine->emitGameOverSignals();
 
     ui->playerLabel->setVisible(true);
     ui->playerTopLabel->setVisible(true);

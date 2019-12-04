@@ -11,7 +11,6 @@ GameManager::GameManager()  {
 
 levelCount = 1;
 loadLevel(levelCount);
-
 }
 
 void GameManager::emitGameOverSignals()
@@ -47,9 +46,9 @@ void GameManager::checkLevelCompletionReset()
     }
     else // player died
     {
-        emit deadSignal(player.getX(), player.getY());
-        emitGameOverSignals();
+        emit deadSignal(player.getX(), player.getY());      
     }
+    emitGameOverSignals();
 }
 
 void GameManager::resetPlayer() {
@@ -133,7 +132,7 @@ void GameManager::loadLevel(int levelNum)
 void GameManager::triggerGuardSleepState()
 {
     moveCount++;
-    // every 3 moves turn the guard asleep
+
     if(moveCount % 4 < 2)
     {
         level.turnGuardAsleep();
