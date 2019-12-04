@@ -191,7 +191,8 @@ void MainWindow::usedKey()
 
 void MainWindow::usedWeapon()
 {
-    // move labels to remove enemys
+    ui->enemyLabel->setVisible(false);
+    addBloodParticles(ui->enemyLabel->x()+ ui->enemyLabel->width()/2, ui->enemyLabel->y()+ ui->enemyLabel->height()/2, 100);
 }
 
 void MainWindow::updateInventory(int pickup, bool status)
@@ -433,7 +434,6 @@ void MainWindow::onPlayerDead(int deadPosX, int deadPosY)
     ui->playerTopLabel->setVisible(false);
 
     addBloodParticles(posX, posY, 100);
-    physicsTimer->start();
 }
 
 void MainWindow::onPlayerCastSpell(int spellCastPhase)
@@ -492,6 +492,7 @@ void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
         fixtureDef.restitution = 0.9f;
         body->CreateFixture(&fixtureDef);
     }
+    physicsTimer->start();
 }
 
 void MainWindow::addGoldParticles(int bookPosX, int bookPosY, int amount)

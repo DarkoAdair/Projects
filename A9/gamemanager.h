@@ -82,9 +82,7 @@ signals:
     void tutorial(int level);
     void toggleEnemyState(int state);
     void playerCastSpell(int phase);
-
-
-
+    void playerFacing(int direction);
 };
 
 #endif // GAMEMANAGER_H
