@@ -52,6 +52,7 @@ public:
     bool inRangeOfDoor();
     bool inRangeOfEnemy();
     void triggerGuardSleepState();
+    void stayInSpotProceedCode();
 
 
 
