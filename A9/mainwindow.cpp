@@ -191,7 +191,8 @@ void MainWindow::usedKey()
 
 void MainWindow::usedWeapon()
 {
-    // move labels to remove enemys
+    ui->enemyLabel->setVisible(false);
+    addBloodParticles(ui->enemyLabel->x()+ ui->enemyLabel->width()/2, ui->enemyLabel->y()+ ui->enemyLabel->height()/2, 100);
 }
 
 void MainWindow::updateInventory(int pickup, bool status)
@@ -209,6 +210,7 @@ void MainWindow::updateInventory(int pickup, bool status)
             item = "Has Weapon: ";
             item.append(QVariant(status).toString());
             ui->weaponLabel->setText(item);
+            ui->swordLabel->setVisible(false);
             break;
         default:
             break;
@@ -433,7 +435,6 @@ void MainWindow::onPlayerDead(int deadPosX, int deadPosY)
     ui->playerTopLabel->setVisible(false);
 
     addBloodParticles(posX, posY, 100);
-    physicsTimer->start();
 }
 
 void MainWindow::onPlayerCastSpell(int spellCastPhase)
@@ -456,7 +457,7 @@ void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
         qSprite->setGeometry(deadPosX, deadPosY, 16, 16);
 
         // Pick random blood particle
-        int randomBlood = generateRandomNumber(1, 5);
+        int randomBlood = qrand()%5 + 1;
         QPixmap pixmap = QPixmap(":/blood_" + QString::number(randomBlood) + ".png");
         pixmap = pixmap.scaled(qSprite->width(), qSprite->height(), Qt::KeepAspectRatio);
         qSprite->setPixmap(pixmap);
@@ -470,9 +471,14 @@ void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
         bodyDef.userData = qSprite;
         b2Body* body = world->CreateBody(&bodyDef);
 
-        // Set velocity randomly
-        int vX = generateRandomNumber(5, 10) * generateRandomNumber(0, 100) < 50 ? 1 : -1;
-        int vY = generateRandomNumber(5, 10) * generateRandomNumber(0, 100) < 50 ? 1 : -1;
+        int vX = qrand()%100 + 5;
+        int vY = qrand()%100 + 5;
+        if(qrand()%2 == 0) {
+            vX = -vX;
+        }
+        if(qrand()%2 == 0) {
+            vY = -vY;
+        }
 
         body->SetLinearVelocity(b2Vec2(vX, vY));
 
@@ -487,6 +493,7 @@ void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
         fixtureDef.restitution = 0.9f;
         body->CreateFixture(&fixtureDef);
     }
+    physicsTimer->start();
 }
 
 void MainWindow::addGoldParticles(int bookPosX, int bookPosY, int amount)
@@ -516,11 +523,6 @@ QAbstractItemModel *MainWindow::modelFromFile(const QString& fileName)
     QGuiApplication::restoreOverrideCursor();
 #endif
     return new QStringListModel(words, completer);
-}
-
-int MainWindow::generateRandomNumber(int low, int high)
-{
-    return qrand() % ((high + 1) - low) + low;
 }
 
 void MainWindow::tutorial(int level) {

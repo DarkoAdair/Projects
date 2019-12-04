@@ -85,7 +85,6 @@ private:
 
     void addBloodParticles(int deadPosX, int deadPosY, int amount);
     void addGoldParticles(int bookPosX, int bookPosY, int amount);
-    int generateRandomNumber(int low, int high);
 
     QAbstractItemModel *modelFromFile(const QString& fileName);
 };

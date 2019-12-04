@@ -67,6 +67,7 @@ void GameManager::moveUp(int spaces)
     bool gameOver = checkPathSetActualSpot(traversed);
 
     emit movePlayer(player.getX(),player.getY(),true,gameOver);
+    emit playerFacing(1);
 }
 
 void GameManager::moveDown(int spaces)
@@ -79,6 +80,7 @@ void GameManager::moveDown(int spaces)
     bool gameOver = checkPathSetActualSpot(traversed);
 
     emit movePlayer(player.getX(),player.getY(),true,gameOver);
+    emit playerFacing(3);
 }
 
 void GameManager::moveLeft(int spaces)
@@ -91,6 +93,7 @@ void GameManager::moveLeft(int spaces)
     bool gameOver = checkPathSetActualSpot(traversed);
 
     emit movePlayer(player.getX(),player.getY(),true,gameOver);
+    emit playerFacing(2);
 }
 
 void GameManager::moveRight(int spaces)
@@ -103,6 +106,7 @@ void GameManager::moveRight(int spaces)
     bool gameOver = checkPathSetActualSpot(traversed);
 
     emit movePlayer(player.getX(),player.getY(),true,gameOver);
+    emit playerFacing(0);
 }
 
 void GameManager::wait()
@@ -242,7 +246,7 @@ void GameManager::useWeapon()
         {
            qDebug() << "[GameManager] USEWEAPON : true";
            level.killEnemies();
-           emit useKeySignal();
+           emit useWeaponSignal();
         }
         else
            qDebug() << "[GameManager] USEWEAPON : false";
