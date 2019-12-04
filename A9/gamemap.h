@@ -15,8 +15,7 @@ private:
     void LoadLevelTwo();
     void LoadLevelThree();
     void LoadLevelFour();
-    QString setSpell1();
-    QString setSpell2();
+    QString setSpell(int phase);
 
     std::tuple<int, int> start;
     std::tuple<int, int> end;
@@ -26,6 +25,8 @@ private:
 
     QString spellArr1 [4] = {"Vrin", "Gol", "Meind", "Shktov"};
     QString spellArr2 [4] = {"Nim", "Grok", "Val", "Anon"};
+
+    int generateRandomNumber(int low, int high);
 
 public:
     GameMap();
@@ -39,8 +40,7 @@ public:
     std::tuple<int,int> getKeyCoords();
     std::tuple<int,int> getEnemyCoords();
 
-    QString getSpell1();
-    QString getSpell2();
+    QString getSpell(int phase);
     bool guardAsleep();
     std::vector<std::tuple<int, int>> getDoorRange();
     std::vector<std::tuple<int, int>> getEnemyRange();
