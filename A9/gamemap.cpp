@@ -168,10 +168,11 @@ void GameMap::LoadLevelFour()
     bookSpell1 = setSpell(1);
     bookSpell2 = setSpell(2);
 
-    correctSpell1 = spell1.left(1) + spell1.mid(1,1);
-    correctSpell2 = correctSpell1 + spell2.right(2);
+    correctSpell1 = bookSpell1.left(1) + bookSpell1.mid(1,1);
+    correctSpell2 = correctSpell1 + bookSpell2.right(2);
 
-    spellPhase = 1;
+    spellcastPhase = 1;
+    bookReadPhase = 1;
 
     // change level picture
 }
