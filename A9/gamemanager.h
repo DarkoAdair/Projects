@@ -79,7 +79,7 @@ signals:
 
     void tutorial(int level);
     void toggleEnemyState(int state);
-
+    void playerCastSpell(int phase);
 
 
 

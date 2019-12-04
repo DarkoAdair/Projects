@@ -295,16 +295,9 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
          }
          else
          {
-             if (level.getSpellcastPhase() == 1)
-             {
-                 level.incrementSpellcastPhase();
-                 //TODO: minor gold explosion
-             }
-             else
-             {
-                 //TODO: Big gold explosion, player won!
-             }
-         }
+            emit playerCastSpell(level.getSpellcastPhase());
+            level.incrementSpellcastPhase();
+          }
      }
  }
 
