@@ -157,6 +157,7 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
     // Else move on to next target position
     else {
         QTimer::singleShot(100, codeManager, SLOT(onAnimationFinished()));
+        ui->debugRightButton->setEnabled(true);
 
         xTargets.pop();
         yTargets.pop();
@@ -320,6 +321,7 @@ void MainWindow::on_debugButton_clicked()
 void MainWindow::on_debugRightButton_clicked()
 {
     codeManager->moveNextLine();
+    ui->debugRightButton->setEnabled(false);
 }
 
 void MainWindow::on_debugStopButton_clicked()
