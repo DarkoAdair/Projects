@@ -11,7 +11,6 @@ GameManager::GameManager()  {
 
 levelCount = 1;
 loadLevel(levelCount);
-
 }
 
 void GameManager::emitGameOverSignals()
@@ -28,6 +27,7 @@ void GameManager::emitGameOverSignals()
 // method to reset player after dead or level completion.
 void GameManager::checkLevelCompletionReset()
 {
+
     // if the player completes the level
     if(player.getX() == std::get<0>(level.getEnd()) &&
            player.getY() == std::get<1>(level.getEnd()))
@@ -46,9 +46,9 @@ void GameManager::checkLevelCompletionReset()
     }
     else // player died
     {
-        emit deadSignal(player.getX(), player.getY());
-        emitGameOverSignals();
+        emit deadSignal(player.getX(), player.getY());      
     }
+    emitGameOverSignals();
 }
 
 void GameManager::resetPlayer() {
@@ -136,7 +136,7 @@ void GameManager::loadLevel(int levelNum)
 void GameManager::triggerGuardSleepState()
 {
     moveCount++;
-    // every 3 moves turn the guard asleep
+
     if(moveCount % 4 < 2)
     {
         level.turnGuardAsleep();
@@ -318,8 +318,8 @@ QString GameManager::spellBookRead()
 
 bool GameManager::checkGuardIsAwake()
 {
-    moveCount--;
-    triggerGuardSleepState();
+    //moveCount--;
+   // triggerGuardSleepState();
     stayInSpotProceedCode();
     return level.guardAwake();
 }
