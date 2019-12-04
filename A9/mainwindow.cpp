@@ -421,9 +421,9 @@ void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
         bodyDef.userData = qSprite;
         b2Body* body = world->CreateBody(&bodyDef);
 
-        // Set velocity
-        int vX = generateRandomNumber(-10, 10);
-        int vY = generateRandomNumber(-10, 10);
+        // Set velocity randomly
+        int vX = generateRandomNumber(5, 10) * generateRandomNumber(0, 100) < 50 ? 1 : -1;
+        int vY = generateRandomNumber(5, 10) * generateRandomNumber(0, 100) < 50 ? 1 : -1;
 
         body->SetLinearVelocity(b2Vec2(vX, vY));
 

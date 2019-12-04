@@ -10,6 +10,9 @@
 #include "highlighter.h"
 #include "scriptdebugger.h"
 
+/**
+ * @brief The CodeEditor class
+ */
 class CodeEditor : public QPlainTextEdit
 {
     Q_OBJECT
