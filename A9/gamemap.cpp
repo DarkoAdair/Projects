@@ -30,6 +30,8 @@ GameMap::GameMap(int level)
                 break;
         case 3: LoadLevelThree();
                 break;
+        case 4: LoadLevelFour();
+            break;
         default: //TODO
                 break;
     }

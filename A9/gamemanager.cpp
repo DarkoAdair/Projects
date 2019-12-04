@@ -9,7 +9,7 @@
 
 GameManager::GameManager()  {
     levelCount = 1;
-    loadLevel(1);
+    loadLevel(levelCount);
 }
 
 void GameManager::emitGameOverSignals()
@@ -107,6 +107,7 @@ void GameManager::wait()
 {
     qDebug() << "[GameManager] WAIT ";
 
+    triggerGuardSleepState();
     stayInSpotProceedCode();
 }
 
@@ -227,6 +228,7 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
         else
            qDebug() << "[GameManager] USEKEY : false";
     }
+    triggerGuardSleepState();
     stayInSpotProceedCode();
  }
 
@@ -243,6 +245,7 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
         else
            qDebug() << "[GameManager] USEWEAPON : false";
      }
+     triggerGuardSleepState();
      stayInSpotProceedCode();
  }
 
@@ -309,6 +312,8 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
 
 bool GameManager::checkGuardIsAwake()
 {
+    moveCount--;
+    triggerGuardSleepState();
     stayInSpotProceedCode();
     return level.guardAwake();
  }
@@ -324,7 +329,8 @@ bool GameManager::checkGuardIsAwake()
      return false;
  }
 
- bool GameManager::inRangeOfEnemy(){
+ bool GameManager::inRangeOfEnemy()
+ {
      std::vector<std::tuple<int, int>> validSpots = level.getEnemyRange();
 
      for (std::tuple<int, int> coordinate : validSpots)
@@ -335,21 +341,23 @@ bool GameManager::checkGuardIsAwake()
      return false;
  }
 
- std::tuple<int,int> GameManager::getDoorCoords() {
+ std::tuple<int,int> GameManager::getDoorCoords()
+ {
      return level.getDoorCoords();
  }
 
- std::tuple<int,int> GameManager::getKeyCoords() {
+ std::tuple<int,int> GameManager::getKeyCoords()
+ {
      return level.getKeyCoords();
  }
 
- std::tuple<int,int> GameManager::getEnemyCoords() {
+ std::tuple<int,int> GameManager::getEnemyCoords()
+ {
      return level.getEnemyCoords();
  }
 
  void GameManager::stayInSpotProceedCode()
  {
-     triggerGuardSleepState();
 
      std::vector<std::tuple<int, int>> spot;
      spot.push_back(std::tuple<int, int>(player.getX(), player.getY()));
