@@ -4,6 +4,7 @@
 #include "gamemap.h"
 #include "player.h"
 #include <QObject>
+#include <QString>
 
 class GameManager : public QObject
 {
@@ -29,6 +30,9 @@ public:
     Q_INVOKABLE void useWeapon();
     Q_INVOKABLE bool checkGuardIsAwake();
     Q_INVOKABLE void wait();
+    Q_INVOKABLE void spellBookCast(QString);
+    Q_INVOKABLE QString spellBookRead();
+
 
     int getPlayerX();
     int getPlayerY();
@@ -52,6 +56,11 @@ public:
 
 
     std::tuple<int,int> getDoorCoords();
+    std::tuple<int,int> getKeyCoords();
+    std::tuple<int,int> getEnemyCoords();
+
+    bool spellBookActive();
+
 
 
 public slots:

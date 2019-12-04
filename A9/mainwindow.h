@@ -55,6 +55,7 @@ private slots:
     void usedKey();
     void usedWeapon();
     void updateInventory(int pickup, bool status);
+    void setEnemyState(int state);
 
     //CodeManager
     void onDebugLineChanged(int currentLine);

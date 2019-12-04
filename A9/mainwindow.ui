@@ -143,9 +143,9 @@
     <property name="geometry">
      <rect>
       <x>830</x>
-      <y>150</y>
+      <y>153</y>
       <width>571</width>
-      <height>361</height>
+      <height>381</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="codeEditlLayout"/>
@@ -206,7 +206,7 @@
     <property name="geometry">
      <rect>
       <x>823</x>
-      <y>516</y>
+      <y>538</y>
       <width>581</width>
       <height>151</height>
      </rect>
@@ -398,10 +398,13 @@
     </widget>
    </widget>
    <widget class="QLabel" name="doorLabel">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>590</y>
+      <x>30</x>
+      <y>330</y>
       <width>64</width>
       <height>96</height>
      </rect>
@@ -414,6 +417,56 @@
     </property>
     <property name="pixmap">
      <pixmap resource="images.qrc">:/lock_simple.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="goldKeyLabel">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>440</y>
+      <width>64</width>
+      <height>96</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="images.qrc">:/key_simple.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="enemyLabel">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>540</y>
+      <width>64</width>
+      <height>96</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="images.qrc">:/enemy_sleep.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -435,6 +488,8 @@
    <zorder>playerTopLabel</zorder>
    <zorder>mapSection</zorder>
    <zorder>doorLabel</zorder>
+   <zorder>goldKeyLabel</zorder>
+   <zorder>enemyLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

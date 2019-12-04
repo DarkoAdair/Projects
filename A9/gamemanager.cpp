@@ -1,8 +1,11 @@
+#include "gamemap.h"
+#include "player.h"
 #include "gamemanager.h"
 #include <QDebug>
 #include <vector>
 #include <tuple>
 #include <QtCore>
+#include <QString>
 
 GameManager::GameManager()  {
     levelCount = 1;
@@ -144,6 +147,7 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
         // if the checking space is available path
         if(level.getWhatsAtCoordinate(mapBlock) == 0)
             actualSpot = mapBlock;
+
         else
         {
             switch (level.getWhatsAtCoordinate(mapBlock))
@@ -240,9 +244,42 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
      emit movePlayer(player.getX(),player.getY(),true,false);
  }
 
- bool GameManager::checkGuardIsAwake()
- {
 
+ QString GameManager::spellBookRead()
+ {
+    if(!spellBookActive())
+    {
+        emit deadSignal(player.getX(), player.getY());
+        emitGameOverSignals();
+        return "";
+    }
+    else
+    {
+
+    }
+ }
+
+ void GameManager::spellBookCast(QString)
+ {
+     if(!spellBookActive())
+     {
+         emit deadSignal(player.getX(), player.getY());
+         emitGameOverSignals();
+     }
+     else
+     {
+
+     }
+ }
+
+ bool GameManager::spellBookActive()
+ {
+    return player.getX() == 4 && player.getY() == 4 && levelCount == 4; //player should be in center
+ }
+
+
+bool GameManager::checkGuardIsAwake()
+{
     void triggerGuardSleepState();
     emit movePlayer(player.getX(),player.getY(),true,false);// allows for animations to proceed
     return level.guardAwake();
@@ -272,5 +309,13 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
 
  std::tuple<int,int> GameManager::getDoorCoords() {
      return level.getDoorCoords();
+ }
+
+ std::tuple<int,int> GameManager::getKeyCoords() {
+     return level.getKeyCoords();
+ }
+
+ std::tuple<int,int> GameManager::getEnemyCoords() {
+     return level.getEnemyCoords();
  }
 

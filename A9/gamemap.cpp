@@ -1,6 +1,7 @@
 #include "gamemap.h"
 
 #include <QDebug>
+#include <QString>
 
 #define OBJECT_AVAILABLEPATH 0
 #define OBJECT_WALL 1
@@ -57,9 +58,8 @@ void GameMap::LoadLevelOne()
     start =  std::make_tuple(1, 6);
     end =  std::make_tuple(9, 9);
     doorCoords = std::make_tuple(0,7);
-   //TODO set up coordinates of path,walls, spikes, enemies, etc.
-   // change level picture
-
+    keyCoords = std::make_tuple(0,2);
+    enemyCoords = std::make_tuple(-1,-1);
 
     // TEST
     // fill mapCoordinates with available space
@@ -100,6 +100,8 @@ void GameMap::LoadLevelTwo()
     start =  std::make_tuple(1, 6);
     end =  std::make_tuple(9, 9);
     doorCoords = std::make_tuple(-1,-1);
+    keyCoords = std::make_tuple(-1,-1);
+    enemyCoords = std::make_tuple(-1,-1);
 
     //fill with available space
     for(int i = 0; i < 10; i++)
@@ -141,6 +143,33 @@ void GameMap::LoadLevelThree()
     mapCoordinates[9][9] = OBJECT_ENDPOINT;// set endpoint
 
     //TODO set up coordinates of path,walls, spikes, enemies, etc.
+
+    // change level picture
+}
+
+void GameMap::LoadLevelFour()
+{
+    start =  std::make_tuple(5, 9);
+    end =  std::make_tuple(5, 4);
+    int i = 5;
+    for(int j = 5; j < 10; j++)
+        {
+            mapCoordinates[i][j] = OBJECT_AVAILABLEPATH;
+        }
+    mapCoordinates[5][4] = OBJECT_ENDPOINT;// set spellbook location
+
+    i = 4;
+    for(int j = 0; j < 10; j++)
+    {
+        mapCoordinates[i][j] = OBJECT_WALL;
+        mapCoordinates[i+2][j] = OBJECT_WALL; //only narrow pathway
+    }
+
+    spell1 = setSpell(1);
+    spell2 = setSpell(2);
+
+    QString correctSpell1 = spell1.left(1) + spell1.mid(1,1);
+    QString correctSpell2 = correctSpell1 + spell2.right(2);
 
     // change level picture
 }
@@ -258,6 +287,32 @@ std::tuple<int, int> GameMap::getEnd()
     return end;
 }
 
+QString GameMap::setSpell(int phase)
+{
+    int index = generateRandomNumber(0, 3);
+    if (phase == 1)
+    {
+        return spellArr1[index];
+    }
+    else return spellArr2[index];
+}
+
+QString GameMap::getSpell(int phase)
+{
+    if (phase == 1)
+    {
+        return spell1;
+    }
+    else return spell2;
+}
+
+int GameMap::generateRandomNumber(int low, int high)
+{
+    return qrand() % ((high + 1) - low) + low;
+}
+
+
+
 // used to see if player walked over spikes, hit enemy, hit walls, etc.
 // returns an int which is a representation of whats at a map coordinate.
 int GameMap::getWhatsAtCoordinate(std::tuple<int,int> coordinates)
@@ -270,4 +325,16 @@ int GameMap::getWhatsAtCoordinate(std::tuple<int,int> coordinates)
 // door is used, (-1, -1) is returned
 std::tuple<int,int> GameMap::getDoorCoords() {
     return doorCoords;
+}
+
+// returns the coordinates of the key in the level if it has one. If no
+// key is used, (-1, -1) is returned
+std::tuple<int,int> GameMap::getKeyCoords() {
+    return keyCoords;
+}
+
+// returns the coordinates of the enemy in the level if it has one. If no
+// enemy is used, (-1, -1) is returned
+std::tuple<int,int> GameMap::getEnemyCoords() {
+    return enemyCoords;
 }
