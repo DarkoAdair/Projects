@@ -347,6 +347,10 @@ std::tuple<int,int> GameManager::getEnemyCoords() {
     return level.getEnemyCoords();
 }
 
+std::tuple<int,int> GameManager::getSwordCoords() {
+    return level.getSwordCoords();
+}
+
 std::tuple<int,int> GameManager::getEnd() {
     return level.getEnd();
 }

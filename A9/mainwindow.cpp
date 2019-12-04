@@ -92,6 +92,7 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     ui->doorLabel->setVisible(false);
     ui->goldKeyLabel->setVisible(false);
     ui->enemyLabel->setVisible(false);
+    ui->swordLabel->setVisible(false);
 }
 
 MainWindow::~MainWindow()
@@ -261,6 +262,7 @@ void MainWindow::resetBoard() {
     ui->doorLabel->setVisible(false);
     ui->goldKeyLabel->setVisible(false);
     ui->enemyLabel->setVisible(false);
+    ui->swordLabel->setVisible(false);
 
     if(std::get<0>(gameEngine->getDoorCoords()) != -1) {
         int x1 = ui->playField->x() + std::get<0>(gameEngine->getDoorCoords()) * ui->doorLabel->width();
@@ -278,6 +280,10 @@ void MainWindow::resetBoard() {
         int y1 = ui->playField->y() + std::get<1>(gameEngine->getEnemyCoords()) * ui->enemyLabel->width() - ui->enemyLabel->height()/3;
         ui->enemyLabel->setGeometry(x1,y1, ui->enemyLabel->width(), ui->enemyLabel->height());
         ui->enemyLabel->setVisible(true);
+        int x2 = ui->playField->x() + std::get<0>(gameEngine->getSwordCoords()) * ui->swordLabel->width();
+        int y2 = ui->playField->y() + std::get<1>(gameEngine->getSwordCoords()) * ui->swordLabel->width() - ui->swordLabel->height()/3;
+        ui->swordLabel->setGeometry(x2,y2, ui->swordLabel->width(), ui->swordLabel->height());
+        ui->swordLabel->setVisible(true);
     }
 
     int x1 = ui->playField->x() + std::get<0>(gameEngine->getEnd()) * ui->finish1Label->width();

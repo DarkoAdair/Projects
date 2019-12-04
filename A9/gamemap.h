@@ -24,6 +24,7 @@ private:
     std::tuple<int, int> doorCoords;
     std::tuple<int, int> keyCoords;
     std::tuple<int, int> enemyCoords;
+    std::tuple<int, int> swordCoords;
 
     QString spellArr1 [4] = {"Vrin", "Gol", "Meind", "Shktov"};
     QString spellArr2 [4] = {"Nim", "Grok", "Val", "Anon"};
@@ -43,6 +44,7 @@ public:
     std::tuple<int,int> getDoorCoords();
     std::tuple<int,int> getKeyCoords();
     std::tuple<int,int> getEnemyCoords();
+    std::tuple<int,int> getSwordCoords();
     void turnGuardAwake();
     void turnGuardAsleep();
 
