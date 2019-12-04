@@ -69,6 +69,8 @@ private slots:
     void tutorial(int n);
 
 
+    void onPlayerCastSpell(int spellCastPhase);
+
 private:
     int currentLevel = -1;
     Ui::MainWindow *ui;
@@ -82,6 +84,7 @@ private:
     QTimer* physicsTimer = nullptr;
 
     void addBloodParticles(int deadPosX, int deadPosY, int amount);
+    void addGoldParticles(int bookPosX, int bookPosY, int amount);
     int generateRandomNumber(int low, int high);
 
     QAbstractItemModel *modelFromFile(const QString& fileName);

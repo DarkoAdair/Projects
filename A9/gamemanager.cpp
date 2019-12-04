@@ -286,45 +286,38 @@ QString GameManager::spellBookRead()
         }
         return (level.getBookSpell(level.getBookReadPhase()-1)); //pre-incrementing
     }
-}
+ }
 
-void GameManager::spellBookCast(QString cast)
-{
-    if(!spellBookActive())
-    {
-        emit deadSignal(player.getX(), player.getY());
-        emitGameOverSignals();
-    }
-    else
-    {
-        if(level.getSpellcastPhase() == 3) //tried reading an invalid, extra line
-        {
-            emit deadSignal(player.getX(), player.getY());
-            emitGameOverSignals();
-        }
+ void GameManager::spellBookCast(QString cast)
+ {
+     if(!spellBookActive())
+     {
+         emit deadSignal(player.getX(), player.getY());
+         emitGameOverSignals();
+     }
+     else
+     {
+         if(level.getSpellcastPhase() == 3) //tried reading an invalid, extra line
+         {
+             emit deadSignal(player.getX(), player.getY());
+             emitGameOverSignals();
+         }
 
-        if (cast != (level.getCorrectSpell(level.getSpellcastPhase()))) //not returning, use base index
-        {
-            emit deadSignal(player.getX(), player.getY());
-            emitGameOverSignals();
-        }
-        else
-        {
-            if (level.getSpellcastPhase() == 1)
-            {
-                level.incrementSpellcastPhase();
-                //TODO: minor gold explosion
-            }
-            else
-            {
-                //TODO: Big gold explosion, player won!
-            }
-        }
-    }
-}
+         if (cast != (level.getCorrectSpell(level.getSpellcastPhase()))) //not returning, use base index
+         {
+             emit deadSignal(player.getX(), player.getY());
+             emitGameOverSignals();
+         }
+         else
+         {
+            emit playerCastSpell(level.getSpellcastPhase());
+            level.incrementSpellcastPhase();
+          }
+     }
+ }
 
-bool GameManager::spellBookActive()
-{
+ bool GameManager::spellBookActive()
+ {
     return player.getX() == 4 && player.getY() == 4 && levelCount == 4; //player should be in center
 }
 
@@ -377,4 +370,3 @@ std::tuple<int,int> GameManager::getEnemyCoords() {
 std::tuple<int,int> GameManager::getEnd() {
     return level.getEnd();
 }
-
