@@ -1,6 +1,7 @@
 #include "gamemap.h"
 
 #include <QDebug>
+#include <QString>
 
 #define OBJECT_AVAILABLEPATH 0
 #define OBJECT_WALL 1
@@ -57,6 +58,7 @@ void GameMap::LoadLevelOne()
     start =  std::make_tuple(1, 6);
     end =  std::make_tuple(9, 9);
     doorCoords = std::make_tuple(0,7);
+    keyCoords = std::make_tuple(0,2);
    //TODO set up coordinates of path,walls, spikes, enemies, etc.
    // change level picture
 
@@ -100,6 +102,7 @@ void GameMap::LoadLevelTwo()
     start =  std::make_tuple(1, 6);
     end =  std::make_tuple(9, 9);
     doorCoords = std::make_tuple(-1,-1);
+    keyCoords = std::make_tuple(-1,-1);
 
     //fill with available space
     for(int i = 0; i < 10; i++)
@@ -163,8 +166,8 @@ void GameMap::LoadLevelFour()
         mapCoordinates[i+2][j] = OBJECT_WALL; //only narrow pathway
     }
 
-    std::string spell1 = setSpell1();
-    std::string spell2 = setSpell2();
+    QString spell1 = setSpell(1);
+    QString spell2 = setSpell(2);
 
     // change level picture
 }
@@ -282,23 +285,25 @@ std::tuple<int, int> GameMap::getEnd()
     return end;
 }
 
-std::string GameMap::setSpell1()
+QString GameMap::setSpell(int phase)
+{
+    int index = generateRandomNumber(0, 3);
+    if (phase == 1)
+    {
+        return spellArr1[index];
+    }
+    else return spellArr2[index];
+}
+
+QString GameMap::getSpell(int phase)
 {
 
 }
-std::string GameMap::setSpell2()
+
+int GameMap::generateRandomNumber(int low, int high)
 {
-
+    return qrand() % ((high + 1) - low) + low;
 }
-std::string GameMap::getSpell1()
-{
-
-}
-std::string GameMap::getSpell2()
-{
-
-}
-
 
 
 
@@ -314,4 +319,10 @@ int GameMap::getWhatsAtCoordinate(std::tuple<int,int> coordinates)
 // door is used, (-1, -1) is returned
 std::tuple<int,int> GameMap::getDoorCoords() {
     return doorCoords;
+}
+
+// returns the coordinates of the key in the level if it has one. If no
+// key is used, (-1, -1) is returned
+std::tuple<int,int> GameMap::getKeyCoords() {
+    return keyCoords;
 }

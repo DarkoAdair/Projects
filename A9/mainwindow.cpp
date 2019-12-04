@@ -88,6 +88,8 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
 
 
 
+    ui->doorLabel->setVisible(false);
+    ui->goldKeyLabel->setVisible(false);
 }
 
 MainWindow::~MainWindow()
@@ -191,12 +193,13 @@ void MainWindow::updateInventory(int pickup, bool status)
     switch(pickup)
     {
         case 0:
-            item = "Holding Key: ";
+            item = "Has Key: ";
             item.append(QVariant(status).toString());
             ui->keyLabel->setText(item);
+            ui->goldKeyLabel->setVisible(false);
             break;
         case 1:
-            item = "Holding Weapon: ";
+            item = "Has Weapon: ";
             item.append(QVariant(status).toString());
             ui->weaponLabel->setText(item);
             break;
@@ -243,11 +246,17 @@ void MainWindow::resetBoard() {
     updateCoordinateLabels();
 
     ui->doorLabel->setVisible(false);
+    ui->goldKeyLabel->setVisible(false);
+
     if(std::get<0>(gameEngine->getDoorCoords()) != -1) {
         int x1 = ui->playField->x() + std::get<0>(gameEngine->getDoorCoords()) * ui->doorLabel->width();
         int y1 = ui->playField->y() + std::get<1>(gameEngine->getDoorCoords()) * ui->doorLabel->width() - ui->doorLabel->height()/3;
         ui->doorLabel->setGeometry(x1,y1, ui->doorLabel->width(), ui->doorLabel->height());
         ui->doorLabel->setVisible(true);
+        int x2 = ui->playField->x() + std::get<0>(gameEngine->getKeyCoords()) * ui->goldKeyLabel->width();
+        int y2 = ui->playField->y() + std::get<1>(gameEngine->getKeyCoords()) * ui->goldKeyLabel->width() + ui->goldKeyLabel->height()/3;
+        ui->goldKeyLabel->setGeometry(x2,y2, ui->goldKeyLabel->width(), ui->goldKeyLabel->height());
+        ui->goldKeyLabel->setVisible(true);
     }
 
     QPixmap pixmap = QPixmap(":/level_" + QString::number(gameEngine->getLevelCount()) + ".png");
@@ -288,7 +297,7 @@ void MainWindow::on_debugRightButton_clicked()
 }
 
 void MainWindow::on_debugStopButton_clicked()
-{   
+{
     ui->debugStopButton->setEnabled(false);
     ui->debugRightButton->setEnabled(false);
     ui->debugButton->setEnabled(true);
@@ -499,5 +508,3 @@ void MainWindow::tutorial(int level) {
     codeEditor->appendPlainText(text);
 
 }
-
-

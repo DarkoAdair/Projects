@@ -3,6 +3,7 @@
 #include <vector>
 #include <tuple>
 #include <QtCore>
+#include <QString>
 
 GameManager::GameManager()  {
     levelCount = 1;
@@ -213,7 +214,7 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
      }
  }
 
- std::string GameManager::spellBookRead(int phase)
+ QString GameManager::spellBookRead(int phase)
  {
     if(!spellBookActive())
     {
@@ -272,5 +273,9 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
 
  std::tuple<int,int> GameManager::getDoorCoords() {
      return level.getDoorCoords();
+ }
+
+ std::tuple<int,int> GameManager::getKeyCoords() {
+     return level.getKeyCoords();
  }
 
