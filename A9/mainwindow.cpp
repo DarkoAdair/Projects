@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
 
     // Init debugging
     ui->debugRightButton->setEnabled(false);
+    ui->debugStopButton->setEnabled(false);
 
     // Connect all things for gameEngine
     QObject::connect(gameEngine, SIGNAL(movePlayer(int,int,bool,bool)), this, SLOT(movePlayer(int,int,bool,bool)));
@@ -157,7 +158,9 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
     // Else move on to next target position
     else {
         QTimer::singleShot(100, codeManager, SLOT(onAnimationFinished()));
-        ui->debugRightButton->setEnabled(true);
+
+        if(ui->debugStopButton->isEnabled())
+            ui->debugRightButton->setEnabled(true);
 
         xTargets.pop();
         yTargets.pop();
