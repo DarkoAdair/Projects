@@ -86,10 +86,9 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     connect(physicsTimer, SIGNAL(timeout()), this, SLOT(onPhysicsUpdate()));
     physicsTimer->setInterval(1);
 
-
-
     ui->doorLabel->setVisible(false);
     ui->goldKeyLabel->setVisible(false);
+    ui->enemyLabel->setVisible(false);
 }
 
 MainWindow::~MainWindow()
@@ -208,6 +207,17 @@ void MainWindow::updateInventory(int pickup, bool status)
     }
 }
 
+void MainWindow::setEnemyState(int state) {
+    QPixmap pixmap;
+    if(state) {
+        pixmap = QPixmap("enemy_awake.png");
+    }
+    else {
+        pixmap = QPixmap("enemy_sleep.png");
+    }
+    ui->enemyLabel->setPixmap(pixmap);
+}
+
 void MainWindow::updateCoordinateLabels(){
     QString xString = "x: ";
     xString.append(QString::number((ui->playerLabel->x()-ui->playField->x())/ui->playerLabel->width()));
@@ -254,13 +264,21 @@ void MainWindow::resetBoard() {
         ui->doorLabel->setGeometry(x1,y1, ui->doorLabel->width(), ui->doorLabel->height());
         ui->doorLabel->setVisible(true);
         int x2 = ui->playField->x() + std::get<0>(gameEngine->getKeyCoords()) * ui->goldKeyLabel->width();
-        int y2 = ui->playField->y() + std::get<1>(gameEngine->getKeyCoords()) * ui->goldKeyLabel->width() + ui->goldKeyLabel->height()/3;
+        int y2 = ui->playField->y() + std::get<1>(gameEngine->getKeyCoords()) * ui->goldKeyLabel->width() - ui->goldKeyLabel->height()/3;
         ui->goldKeyLabel->setGeometry(x2,y2, ui->goldKeyLabel->width(), ui->goldKeyLabel->height());
         ui->goldKeyLabel->setVisible(true);
     }
 
+    if(std::get<0>(gameEngine->getEnemyCoords()) != -1) {
+        int x1 = ui->playField->x() + std::get<0>(gameEngine->getEnemyCoords()) * ui->enemyLabel->width();
+        int y1 = ui->playField->y() + std::get<1>(gameEngine->getEnemyCoords()) * ui->enemyLabel->width() - ui->enemyLabel->height()/3;
+        ui->enemyLabel->setGeometry(x1,y1, ui->enemyLabel->width(), ui->enemyLabel->height());
+        ui->enemyLabel->setVisible(true);
+    }
+
     QPixmap pixmap = QPixmap(":/level_" + QString::number(gameEngine->getLevelCount()) + ".png");
     ui->level1Label->setPixmap(pixmap);
+    setEnemyState(0);
 }
 
 void MainWindow::on_goButton_clicked()

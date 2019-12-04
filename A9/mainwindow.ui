@@ -404,7 +404,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>460</y>
+      <y>330</y>
       <width>64</width>
       <height>96</height>
      </rect>
@@ -429,7 +429,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>570</y>
+      <y>440</y>
       <width>64</width>
       <height>96</height>
      </rect>
@@ -442,6 +442,31 @@
     </property>
     <property name="pixmap">
      <pixmap resource="images.qrc">:/key_simple.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="enemyLabel">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>540</y>
+      <width>64</width>
+      <height>96</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="images.qrc">:/enemy_sleep.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -464,6 +489,7 @@
    <zorder>mapSection</zorder>
    <zorder>doorLabel</zorder>
    <zorder>goldKeyLabel</zorder>
+   <zorder>enemyLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -471,7 +497,7 @@
      <x>0</x>
      <y>0</y>
      <width>1424</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
