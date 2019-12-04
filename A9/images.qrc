@@ -27,5 +27,6 @@
         <file>enemy_sleep.png</file>
         <file>key_simple.png</file>
         <file>level_3.png</file>
+        <file>sword_simple.png</file>
     </qresource>
 </RCC>

@@ -65,6 +65,7 @@ void GameMap::LoadLevelOne()
     keyCoords = std::make_tuple(-1,-1);
     //enemyCoords = std::make_tuple(-1,-1);
     enemyCoords = std::make_tuple(0,7);
+    swordCoords = std::make_tuple(-1,-1);
 
     // TEST
     // fill mapCoordinates with available space
@@ -108,6 +109,7 @@ void GameMap::LoadLevelTwo()
     doorCoords = std::make_tuple(-1,-1);
     keyCoords = std::make_tuple(-1,-1);
     enemyCoords = std::make_tuple(-1,-1);
+    swordCoords = std::make_tuple(-1,-1);
 
     //fill with available space
     for(int i = 0; i < 10; i++)
@@ -142,6 +144,7 @@ void GameMap::LoadLevelThree()
     doorCoords = std::make_tuple(-1,-1);
     keyCoords = std::make_tuple(-1,-1);
     enemyCoords = std::make_tuple(8,6);
+    swordCoords = std::make_tuple(9,9);
     for(int i = 0; i < 10; i++)
     {
         for(int j = 0; j < 10; j++)
@@ -429,4 +432,10 @@ std::tuple<int,int> GameMap::getKeyCoords() {
 // enemy is used, (-1, -1) is returned
 std::tuple<int,int> GameMap::getEnemyCoords() {
     return enemyCoords;
+}
+
+// returns the coordinates of the sword in the level if it has one. If no
+// sword is used, (-1, -1) is returned
+std::tuple<int,int> GameMap::getSwordCoords() {
+    return swordCoords;
 }

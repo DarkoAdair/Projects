@@ -91,7 +91,7 @@ void CodeManager::scriptRun(QString script)
 
     this->script = script;
 
-    // Start Debug mode.
+    // Start Debug mode in background thread.
     QMetaObject::invokeMethod(this, "onDebugProcess", Qt::QueuedConnection);
 }
 

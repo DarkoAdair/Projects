@@ -404,7 +404,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>330</y>
+      <y>240</y>
       <width>64</width>
       <height>96</height>
      </rect>
@@ -429,7 +429,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>440</y>
+      <y>350</y>
       <width>64</width>
       <height>96</height>
      </rect>
@@ -454,7 +454,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>540</y>
+      <y>450</y>
       <width>64</width>
       <height>96</height>
      </rect>
@@ -467,6 +467,31 @@
     </property>
     <property name="pixmap">
      <pixmap resource="images.qrc">:/enemy_sleep.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="swordLabel">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>570</y>
+      <width>64</width>
+      <height>96</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="images.qrc">:/sword_simple.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -490,6 +515,7 @@
    <zorder>goldKeyLabel</zorder>
    <zorder>enemyLabel</zorder>
    <zorder>playerTopLabel</zorder>
+   <zorder>swordLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
