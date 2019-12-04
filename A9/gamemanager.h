@@ -61,8 +61,6 @@ public:
 
     bool spellBookActive();
 
-
-
 public slots:
     void checkLevelCompletionReset();
     void emitGameOverSignals();
@@ -77,8 +75,10 @@ signals:
     void useWeaponSignal();
     void updateInventory(int pickup, bool status);
     void deadSignal(int x, int y);
+
     void tutorial(int level);
     void toggleEnemyState(int state);
+
 
 
 
