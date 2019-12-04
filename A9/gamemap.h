@@ -56,7 +56,6 @@ public:
     QString getBookSpell(int phase);
     QString getCorrectSpell(int phase);
 
-    bool guardAsleep();
     std::vector<std::tuple<int, int>> getDoorRange();
     std::vector<std::tuple<int, int>> getEnemyRange();
 };

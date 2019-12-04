@@ -8,8 +8,10 @@
 #include <QString>
 
 GameManager::GameManager()  {
+
 levelCount = 1;
-loadLevel(1);
+loadLevel(levelCount);
+
 }
 
 void GameManager::emitGameOverSignals()
@@ -107,6 +109,7 @@ void GameManager::wait()
 {
     qDebug() << "[GameManager] WAIT ";
 
+    triggerGuardSleepState();
     stayInSpotProceedCode();
 }
 
@@ -227,6 +230,7 @@ void GameManager::useKey()
         else
            qDebug() << "[GameManager] USEKEY : false";
     }
+    triggerGuardSleepState();
     stayInSpotProceedCode();
  }
 
@@ -243,6 +247,7 @@ void GameManager::useWeapon()
         else
            qDebug() << "[GameManager] USEWEAPON : false";
      }
+     triggerGuardSleepState();
      stayInSpotProceedCode();
  }
 
@@ -309,6 +314,8 @@ QString GameManager::spellBookRead()
 
 bool GameManager::checkGuardIsAwake()
 {
+    moveCount--;
+    triggerGuardSleepState();
     stayInSpotProceedCode();
     return level.guardAwake();
 }
@@ -324,8 +331,10 @@ bool GameManager::inRangeOfDoor(){
     return false;
 }
 
+
 bool GameManager::inRangeOfEnemy(){
     std::vector<std::tuple<int, int>> validSpots = level.getEnemyRange();
+
 
     for (std::tuple<int, int> coordinate : validSpots)
     {
@@ -334,6 +343,7 @@ bool GameManager::inRangeOfEnemy(){
     }
     return false;
 }
+
 
 std::tuple<int,int> GameManager::getDoorCoords() {
     return level.getDoorCoords();
@@ -356,7 +366,6 @@ std::tuple<int,int> GameManager::getEnd() {
 }
  void GameManager::stayInSpotProceedCode()
  {
-     triggerGuardSleepState();
 
      std::vector<std::tuple<int, int>> spot;
      spot.push_back(std::tuple<int, int>(player.getX(), player.getY()));

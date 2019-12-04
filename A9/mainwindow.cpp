@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
 
     // Init debugging
     ui->debugRightButton->setEnabled(false);
+    ui->debugStopButton->setEnabled(false);
 
     // Connect all things for gameEngine
     QObject::connect(gameEngine, SIGNAL(movePlayer(int,int,bool,bool)), this, SLOT(movePlayer(int,int,bool,bool)));
@@ -158,6 +159,9 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
     // Else move on to next target position
     else {
         QTimer::singleShot(100, codeManager, SLOT(onAnimationFinished()));
+
+        if(ui->debugStopButton->isEnabled())
+            ui->debugRightButton->setEnabled(true);
 
         xTargets.pop();
         yTargets.pop();
@@ -326,6 +330,7 @@ void MainWindow::on_debugButton_clicked()
 void MainWindow::on_debugRightButton_clicked()
 {
     codeManager->moveNextLine();
+    ui->debugRightButton->setEnabled(false);
 }
 
 void MainWindow::on_debugStopButton_clicked()
@@ -543,7 +548,7 @@ void MainWindow::tutorial(int level) {
 
     //
     case 2:
-        text.append("//Level 2 : Use only moveRight, moveLeft, moveUp, moveDown to complete\n\n");
+        text.append("//Level 2 : Try to experiment with parameters. e.g. player.moveUp(1) \n\n");
         text.append("//the player can move up\n");
         text.append("player.moveUp()\n\n");
         text.append("//the player can move up\n");
@@ -556,7 +561,14 @@ void MainWindow::tutorial(int level) {
         break;
 
     case 3:
-        text.append("//hi3");
+        text.append("// Some methods have return types, one is called a bool which can either return a true or false value. \n");
+        text.append("// Loops like this while-loop can be used to continuously do stuff until variables change. \n");
+        text.append("// Try using the checkGuardIsAwake() method together with the while-loop. \n");
+
+        text.append("// Hint: use the player.wait() method \n\n");
+        text.append("while (    ) { \n");
+        text.append("\n");
+        text.append("}");
         break;
     }
 
