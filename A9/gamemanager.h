@@ -84,6 +84,9 @@ signals:
     void toggleEnemyState(int state);
     void playerCastSpell(int phase);
 
+    // Tells make a delay before go to next command.
+    void delayCommand(int delay);
+
     // tells the main window which direction the player should be facing
     // 0 - right, 1 - up, 2 - left, 3 - down.
     void turnPlayer(int direction);
