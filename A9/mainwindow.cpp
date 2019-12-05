@@ -4,6 +4,7 @@
 #include <QtCore>
 #include <QDebug>
 #include <QPixmap>
+#include <QMovie>
 
 
 MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
@@ -44,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     QObject::connect(gameEngine, SIGNAL(tutorial(int)), this, SLOT(tutorial(int)));
     QObject::connect(gameEngine, SIGNAL(spellCastSignal(int)), this, SLOT(onPlayerCastSpell(int)));
     QObject::connect(gameEngine, SIGNAL(toggleEnemyState(int)), this, SLOT(setEnemyState(int)));
+    QObject::connect(gameEngine, SIGNAL(turnPlayer(int)), this, SLOT(turnPlayer(int)));
 
     tutorial(1);
 
@@ -96,6 +98,18 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
 
     //ready
     resetBoard();
+    ui->swordLabel->setVisible(false);
+
+    QMovie *play = new QMovie(":/player_down_idle.gif");
+    QMovie *play_top = new QMovie(":/player_down_idle_top.gif");
+    play->start();
+    play_top->start();
+    ui->playerLabel->setAttribute(Qt::WA_NoSystemBackground);
+    ui->playerLabel->setMovie(play);
+    ui->playerLabel->setScaledContents(true);
+    ui->playerTopLabel->setAttribute(Qt::WA_NoSystemBackground);
+    ui->playerTopLabel->setMovie(play_top);
+    ui->playerTopLabel->setScaledContents(true);
 }
 
 MainWindow::~MainWindow()
@@ -129,7 +143,7 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
         targetY = yTargets.front();
 
         int xOff = xTargets.front()-((ui->playerLabel->x()-ui->playField->x())/ui->playerLabel->width());
-        int yOff = yTargets.front()-((ui->playerLabel->y()+ui->playerLabel->height()/3-ui->playField->y())/ui->playerLabel->width());
+        int yOff = yTargets.front()-((ui->playerLabel->y()+ui->playerLabel->height()/2-ui->playField->y())/ui->playerLabel->width());
 
         xStep = 0;
         yStep = 0;
@@ -149,17 +163,19 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
     int y = ui->playerLabel->y() + yStep;
     ui->playerLabel->setGeometry(x, y, ui->playerLabel->width(), ui->playerLabel->height());
     ui->playerTopLabel->setGeometry(x, y, ui->playerTopLabel->width(), ui->playerTopLabel->height());
+    ui->shadowLabel->setGeometry(x, y, ui->shadowLabel->width(), ui->shadowLabel->height());
 
     // Update player variable labels
     updateCoordinateLabels();
 
     // If the player is not in the right spot yet...
-    if(ui->playerLabel->y()+ui->playerLabel->height()/3 != ui->playField->y()+ui->playerLabel->width()*targetY || ui->playerLabel->x() != ui->playField->x()+ui->playerLabel->width()*targetX) {
+    if(ui->playerLabel->y()+ui->playerLabel->height()/2 != ui->playField->y()+ui->playerLabel->width()*targetY || ui->playerLabel->x() != ui->playField->x()+ui->playerLabel->width()*targetX) {
         QTimer::singleShot(5, this, SLOT(movePlayer()));
         return;
     }
     // Else move on to next target position
     else {
+        idlePlayer();
         QTimer::singleShot(100, codeManager, SLOT(onAnimationFinished()));
 
         if(ui->debugStopButton->isEnabled())
@@ -174,6 +190,69 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
             QTimer::singleShot(0, codeManager, SLOT(onInterrupted()));
         }
     }
+}
+
+void MainWindow::turnPlayer(int direction) {
+    playerFacing = direction;
+    QMovie *play;
+    QMovie *play_top;
+    switch (direction) {
+        case 0: {
+            play = new QMovie(":/player_right.gif");
+            play_top = new QMovie(":/player_right_top.gif");
+            break;
+        }
+        case 1: {
+            play = new QMovie(":/player_up.gif");
+            play_top = new QMovie(":/player_up_top.gif");
+            break;
+        }
+        case 2: {
+            play = new QMovie(":/player_left.gif");
+            play_top = new QMovie(":/player_left_top.gif");
+            break;
+        }
+        case 3: {
+            play = new QMovie(":/player_down.gif");
+            play_top = new QMovie(":/player_down_top.gif");
+            break;
+        }
+    }
+    play->start();
+    play_top->start();
+    ui->playerLabel->setMovie(play);
+    ui->playerTopLabel->setMovie(play_top);
+}
+
+void MainWindow::idlePlayer() {
+    QMovie *idle;
+    QMovie *idle_top;
+    switch (playerFacing) {
+        case 0: {
+            idle = new QMovie(":/player_right_idle.gif");
+            idle_top = new QMovie(":/player_right_idle_top.gif");
+            break;
+        }
+        case 1: {
+            idle = new QMovie(":/player_up_idle.gif");
+            idle_top = new QMovie(":/player_up_idle_top.gif");
+            break;
+        }
+        case 2: {
+            idle = new QMovie(":/player_left_idle.gif");
+            idle_top = new QMovie(":/player_left_idle_top.gif");
+            break;
+        }
+        case 3: {
+            idle = new QMovie(":/player_down_idle.gif");
+            idle_top = new QMovie(":/player_down_idle_top.gif");
+            break;
+        }
+    }
+    idle->start();
+    idle_top->start();
+    ui->playerLabel->setMovie(idle);
+    ui->playerTopLabel->setMovie(idle_top);
 }
 
 void MainWindow::updateLevelCount(int level)
@@ -193,7 +272,8 @@ void MainWindow::usedKey()
 
 void MainWindow::usedWeapon()
 {
-    // move labels to remove enemys
+    ui->enemyLabel->setVisible(false);
+    addBloodParticles(ui->enemyLabel->x()+ ui->enemyLabel->width()/2, ui->enemyLabel->y()+ ui->enemyLabel->height()/2, 100);
 }
 
 void MainWindow::updateInventory(int pickup, bool status)
@@ -211,6 +291,7 @@ void MainWindow::updateInventory(int pickup, bool status)
             item = "Has Weapon: ";
             item.append(QVariant(status).toString());
             ui->weaponLabel->setText(item);
+            ui->swordLabel->setVisible(false);
             break;
         default:
             break;
@@ -232,7 +313,7 @@ void MainWindow::updateCoordinateLabels(){
     QString xString = "x: ";
     xString.append(QString::number((ui->playerLabel->x()-ui->playField->x())/ui->playerLabel->width()));
     QString yString = "y: ";
-    yString.append(QString::number((ui->playerLabel->y()+ui->playerLabel->height()/3-ui->playField->y())/ui->playerLabel->width()));
+    yString.append(QString::number((ui->playerLabel->y()+ui->playerLabel->height()/2-ui->playField->y())/ui->playerLabel->width()));
     ui->xLabel->setText(xString);
     ui->yLabel->setText(yString);
 }
@@ -240,9 +321,11 @@ void MainWindow::updateCoordinateLabels(){
 
 void MainWindow::resetBoard() {
     gameEngine->loadLevel(gameEngine->getLevelCount());
+    gameEngine->emitGameOverSignals();
 
     ui->playerLabel->setVisible(true);
     ui->playerTopLabel->setVisible(true);
+    ui->shadowLabel->setVisible(true);
     gameOver = false;
     targetX = 0;
     targetY = 0;
@@ -250,8 +333,9 @@ void MainWindow::resetBoard() {
     yStep = 0;
     gameEngine->resetPlayer();
     ui->goButton->setEnabled(true);
-    ui->playerLabel->setGeometry(ui->playField->x()+gameEngine->getPlayerX()*ui->playerLabel->width(), ui->playField->y()-ui->playerLabel->height()/3+gameEngine->getPlayerY()*ui->playerLabel->width(), ui->playerLabel->width(), ui->playerLabel->height());
+    ui->playerLabel->setGeometry(ui->playField->x()+gameEngine->getPlayerX()*ui->playerLabel->width(), ui->playField->y()-ui->playerLabel->height()/2+gameEngine->getPlayerY()*ui->playerLabel->width(), ui->playerLabel->width(), ui->playerLabel->height());
     ui->playerTopLabel->setGeometry(ui->playerLabel->x(), ui->playerLabel->y(), ui->playerTopLabel->width(), ui->playerTopLabel->height());
+    ui->shadowLabel->setGeometry(ui->playerLabel->x(), ui->playerLabel->y(), ui->shadowLabel->width(), ui->shadowLabel->height());
     int numTargets = xTargets.size();
 
     for(int i = 0; i < numTargets; i++) {
@@ -268,6 +352,7 @@ void MainWindow::resetBoard() {
     ui->doorLabel->setVisible(false);
     ui->goldKeyLabel->setVisible(false);
     ui->enemyLabel->setVisible(false);
+    ui->swordLabel->setVisible(false);
 
     if(std::get<0>(gameEngine->getDoorCoords()) != -1) {
         int x1 = ui->playField->x() + std::get<0>(gameEngine->getDoorCoords()) * ui->doorLabel->width();
@@ -285,15 +370,25 @@ void MainWindow::resetBoard() {
         int y1 = ui->playField->y() + std::get<1>(gameEngine->getEnemyCoords()) * ui->enemyLabel->width() - ui->enemyLabel->height()/3;
         ui->enemyLabel->setGeometry(x1,y1, ui->enemyLabel->width(), ui->enemyLabel->height());
         ui->enemyLabel->setVisible(true);
+        int x2 = ui->playField->x() + std::get<0>(gameEngine->getSwordCoords()) * ui->swordLabel->width();
+        int y2 = ui->playField->y() + std::get<1>(gameEngine->getSwordCoords()) * ui->swordLabel->width() - ui->swordLabel->height()/3;
+        ui->swordLabel->setGeometry(x2,y2, ui->swordLabel->width(), ui->swordLabel->height());
+        ui->swordLabel->setVisible(true);
     }
 
-    int x1 = ui->playField->x() + std::get<0>(gameEngine->getEnd()) * ui->finish1Label->width();
-    int y1 = ui->playField->y() + std::get<1>(gameEngine->getEnd()) * ui->finish1Label->width() - 8;
-    ui->finish1Label->setGeometry(x1,y1, ui->finish1Label->width(), ui->finish1Label->height());
+    int x1 = ui->playField->x() + std::get<0>(gameEngine->getEnd()) * ui->finishLabel->width();
+    int y1 = ui->playField->y() + std::get<1>(gameEngine->getEnd()) * ui->finishLabel->width() - 8;
+    ui->finishLabel->setGeometry(x1,y1, ui->finishLabel->width(), ui->finishLabel->height());
+
+    int x2 = ui->playField->x() + std::get<0>(gameEngine->getStart()) * ui->startLabel->width();
+    int y2 = ui->playField->y() + std::get<1>(gameEngine->getStart()) * ui->startLabel->width() - 8;
+    ui->startLabel->setGeometry(x2,y2, ui->startLabel->width(), ui->startLabel->height());
 
     QPixmap pixmap = QPixmap(":/level_" + QString::number(gameEngine->getLevelCount()) + ".png");
     ui->level1Label->setPixmap(pixmap);
     setEnemyState(1);
+    playerFacing = 3;
+    idlePlayer();
 }
 
 void MainWindow::on_goButton_clicked()
@@ -427,9 +522,9 @@ void MainWindow::onPlayerDead(int deadPosX, int deadPosY)
 
     ui->playerLabel->setVisible(false);
     ui->playerTopLabel->setVisible(false);
+    ui->shadowLabel->setVisible(false);
 
     addBloodParticles(posX, posY, 100);
-    physicsTimer->start();
 }
 
 void MainWindow::onPlayerCastSpell(int spellCastPhase)
@@ -452,7 +547,7 @@ void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
         qSprite->setGeometry(deadPosX, deadPosY, 16, 16);
 
         // Pick random blood particle
-        int randomBlood = generateRandomNumber(1, 5);
+        int randomBlood = qrand()%5 + 1;
         QPixmap pixmap = QPixmap(":/blood_" + QString::number(randomBlood) + ".png");
         pixmap = pixmap.scaled(qSprite->width(), qSprite->height(), Qt::KeepAspectRatio);
         qSprite->setPixmap(pixmap);
@@ -466,9 +561,14 @@ void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
         bodyDef.userData = qSprite;
         b2Body* body = world->CreateBody(&bodyDef);
 
-        // Set velocity randomly
-        int vX = generateRandomNumber(5, 10) * generateRandomNumber(0, 100) < 50 ? 1 : -1;
-        int vY = generateRandomNumber(5, 10) * generateRandomNumber(0, 100) < 50 ? 1 : -1;
+        int vX = qrand()%100 + 5;
+        int vY = qrand()%100 + 5;
+        if(qrand()%2 == 0) {
+            vX = -vX;
+        }
+        if(qrand()%2 == 0) {
+            vY = -vY;
+        }
 
         body->SetLinearVelocity(b2Vec2(vX, vY));
 
@@ -483,6 +583,7 @@ void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
         fixtureDef.restitution = 0.9f;
         body->CreateFixture(&fixtureDef);
     }
+    physicsTimer->start();
 }
 
 void MainWindow::addGoldParticles(int bookPosX, int bookPosY, int amount)
@@ -512,11 +613,6 @@ QAbstractItemModel *MainWindow::modelFromFile(const QString& fileName)
     QGuiApplication::restoreOverrideCursor();
 #endif
     return new QStringListModel(words, completer);
-}
-
-int MainWindow::generateRandomNumber(int low, int high)
-{
-    return qrand() % ((high + 1) - low) + low;
 }
 
 void MainWindow::tutorial(int level) {

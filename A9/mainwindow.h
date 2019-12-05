@@ -30,8 +30,7 @@ class MainWindow : public QMainWindow
     QPixmap *fieldPixmap;
     QMediaPlaylist *playlist;
     QMediaPlayer *music;
-
-
+    int playerFacing = 3;
 
 public:
     MainWindow(QWidget *parent = nullptr, GameManager *gameEngine = nullptr);
@@ -68,7 +67,8 @@ private slots:
     void onPlayerDead(int deadPosX, int deadPosY);
     void tutorial(int n);
 
-
+    void turnPlayer(int direction);
+    void idlePlayer();
     void onPlayerCastSpell(int spellCastPhase);
 
 private:
@@ -85,7 +85,6 @@ private:
 
     void addBloodParticles(int deadPosX, int deadPosY, int amount);
     void addGoldParticles(int bookPosX, int bookPosY, int amount);
-    int generateRandomNumber(int low, int high);
 
     QAbstractItemModel *modelFromFile(const QString& fileName);
 };

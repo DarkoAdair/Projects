@@ -11,7 +11,6 @@ GameManager::GameManager()  {
 
 levelCount = 1;
 loadLevel(levelCount);
-
 }
 
 void GameManager::emitGameOverSignals()
@@ -28,6 +27,7 @@ void GameManager::emitGameOverSignals()
 // method to reset player after dead or level completion.
 void GameManager::checkLevelCompletionReset()
 {
+
     // if the player completes the level
     if(player.getX() == std::get<0>(level.getEnd()) &&
            player.getY() == std::get<1>(level.getEnd()))
@@ -46,9 +46,9 @@ void GameManager::checkLevelCompletionReset()
     }
     else // player died
     {
-        emit deadSignal(player.getX(), player.getY());
-        emitGameOverSignals();
+        emit deadSignal(player.getX(), player.getY());      
     }
+    emitGameOverSignals();
 }
 
 void GameManager::resetPlayer() {
@@ -67,6 +67,7 @@ void GameManager::moveUp(int spaces)
     bool gameOver = checkPathSetActualSpot(traversed);
 
     emit movePlayer(player.getX(),player.getY(),true,gameOver);
+    emit turnPlayer(1);
 }
 
 void GameManager::moveDown(int spaces)
@@ -79,6 +80,7 @@ void GameManager::moveDown(int spaces)
     bool gameOver = checkPathSetActualSpot(traversed);
 
     emit movePlayer(player.getX(),player.getY(),true,gameOver);
+    emit turnPlayer(3);
 }
 
 void GameManager::moveLeft(int spaces)
@@ -91,6 +93,7 @@ void GameManager::moveLeft(int spaces)
     bool gameOver = checkPathSetActualSpot(traversed);
 
     emit movePlayer(player.getX(),player.getY(),true,gameOver);
+    emit turnPlayer(2);
 }
 
 void GameManager::moveRight(int spaces)
@@ -103,6 +106,7 @@ void GameManager::moveRight(int spaces)
     bool gameOver = checkPathSetActualSpot(traversed);
 
     emit movePlayer(player.getX(),player.getY(),true,gameOver);
+    emit turnPlayer(0);
 }
 
 void GameManager::wait()
@@ -132,7 +136,7 @@ void GameManager::loadLevel(int levelNum)
 void GameManager::triggerGuardSleepState()
 {
     moveCount++;
-    // every 3 moves turn the guard asleep
+
     if(moveCount % 4 < 2)
     {
         level.turnGuardAsleep();
@@ -242,7 +246,7 @@ void GameManager::useWeapon()
         {
            qDebug() << "[GameManager] USEWEAPON : true";
            level.killEnemies();
-           emit useKeySignal();
+           emit useWeaponSignal();
         }
         else
            qDebug() << "[GameManager] USEWEAPON : false";
@@ -314,8 +318,9 @@ QString GameManager::spellBookRead()
 
 bool GameManager::checkGuardIsAwake()
 {
-    moveCount--;
-    triggerGuardSleepState();
+    //moveCount--;
+   // triggerGuardSleepState();
+
     stayInSpotProceedCode();
     return level.guardAwake();
 }
@@ -357,9 +362,18 @@ std::tuple<int,int> GameManager::getEnemyCoords() {
     return level.getEnemyCoords();
 }
 
+std::tuple<int,int> GameManager::getSwordCoords() {
+    return level.getSwordCoords();
+}
+
 std::tuple<int,int> GameManager::getEnd() {
     return level.getEnd();
 }
+
+std::tuple<int,int> GameManager::getStart() {
+    return level.getStart();
+}
+
  void GameManager::stayInSpotProceedCode()
  {
 

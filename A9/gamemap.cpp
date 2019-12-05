@@ -65,6 +65,7 @@ void GameMap::LoadLevelOne()
     keyCoords = std::make_tuple(-1,-1);
     //enemyCoords = std::make_tuple(-1,-1);
     enemyCoords = std::make_tuple(0,7);
+    swordCoords = std::make_tuple(-1,-1);
 
     // TEST
     // fill mapCoordinates with available space
@@ -96,9 +97,9 @@ void GameMap::LoadLevelOne()
 //    mapCoordinates[0][2] = OBJECT_KEY;
 //    mapCoordinates[0][7] = OBJECT_DOORWAYTOOPEN;
 
-    mapCoordinates[0][0] = OBJECT_WEAPON;
-    mapCoordinates[0][7] = OBJECT_ENEMY;
-    mapCoordinates[0][8] = OBJECT_ENEMYLINEOFSIGHT;
+//    mapCoordinates[0][0] = OBJECT_WEAPON;
+    //mapCoordinates[0][7] = OBJECT_ENEMY;
+   // mapCoordinates[0][8] = OBJECT_ENEMYLINEOFSIGHT;
 }
 
 void GameMap::LoadLevelTwo()
@@ -108,6 +109,7 @@ void GameMap::LoadLevelTwo()
     doorCoords = std::make_tuple(-1,-1);
     keyCoords = std::make_tuple(-1,-1);
     enemyCoords = std::make_tuple(-1,-1);
+    swordCoords = std::make_tuple(-1,-1);
 
     //fill with available space
     for(int i = 0; i < 10; i++)
@@ -142,6 +144,7 @@ void GameMap::LoadLevelThree()
     doorCoords = std::make_tuple(-1,-1);
     keyCoords = std::make_tuple(-1,-1);
     enemyCoords = std::make_tuple(8,6);
+    swordCoords = std::make_tuple(9,9);
     for(int i = 0; i < 10; i++)
     {
         for(int j = 0; j < 10; j++)
@@ -150,32 +153,32 @@ void GameMap::LoadLevelThree()
         }
     }
 
-    mapCoordinates[9][0] = OBJECT_WALL;
-    mapCoordinates[8][1] = OBJECT_WALL;
-    mapCoordinates[8][2] = OBJECT_WALL;
-    mapCoordinates[8][3] = OBJECT_WALL;
-    mapCoordinates[7][4] = OBJECT_WALL;
-    mapCoordinates[7][5] = OBJECT_WALL;
-    mapCoordinates[9][5] = OBJECT_WALL;
-    mapCoordinates[6][6] = OBJECT_WALL;
-    mapCoordinates[7][6] = OBJECT_WALL;
-    mapCoordinates[9][6] = OBJECT_WALL;
-    mapCoordinates[0][7] = OBJECT_WALL;
-    mapCoordinates[1][7] = OBJECT_WALL;
-    mapCoordinates[2][7] = OBJECT_WALL;
-    mapCoordinates[3][7] = OBJECT_WALL;
-    mapCoordinates[4][7] = OBJECT_WALL;
-    mapCoordinates[5][7] = OBJECT_WALL;
-    mapCoordinates[7][8] = OBJECT_WALL;
-    mapCoordinates[8][8] = OBJECT_WALL;
-    mapCoordinates[0][9] = OBJECT_WALL;
-    mapCoordinates[1][9] = OBJECT_WALL;
-    mapCoordinates[2][9] = OBJECT_WALL;
-    mapCoordinates[3][9] = OBJECT_WALL;
-    mapCoordinates[4][9] = OBJECT_WALL;
-    mapCoordinates[5][9] = OBJECT_WALL;
-    mapCoordinates[6][9] = OBJECT_WALL;
-    mapCoordinates[8][9] = OBJECT_WALL;
+    mapCoordinates[9][0] = OBJECT_SPIKES;
+    mapCoordinates[8][1] = OBJECT_SPIKES;
+    mapCoordinates[8][2] = OBJECT_SPIKES;
+    mapCoordinates[8][3] = OBJECT_SPIKES;
+    mapCoordinates[7][4] = OBJECT_SPIKES;
+    mapCoordinates[7][5] = OBJECT_SPIKES;
+    mapCoordinates[9][5] = OBJECT_SPIKES;
+    mapCoordinates[6][6] = OBJECT_SPIKES;
+    mapCoordinates[7][6] = OBJECT_SPIKES;
+    mapCoordinates[9][6] = OBJECT_SPIKES;
+    mapCoordinates[0][7] = OBJECT_SPIKES;
+    mapCoordinates[1][7] = OBJECT_SPIKES;
+    mapCoordinates[2][7] = OBJECT_SPIKES;
+    mapCoordinates[3][7] = OBJECT_SPIKES;
+    mapCoordinates[4][7] = OBJECT_SPIKES;
+    mapCoordinates[5][7] = OBJECT_SPIKES;
+    mapCoordinates[7][8] = OBJECT_SPIKES;
+    mapCoordinates[8][8] = OBJECT_SPIKES;
+    mapCoordinates[0][9] = OBJECT_SPIKES;
+    mapCoordinates[1][9] = OBJECT_SPIKES;
+    mapCoordinates[2][9] = OBJECT_SPIKES;
+    mapCoordinates[3][9] = OBJECT_SPIKES;
+    mapCoordinates[4][9] = OBJECT_SPIKES;
+    mapCoordinates[5][9] = OBJECT_SPIKES;
+    mapCoordinates[6][9] = OBJECT_SPIKES;
+    mapCoordinates[8][9] = OBJECT_SPIKES;
 
     mapCoordinates[9][1] = OBJECT_ENDPOINT;
     mapCoordinates[9][9] = OBJECT_WEAPON;
@@ -429,4 +432,10 @@ std::tuple<int,int> GameMap::getKeyCoords() {
 // enemy is used, (-1, -1) is returned
 std::tuple<int,int> GameMap::getEnemyCoords() {
     return enemyCoords;
+}
+
+// returns the coordinates of the sword in the level if it has one. If no
+// sword is used, (-1, -1) is returned
+std::tuple<int,int> GameMap::getSwordCoords() {
+    return swordCoords;
 }

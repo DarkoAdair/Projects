@@ -18,9 +18,9 @@
     <property name="geometry">
      <rect>
       <x>230</x>
-      <y>400</y>
+      <y>374</y>
       <width>64</width>
-      <height>96</height>
+      <height>112</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -30,7 +30,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="images.qrc">:/player_simple.png</pixmap>
+     <pixmap resource="images.qrc">:/player_down_idle.gif</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -58,7 +58,7 @@
     <property name="geometry">
      <rect>
       <x>166</x>
-      <y>48</y>
+      <y>46</y>
       <width>640</width>
       <height>640</height>
      </rect>
@@ -240,9 +240,9 @@
     <property name="geometry">
      <rect>
       <x>230</x>
-      <y>400</y>
+      <y>374</y>
       <width>64</width>
-      <height>32</height>
+      <height>112</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -252,7 +252,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="images.qrc">:/player_simple_top.png</pixmap>
+     <pixmap resource="images.qrc">:/player_down_idle_top.gif</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -317,7 +317,7 @@
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="finish1Label">
+   <widget class="QLabel" name="finishLabel">
     <property name="geometry">
      <rect>
       <x>741</x>
@@ -404,7 +404,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>330</y>
+      <y>240</y>
       <width>64</width>
       <height>96</height>
      </rect>
@@ -429,7 +429,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>440</y>
+      <y>350</y>
       <width>64</width>
       <height>96</height>
      </rect>
@@ -454,7 +454,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>540</y>
+      <y>450</y>
       <width>64</width>
       <height>96</height>
      </rect>
@@ -472,8 +472,76 @@
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QLabel" name="swordLabel">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>570</y>
+      <width>64</width>
+      <height>96</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="images.qrc">:/sword_simple.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="shadowLabel">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>374</y>
+      <width>64</width>
+      <height>112</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="images.qrc">:/player_shadow.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="startLabel">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>422</y>
+      <width>64</width>
+      <height>72</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="images.qrc">:/start_tile.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
    <zorder>playField</zorder>
-   <zorder>finish1Label</zorder>
+   <zorder>startLabel</zorder>
+   <zorder>shadowLabel</zorder>
+   <zorder>finishLabel</zorder>
    <zorder>label</zorder>
    <zorder>playerLabel</zorder>
    <zorder>goButton</zorder>
@@ -490,6 +558,7 @@
    <zorder>goldKeyLabel</zorder>
    <zorder>enemyLabel</zorder>
    <zorder>playerTopLabel</zorder>
+   <zorder>swordLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

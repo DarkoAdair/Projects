@@ -59,7 +59,9 @@ public:
     std::tuple<int,int> getDoorCoords();
     std::tuple<int,int> getKeyCoords();
     std::tuple<int,int> getEnemyCoords();
+    std::tuple<int,int> getSwordCoords();
     std::tuple<int,int> getEnd();
+    std::tuple<int,int> getStart();
 
     bool spellBookActive();
 
@@ -82,8 +84,9 @@ signals:
     void toggleEnemyState(int state);
     void playerCastSpell(int phase);
 
-
-
+    // tells the main window which direction the player should be facing
+    // 0 - right, 1 - up, 2 - left, 3 - down.
+    void turnPlayer(int direction);
 };
 
 #endif // GAMEMANAGER_H
