@@ -86,6 +86,7 @@ signals:
     void tutorial(int level);
     void toggleEnemyState(int state);
     void playerCastSpell(int phase);
+    void signalGameClear();
 
     // Tells make a delay before go to next command.
     void delayCommand(int delay);

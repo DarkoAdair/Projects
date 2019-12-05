@@ -58,6 +58,8 @@ public:
 
     std::vector<std::tuple<int, int>> getDoorRange();
     std::vector<std::tuple<int, int>> getEnemyRange();
+
+    static int getMaxLevel();
 };
 
 #endif // GAMEMAP_H

@@ -1,12 +1,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "cleardialog.h"
+#include "window.h"
 
 #include <QtCore>
 #include <QDebug>
 #include <QPixmap>
 #include <QMovie>
 
-#define IS_TEST 0
+#define IS_TEST 1
 
 MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     : QMainWindow(parent)
@@ -48,10 +50,10 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     QObject::connect(gameEngine, SIGNAL(toggleEnemyState(int)), this, SLOT(setEnemyState(int)));
     QObject::connect(gameEngine, SIGNAL(turnPlayer(int)), this, SLOT(turnPlayer(int)));
     QObject::connect(gameEngine, SIGNAL(delayCommand(int)), this, SLOT(delayBetweenCommand(int)));
+    QObject::connect(gameEngine, SIGNAL(signalGameClear()), this, SLOT(slotGameOver()));
 
 
     tutorial(1);
-
 
     // Init code manager
     codeManager = new CodeManager(gameEngine);
@@ -127,6 +129,8 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     ui->playerTopLabel->setAttribute(Qt::WA_NoSystemBackground);
     ui->playerTopLabel->setMovie(play_top);
     ui->playerTopLabel->setScaledContents(true);
+
+    startTime = QTime::currentTime();
 }
 
 MainWindow::~MainWindow()
@@ -764,6 +768,14 @@ void MainWindow::tutorial(int level) {
     }
 
     codeEditor->setPlainText(text);
+}
+
+void MainWindow::slotGameOver()
+{
+    qDebug() << "[Main] [slotGameOver]";
+
+    ClearDialog *clearDialog = new ClearDialog(startTime, this);
+    clearDialog->show();
 }
 
 void MainWindow::on_soundButton_clicked()
