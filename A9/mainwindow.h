@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include <QTime>
 #include <queue>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
@@ -61,6 +62,7 @@ private slots:
     void idlePlayer();
     void onPlayerCastSpell(int spellCastPhase);
     void commandFinished();
+    void slotGameOver();
 
     //CodeManager
     void onDebugLineChanged(int currentLine);
@@ -84,6 +86,8 @@ private:
 
     b2World* world = nullptr;
     QTimer* physicsTimer = nullptr;
+
+    QTime startTime;
 
     void addBloodParticles(int deadPosX, int deadPosY, int amount);
     void addGoldParticles(int bookPosX, int bookPosY, int amount);

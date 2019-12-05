@@ -14,10 +14,16 @@
 #define OBJECT_SPELLBOOKSTAND 8
 #define OBJECT_ENDPOINT 9
 
+#define MAP_MAX_LEVEL 3
 
 GameMap::GameMap()
 {
     //TODO
+}
+
+int GameMap::getMaxLevel()
+{
+    return MAP_MAX_LEVEL;
 }
 
 GameMap::GameMap(int level)

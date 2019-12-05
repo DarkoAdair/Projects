@@ -26,22 +26,27 @@ void GameManager::emitGameOverSignals()
 // method to reset player after dead or level completion.
 void GameManager::checkLevelCompletionReset()
 {
-
     // if the player completes the level
     if(player.getX() == std::get<0>(level.getEnd()) &&
            player.getY() == std::get<1>(level.getEnd()))
     {
-        levelCount++;
-        loadLevel(levelCount);
+        //Check game is finished
+        if(++levelCount > GameMap::getMaxLevel())
+        {
+            emit signalGameClear();
+        }
+        else
+        {
+            loadLevel(levelCount);
 
-        // move player to start, whether its because of failure or to the start of a new level
-        std::tuple<int, int> start = level.getStart();
-        player.setX(std::get<0>(start));
-        player.setY(std::get<1>(start));
+            // move player to start, whether its because of failure or to the start of a new level
+            std::tuple<int, int> start = level.getStart();
+            player.setX(std::get<0>(start));
+            player.setY(std::get<1>(start));
 
-        QTimer::singleShot(1000, this, SIGNAL(resetSignal()));
-        QTimer::singleShot(1000, this, SLOT(emitGameOverSignals()));
-
+            QTimer::singleShot(500, this, SIGNAL(resetSignal()));
+            QTimer::singleShot(500, this, SLOT(emitGameOverSignals()));
+        }
     }
     else // player died
     {

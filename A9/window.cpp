@@ -22,9 +22,10 @@ window::window(GameManager *gameManager) :
 
     this->gameManager = gameManager;
 
-    QMovie *dance = new QMovie(":/pixel.gif");
-
+    QMovie *dance = new QMovie(":/player_down.gif");
     dance->start();
+
+    ui->gif->setStyleSheet("background-color: rgba(0, 0, 0, 0);");
     ui->gif->setAttribute(Qt::WA_NoSystemBackground);
     ui->gif->setMovie(dance);
     ui->gif->setScaledContents(true);
