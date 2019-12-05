@@ -31,6 +31,7 @@ void GameManager::checkLevelCompletionReset()
     if(player.getX() == std::get<0>(level.getEnd()) &&
            player.getY() == std::get<1>(level.getEnd()))
     {
+
         levelCount++;
         loadLevel(levelCount);
 
@@ -152,13 +153,18 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
 {
     std::tuple<int, int> actualSpot;
     bool gameOver = false;
+    int moveCount = 0;
+    int updateTime;
 
     // check if there were any objects in the way of that coordinate and set player accordingly
     for (std::tuple<int, int> mapBlock: tryingPath)
     {
         // if the checking space is available path
         if(level.getWhatsAtCoordinate(mapBlock) == 0)
+        {
             actualSpot = mapBlock;
+            moveCount++;
+        }
 
         else
         {
@@ -181,13 +187,17 @@ bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryin
                         break;
                 // key
                 case 5: actualSpot = mapBlock; // stop player at space
+                        moveCount++;
                         player.setKey(true);
-                        emit updateInventory(0, true);
+                        updateTime = moveCount*110;
+                        emitDelayedUpdateInventory(updateTime, 0);
                         continue;
                 // weapon
                 case 6: actualSpot = mapBlock;
+                        moveCount++;
                         player.setWeapon(true);
-                        emit updateInventory(1, true);
+                        updateTime = moveCount*110;
+                        emitDelayedUpdateInventory(updateTime, 1);
                         continue;
                 // doorway
                 case 7: // let rtrn stay as last available spot
@@ -233,7 +243,6 @@ void GameManager::useKey()
         else
            qDebug() << "[GameManager] USEKEY : false";
     }
-    triggerGuardSleepState();
     stayInSpotProceedCode();
  }
 
@@ -250,7 +259,6 @@ void GameManager::useWeapon()
         else
            qDebug() << "[GameManager] USEWEAPON : false";
      }
-     triggerGuardSleepState();
      stayInSpotProceedCode();
  }
 
@@ -261,6 +269,7 @@ QString GameManager::spellBookRead()
     {
         emit deadSignal(player.getX(), player.getY());
         emitGameOverSignals();
+        emit movePlayer(player.getX(),player.getY(),true,true);
 
         return "";
     }
@@ -270,11 +279,13 @@ QString GameManager::spellBookRead()
         {
             emit deadSignal(player.getX(), player.getY());
             emitGameOverSignals();
+            emit movePlayer(player.getX(),player.getY(),true,true);
         }
         else
         {
             level.incrementBookReadPhase();
         }
+        stayInSpotProceedCode();
         return (level.getBookSpell(level.getBookReadPhase()-1)); //pre-incrementing
     }
  }
@@ -285,6 +296,7 @@ QString GameManager::spellBookRead()
      {
          emit deadSignal(player.getX(), player.getY());
          emitGameOverSignals();
+         emit movePlayer(player.getX(),player.getY(),true,true);
      }
      else
      {
@@ -292,17 +304,20 @@ QString GameManager::spellBookRead()
          {
              emit deadSignal(player.getX(), player.getY());
              emitGameOverSignals();
+             emit movePlayer(player.getX(),player.getY(),true,true);
          }
 
          if (cast != (level.getCorrectSpell(level.getSpellcastPhase()))) //not returning, use base index
          {
              emit deadSignal(player.getX(), player.getY());
              emitGameOverSignals();
+             emit movePlayer(player.getX(),player.getY(),true,true);
          }
          else
          {
             emit playerCastSpell(level.getSpellcastPhase());
             level.incrementSpellcastPhase();
+            stayInSpotProceedCode();
           }
      }
  }
@@ -380,4 +395,22 @@ void GameManager::stayInSpotProceedCode()
     //Or just give a delay between command.
     else
         emit delayCommand(500);
+}
+
+void GameManager::emitDelayedUpdateInventory(int time, int type)
+{
+    if(type == 0)
+        QTimer::singleShot(time, this, SLOT(updateKeyInventory()));
+    else
+        QTimer::singleShot(time, this, SLOT(updateWeaponInventory()));
+}
+
+void GameManager::updateKeyInventory()
+{
+    emit updateInventory(0, true);
+}
+
+void GameManager::updateWeaponInventory()
+{
+    emit updateInventory(1, true);
 }

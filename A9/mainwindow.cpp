@@ -328,6 +328,7 @@ void MainWindow::usedWeapon()
 void MainWindow::updateInventory(int pickup, bool status)
 {
     QString item;
+    qDebug() << "updateInventory!!!!!!!!!!!!!";
     switch(pickup)
     {
         case 0:
