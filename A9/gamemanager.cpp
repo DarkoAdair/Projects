@@ -8,9 +8,8 @@
 #include <QString>
 
 GameManager::GameManager()  {
-
-levelCount = 1;
-loadLevel(levelCount);
+    levelCount = 1;
+    loadLevel(levelCount);
 }
 
 void GameManager::emitGameOverSignals()
@@ -151,10 +150,10 @@ void GameManager::triggerGuardSleepState()
 
 bool GameManager::checkPathSetActualSpot(std::vector<std::tuple<int, int>> tryingPath)
 {
-std::tuple<int, int> actualSpot;
-bool gameOver = false;
+    std::tuple<int, int> actualSpot;
+    bool gameOver = false;
 
-// check if there were any objects in the way of that coordinate and set player accordingly
+    // check if there were any objects in the way of that coordinate and set player accordingly
     for (std::tuple<int, int> mapBlock: tryingPath)
     {
         // if the checking space is available path
@@ -263,8 +262,6 @@ QString GameManager::spellBookRead()
         emit deadSignal(player.getX(), player.getY());
         emitGameOverSignals();
 
-
-
         return "";
     }
     else
@@ -318,9 +315,6 @@ QString GameManager::spellBookRead()
 
 bool GameManager::checkGuardIsAwake()
 {
-    //moveCount--;
-   // triggerGuardSleepState();
-
     stayInSpotProceedCode();
     return level.guardAwake();
 }
@@ -374,12 +368,16 @@ std::tuple<int,int> GameManager::getStart() {
     return level.getStart();
 }
 
- void GameManager::stayInSpotProceedCode()
- {
+void GameManager::stayInSpotProceedCode()
+{
+    std::vector<std::tuple<int, int>> spot;
+    spot.push_back(std::tuple<int, int>(player.getX(), player.getY()));
+    bool gameOver = checkPathSetActualSpot(spot);
 
-     std::vector<std::tuple<int, int>> spot;
-     spot.push_back(std::tuple<int, int>(player.getX(), player.getY()));
-     bool gameOver = checkPathSetActualSpot(spot);
-
-     emit movePlayer(player.getX(),player.getY(),true,gameOver);
- }
+    //If game is over, tell please kill the player.
+    if(gameOver)
+        emit movePlayer(player.getX(),player.getY(),true,gameOver);
+    //Or just give a delay between command.
+    else
+        emit delayCommand(500);
+}

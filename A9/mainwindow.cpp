@@ -6,6 +6,7 @@
 #include <QPixmap>
 #include <QMovie>
 
+#define IS_TEST 0
 
 MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     : QMainWindow(parent)
@@ -46,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     QObject::connect(gameEngine, SIGNAL(spellCastSignal(int)), this, SLOT(onPlayerCastSpell(int)));
     QObject::connect(gameEngine, SIGNAL(toggleEnemyState(int)), this, SLOT(setEnemyState(int)));
     QObject::connect(gameEngine, SIGNAL(turnPlayer(int)), this, SLOT(turnPlayer(int)));
+    QObject::connect(gameEngine, SIGNAL(delayCommand(int)), this, SLOT(delayBetweenCommand(int)));
 
     tutorial(1);
 
@@ -125,7 +127,11 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
+
     if(mainCommand) {
+
+        qDebug() << "[Main] [movePlayer] x : " << _x << " / y " << _y << " / mainCommand : " << mainCommand << " / gameOver : " << gameOver;
+
         if(gameOver){
             return;
         }
@@ -171,25 +177,68 @@ void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
     // If the player is not in the right spot yet...
     if(ui->playerLabel->y()+ui->playerLabel->height()/2 != ui->playField->y()+ui->playerLabel->width()*targetY || ui->playerLabel->x() != ui->playField->x()+ui->playerLabel->width()*targetX) {
         QTimer::singleShot(5, this, SLOT(movePlayer()));
-        return;
     }
     // Else move on to next target position
     else {
-        idlePlayer();
-        QTimer::singleShot(100, codeManager, SLOT(onAnimationFinished()));
-
-        if(ui->debugStopButton->isEnabled())
-            ui->debugRightButton->setEnabled(true);
+        int prevX = xTargets.front();
+        int prevY = yTargets.front();
 
         xTargets.pop();
         yTargets.pop();
 
-        if(gameOver)
+        // Check there is still more movemoent.
+        if(!xTargets.empty()) {
+            targetX = xTargets.front();
+            targetY = yTargets.front();
+
+            int xOff = xTargets.front()-prevX;
+            int yOff = yTargets.front()-prevY;
+
+            xStep = 0;
+            yStep = 0;
+
+            if(xOff != 0) {
+                xStep = xOff/std::abs(xOff);
+                xStep = 2 * xStep;
+            }
+            if(yOff != 0) {
+                yStep = yOff/std::abs(yOff);
+                yStep = 2 * yStep;
+            }
+
+            // A bit of a longer delay between separate commands
+            QTimer::singleShot(100, this, SLOT(movePlayer()));
+        }
+        else
         {
-            emit signalGameOver();
-            QTimer::singleShot(0, codeManager, SLOT(onInterrupted()));
+            QTimer::singleShot(0, this, SLOT(commandFinished()));
         }
     }
+}
+
+void MainWindow::delayBetweenCommand(int delay) {
+    qDebug() << "[Main] [delayBetweenCommand] delay : " << delay;
+
+    QTimer::singleShot(delay, this, SLOT(commandFinished()));
+}
+
+void MainWindow::commandFinished() {
+    qDebug() << "[Main] [commandFinished]";
+
+    idlePlayer();
+
+    if(gameOver)
+    {
+        emit signalGameOver();
+        QTimer::singleShot(0, codeManager, SLOT(onInterrupted()));
+    }
+    else
+    {
+        QTimer::singleShot(0, codeManager, SLOT(onAnimationFinished()));
+    }
+
+    if(ui->debugStopButton->isEnabled())
+        ui->debugRightButton->setEnabled(true);
 }
 
 void MainWindow::turnPlayer(int direction) {
@@ -512,6 +561,7 @@ void MainWindow::onPhysicsUpdate()
 void MainWindow::onPlayerDead(int deadPosX, int deadPosY)
 {
     ui->goButton->setEnabled(true);
+
     int posPlayerX = ui->playerLabel->x();
     int posPlayerY = ui->playerLabel->y();
 
@@ -561,8 +611,8 @@ void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
         bodyDef.userData = qSprite;
         b2Body* body = world->CreateBody(&bodyDef);
 
-        int vX = qrand()%100 + 5;
-        int vY = qrand()%100 + 5;
+        int vX = qrand()%100 + 10;
+        int vY = qrand()%100 + 10;
         if(qrand()%2 == 0) {
             vX = -vX;
         }
@@ -627,6 +677,12 @@ void MainWindow::tutorial(int level) {
 
     //left, right, up and down
     case 1:
+#if IS_TEST
+        text.append("player.moveUp()\n");
+        text.append("player.moveRight()\n");
+        text.append("player.moveDown()\n");
+        text.append("player.moveRight()\n");
+#else
         text.append("//Level 1 : Use only moveRight, moveLeft, moveUp, moveDown to complete\n\n");
         text.append("//the player can move up\n");
         text.append("player.moveUp()\n\n");
@@ -636,11 +692,16 @@ void MainWindow::tutorial(int level) {
         text.append("player.moveDown()\n\n");
         text.append("//the player can move right\n");
         text.append("player.moveRight()\n\n");
-
+#endif
         break;
 
-    //
     case 2:
+#if IS_TEST
+        text.append("player.moveUp(4)\n");
+        text.append("player.moveRight(6)\n");
+        text.append("player.moveDown()\n");
+        text.append("player.moveRight()\n");
+#else
         text.append("//Level 2 : Try to experiment with parameters. e.g. player.moveUp(1) \n\n");
         text.append("//the player can move up\n");
         text.append("player.moveUp()\n\n");
@@ -650,10 +711,30 @@ void MainWindow::tutorial(int level) {
         text.append("player.moveDown()\n\n");
         text.append("//the player can move right\n");
         text.append("player.moveRight()\n\n");
-
+#endif
         break;
 
     case 3:
+
+#if IS_TEST
+        text.append("player.moveRight(5)\n");
+        text.append("player.moveUp(1)\n");
+        text.append("player.moveRight(1)\n");
+        text.append("while (player.checkGuardIsAwake()) { \n");
+        text.append("    player.wait()\n");
+        text.append("}\n");
+        text.append("player.moveRight()\n");
+        text.append("player.moveDown()\n");
+        text.append("player.moveUp(2)\n");
+        text.append("while (player.checkGuardIsAwake()) { \n");
+        text.append("    player.wait()\n");
+        text.append("}\n");
+        text.append("player.moveLeft(1)\n");
+        text.append("player.useWeapon()\n");
+        text.append("player.moveUp(3)\n");
+        text.append("player.moveRight()\n");
+        text.append("player.moveUp(3)\n");
+#else
         text.append("// Some methods have return types, one is called a bool which can either return a true or false value. \n");
         text.append("// Loops like this while-loop can be used to continuously do stuff until variables change. \n");
         text.append("// Try using the checkGuardIsAwake() method together with the while-loop. \n");
@@ -662,6 +743,7 @@ void MainWindow::tutorial(int level) {
         text.append("while (    ) { \n");
         text.append("\n");
         text.append("}");
+#endif
         break;
     }
 

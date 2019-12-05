@@ -51,11 +51,16 @@ private slots:
 
     //GameEngine
     void movePlayer(int x = 0, int y = 0, bool mainCommand = false, bool gameOver = false);
+    void delayBetweenCommand(int delay);
     void updateLevelCount(int level);
     void usedKey();
     void usedWeapon();
     void updateInventory(int pickup, bool status);
     void setEnemyState(int state);
+    void turnPlayer(int direction);
+    void idlePlayer();
+    void onPlayerCastSpell(int spellCastPhase);
+    void commandFinished();
 
     //CodeManager
     void onDebugLineChanged(int currentLine);
@@ -67,9 +72,6 @@ private slots:
     void onPlayerDead(int deadPosX, int deadPosY);
     void tutorial(int n);
 
-    void turnPlayer(int direction);
-    void idlePlayer();
-    void onPlayerCastSpell(int spellCastPhase);
 
 private:
     int currentLevel = -1;
