@@ -5,23 +5,28 @@
 #include "mainwindow.h"
 #include "gamemanager.h"
 namespace Ui {
+
 class window;
 }
 
 class window : public QMainWindow
 {
     Q_OBJECT
-    QMediaPlaylist *playlist;
-    QMediaPlayer *music;
+
 
 public:
     window(GameManager* gameManager);
     ~window();
 
+    QMediaPlaylist *playlist;
+    QMediaPlayer *music;
+
 private slots:
 
 
     void on_startButton_clicked();
+    void musicMute();
+    void musicOn();
 
 private:
     Ui::window *ui;

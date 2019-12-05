@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "window.h"
 
 #include <QtCore>
 #include <QDebug>
@@ -48,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     QObject::connect(gameEngine, SIGNAL(toggleEnemyState(int)), this, SLOT(setEnemyState(int)));
     QObject::connect(gameEngine, SIGNAL(turnPlayer(int)), this, SLOT(turnPlayer(int)));
     QObject::connect(gameEngine, SIGNAL(delayCommand(int)), this, SLOT(delayBetweenCommand(int)));
+
 
     tutorial(1);
 
@@ -122,8 +124,8 @@ MainWindow::~MainWindow()
     delete codeManager;
     delete codeEditor;
     delete ui;
-    delete music;
-    delete playlist;
+//    delete music;
+//    delete playlist;
 }
 
 void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
@@ -748,4 +750,13 @@ void MainWindow::tutorial(int level) {
     }
 
     codeEditor->setPlainText(text);
+}
+
+void MainWindow::on_soundButton_clicked()
+{
+    if(onAndOff) {
+
+    }
+
+
 }
