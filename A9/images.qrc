@@ -28,9 +28,23 @@
         <file>key_simple.png</file>
         <file>level_3.png</file>
         <file>sword_simple.png</file>
-        <file>player_down.png</file>
-        <file>player_left.png</file>
-        <file>player_right.png</file>
-        <file>player_up.png</file>
+        <file>player_down_idle.gif</file>
+        <file>player_left_idle.gif</file>
+        <file>player_right_idle.gif</file>
+        <file>player_up_idle.gif</file>
+        <file>player_down_idle_top.gif</file>
+        <file>player_left_idle_top.gif</file>
+        <file>player_right_idle_top.gif</file>
+        <file>player_up_idle_top.gif</file>
+        <file>player_down.gif</file>
+        <file>player_down_top.gif</file>
+        <file>player_left.gif</file>
+        <file>player_left_top.gif</file>
+        <file>player_right.gif</file>
+        <file>player_right_top.gif</file>
+        <file>player_up.gif</file>
+        <file>player_up_top.gif</file>
+        <file>player_shadow.png</file>
+        <file>start_tile.png</file>
     </qresource>
 </RCC>
