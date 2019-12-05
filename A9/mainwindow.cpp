@@ -93,6 +93,9 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     ui->doorLabel->setVisible(false);
     ui->goldKeyLabel->setVisible(false);
     ui->enemyLabel->setVisible(false);
+
+    //ready
+    resetBoard();
 }
 
 MainWindow::~MainWindow()
