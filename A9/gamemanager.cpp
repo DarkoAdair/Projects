@@ -320,6 +320,7 @@ bool GameManager::checkGuardIsAwake()
 {
     //moveCount--;
    // triggerGuardSleepState();
+
     stayInSpotProceedCode();
     return level.guardAwake();
 }
