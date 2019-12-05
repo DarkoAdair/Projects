@@ -1,8 +1,10 @@
 #include "window.h"
 #include "ui_window.h"
+#include "bgm.h"
 
 #include <QApplication>
 #include <QMovie>
+
 
 window::window(GameManager *gameManager) :
     QMainWindow(nullptr),
@@ -10,15 +12,7 @@ window::window(GameManager *gameManager) :
 {
     ui->setupUi(this);
 
-    //BGM Player
-    playlist = new QMediaPlaylist();
-    playlist->addMedia(QUrl("qrc:/ChipTune3.1.mp3"));
-    playlist->setPlaybackMode(QMediaPlaylist::Loop);
-
-    music = new QMediaPlayer();
-    music->setPlaylist(playlist);
-    music->setVolume(25);
-    music->play();
+    Bgm();
 
     this->gameManager = gameManager;
 
@@ -29,7 +23,10 @@ window::window(GameManager *gameManager) :
     ui->gif->setAttribute(Qt::WA_NoSystemBackground);
     ui->gif->setMovie(dance);
     ui->gif->setScaledContents(true);
+
+
 }
+
 
 window::~window()
 {
@@ -43,4 +40,13 @@ void window::on_startButton_clicked()
     close();
     MainWindow *w = new MainWindow(nullptr, gameManager);
     w->show();
+}
+
+void window::musicMute() {
+    qDebug() << "recieved musicMute signal";
+    music->setMuted(true);
+}
+
+void window::musicOn() {
+    music->setMuted(false);
 }

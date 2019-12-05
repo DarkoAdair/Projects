@@ -38,4 +38,6 @@ player.useWeapon()
 player.useKey()
 player.checkGuardIsAwake()
 player.wait()
+player.spellBookRead()
+player.spellBookCast()
 

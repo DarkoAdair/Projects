@@ -53,6 +53,7 @@ public:
     bool inRangeOfEnemy();
     void triggerGuardSleepState();
     void stayInSpotProceedCode();
+    void emitDelayedUpdateInventory(int time, int type);
 
 
 
@@ -68,6 +69,8 @@ public:
 public slots:
     void checkLevelCompletionReset();
     void emitGameOverSignals();
+    void updateKeyInventory();
+    void updateWeaponInventory();
 
 
 

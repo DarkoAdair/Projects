@@ -65,10 +65,10 @@ void GameMap::LoadLevelOne()
 {
     start =  std::make_tuple(1, 6);
     end =  std::make_tuple(9, 9);
-    //doorCoords = std::make_tuple(0,7);
-    doorCoords = std::make_tuple(-1,-1);
-    //keyCoords = std::make_tuple(0,2);
-    keyCoords = std::make_tuple(-1,-1);
+    doorCoords = std::make_tuple(0,7);
+    //doorCoords = std::make_tuple(-1,-1);
+    keyCoords = std::make_tuple(0,4);
+    //keyCoords = std::make_tuple(-1,-1);
     enemyCoords = std::make_tuple(-1,-1);
     //enemyCoords = std::make_tuple(0,7);
     swordCoords = std::make_tuple(-1,-1);
@@ -100,7 +100,7 @@ void GameMap::LoadLevelOne()
     mapCoordinates[5][7] = OBJECT_WALL;
     mapCoordinates[6][7] = OBJECT_WALL;
 
-//    mapCoordinates[0][2] = OBJECT_KEY;
+    mapCoordinates[0][4] = OBJECT_KEY;
 //    mapCoordinates[0][7] = OBJECT_DOORWAYTOOPEN;
 
 //    mapCoordinates[0][0] = OBJECT_WEAPON;

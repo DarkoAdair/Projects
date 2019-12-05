@@ -64,6 +64,7 @@ SOURCES += \
     Box2D/Dynamics/b2WorldCallbacks.cpp \
     Box2D/Rope/b2Rope.cpp \
     cleardialog.cpp \
+    bgm.cpp \
     codeeditor.cpp \
     codemanager.cpp \
     commandimpl.cpp \
@@ -126,6 +127,7 @@ HEADERS += \
     Box2D/Dynamics/b2WorldCallbacks.h \
     Box2D/Rope/b2Rope.h \
     cleardialog.h \
+    bgm.h \
     codeeditor.h \
     codemanager.h \
     commandimpl.h \

@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "cleardialog.h"
+#include "window.h"
 
 #include <QtCore>
 #include <QDebug>
@@ -50,6 +51,7 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     QObject::connect(gameEngine, SIGNAL(turnPlayer(int)), this, SLOT(turnPlayer(int)));
     QObject::connect(gameEngine, SIGNAL(delayCommand(int)), this, SLOT(delayBetweenCommand(int)));
     QObject::connect(gameEngine, SIGNAL(signalGameClear()), this, SLOT(slotGameOver()));
+
 
     tutorial(1);
 
@@ -125,8 +127,8 @@ MainWindow::~MainWindow()
     delete codeManager;
     delete codeEditor;
     delete ui;
-    delete music;
-    delete playlist;
+//    delete music;
+//    delete playlist;
 }
 
 void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
@@ -331,6 +333,7 @@ void MainWindow::usedWeapon()
 void MainWindow::updateInventory(int pickup, bool status)
 {
     QString item;
+    qDebug() << "updateInventory!!!!!!!!!!!!!";
     switch(pickup)
     {
         case 0:
@@ -759,4 +762,13 @@ void MainWindow::slotGameOver()
 
     ClearDialog *clearDialog = new ClearDialog(startTime, this);
     clearDialog->show();
+}
+
+void MainWindow::on_soundButton_clicked()
+{
+    if(onAndOff) {
+
+    }
+
+
 }

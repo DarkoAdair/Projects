@@ -29,9 +29,9 @@ class MainWindow : public QMainWindow
     std::queue<int> yTargets;
     bool gameOver = false;
     QPixmap *fieldPixmap;
-    QMediaPlaylist *playlist;
-    QMediaPlayer *music;
     int playerFacing = 3;
+    bool onAndOff = true;
+
 
 public:
     MainWindow(QWidget *parent = nullptr, GameManager *gameEngine = nullptr);
@@ -40,6 +40,7 @@ public:
 
 signals:
     void signalGameOver();
+    void muteMusic();
 
 
 private slots:
@@ -74,6 +75,8 @@ private slots:
     void onPlayerDead(int deadPosX, int deadPosY);
     void tutorial(int n);
 
+
+    void on_soundButton_clicked();
 
 private:
     int currentLevel = -1;

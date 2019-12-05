@@ -46,5 +46,7 @@
         <file>player_up_top.gif</file>
         <file>player_shadow.png</file>
         <file>start_tile.png</file>
+        <file>musicOn.png</file>
+        <file>mute.png</file>
     </qresource>
 </RCC>
