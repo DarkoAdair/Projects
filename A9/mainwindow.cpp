@@ -55,6 +55,9 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     tutorial(1);
     commandsDisplay(1);
 
+
+    ui->groupBox_4->setStyleSheet("QGroupBox {  border: 1px solid black;}");
+
     // Init code manager
     codeManager = new CodeManager(gameEngine);
     connect(codeManager, SIGNAL(signalLineChanged(int)), this, SLOT(onDebugLineChanged(int)));
@@ -332,7 +335,7 @@ void MainWindow::updateLevelCount(int level)
     ui->levelLabel->setText(levelString);
 
     tutorial(level);
-    commandsDisplay(level);
+
 }
 
 
@@ -795,6 +798,8 @@ void MainWindow::tutorial(int level) {
     }
 
     codeEditor->setPlainText(text);
+
+    commandsDisplay(level);
 }
 
 void MainWindow::slotGameOver()
@@ -829,10 +834,7 @@ void MainWindow::on_soundButton_clicked()
 
 void MainWindow::commandsDisplay(int level) {
 
-    if(currentLevel == level)
-        return;
-    else
-        currentLevel = level;
+    qDebug() << "level is : " << level;
 
     QString text;
 
@@ -840,42 +842,45 @@ void MainWindow::commandsDisplay(int level) {
 
     case 1:
 
-        text.append("//Player move Right until it hits wall\n");
-        text.append("player.moveRight()\n\n");
+        ui->command1->setText("moveRight()");
+        ui->command2->setText("moveLeft()");
+        ui->command3->setText("moveUp()");
+        ui->command4->setText("moveDown()");
 
+        ui->command1->setToolTip("Player move Right until it hits wall");
+        ui->command1->setStyleSheet("QToolTip {font-size:20pt; color:white; border 2px solid black; min-width: 10px;}");
+        ui->command2->setToolTip("Player move Left until it hits wall");
+        ui->command2->setStyleSheet("QToolTip {font-size:20pt; color:white; border 2px solid black; min-width: 10px;}");
+        ui->command3->setToolTip("Player move Up until it hits wall");
+        ui->command3->setStyleSheet("QToolTip {font-size:20pt; color:white; border 2px solid black; min-width: 10px;}");
+        ui->command4->setToolTip("Player move Down until it hits wall");
+        ui->command4->setStyleSheet("QToolTip {font-size:20pt; color:white; border 2px solid black; min-width: 10px;}");
 
-        text.append("//Player move Left until it hits wall\n");
-        text.append("player.moveLeft()\n\n");
-
-        text.append("//Player move Up until it hits wall");
-        text.append("player.moveUp()\n\n");
-
-        text.append("//Player move Down until it hits wall");
-        text.append("player.moveDown()");
         break;
 
     case 2:
 
-        text.append("//Player move Right until it hits wall\n");
-        text.append("player.moveRight()\n\n");
+        ui->command5->setText("useKey()");
 
-
-        text.append("//Player move Left until it hits wall\n");
-        text.append("player.moveLeft()\n\n");
-
-        text.append("//Player move Up until it hits wall");
-        text.append("player.moveUp()\n\n");
-
-        text.append("//Player move Down until it hits wall");
-        text.append("player.moveDown()");
+        ui->command5->setToolTip("Player use key to open door");
+        ui->command5->setStyleSheet("QToolTip {font-size:20pt; color:white; border 2px solid black; min-width: 10px;}");
 
         break;
 
     case 3:
 
+        ui->command6->setText("useWeapon()");
+        ui->command6->setToolTip("Player use Weapon to eliminate a guard");
+        ui->command6->setStyleSheet("QToolTip {font-size:20pt; color:white; border 2px solid black; min-width: 10px;}");
+
+        ui->command7->setText("checkGuardIsAwake");
+        ui->command7->setToolTip("Player check if the guard is awake");
+        ui->command7->setStyleSheet("QToolTip {font-size:20pt; color:white; border 2px solid black; min-width: 10px;}");
+
         break;
 
     }
 
-    ui->commands->setText(text);
+
+
 }

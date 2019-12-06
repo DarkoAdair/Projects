@@ -405,14 +405,215 @@
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QTextEdit" name="commands">
+    <widget class="QPushButton" name="command1">
      <property name="geometry">
       <rect>
-       <x>14</x>
-       <y>448</y>
-       <width>141</width>
-       <height>231</height>
+       <x>16</x>
+       <y>350</y>
+       <width>131</width>
+       <height>32</height>
       </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="command2">
+     <property name="geometry">
+      <rect>
+       <x>16</x>
+       <y>390</y>
+       <width>131</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="command3">
+     <property name="geometry">
+      <rect>
+       <x>16</x>
+       <y>430</y>
+       <width>131</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="goldKeyLabel">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>350</y>
+       <width>64</width>
+       <height>96</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="images.qrc">:/key_simple.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="command4">
+     <property name="geometry">
+      <rect>
+       <x>16</x>
+       <y>470</y>
+       <width>131</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="command5">
+     <property name="geometry">
+      <rect>
+       <x>16</x>
+       <y>510</y>
+       <width>131</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="command6">
+     <property name="geometry">
+      <rect>
+       <x>16</x>
+       <y>550</y>
+       <width>131</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="command7">
+     <property name="geometry">
+      <rect>
+       <x>16</x>
+       <y>590</y>
+       <width>131</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="command8">
+     <property name="geometry">
+      <rect>
+       <x>16</x>
+       <y>630</y>
+       <width>131</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_4">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>310</y>
+       <width>141</width>
+       <height>361</height>
+      </rect>
+     </property>
+     <property name="palette">
+      <palette>
+       <active>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>17</red>
+           <green>17</green>
+           <blue>17</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </active>
+       <inactive>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>17</red>
+           <green>17</green>
+           <blue>17</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </inactive>
+       <disabled>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>17</red>
+           <green>17</green>
+           <blue>17</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>17</red>
+           <green>17</green>
+           <blue>17</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </disabled>
+      </palette>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="title">
+      <string>Commands</string>
      </property>
     </widget>
    </widget>
@@ -436,31 +637,6 @@
     </property>
     <property name="pixmap">
      <pixmap resource="images.qrc">:/lock_simple.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="goldKeyLabel">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>350</y>
-      <width>64</width>
-      <height>96</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::NoFrame</enum>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="images.qrc">:/key_simple.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -600,7 +776,6 @@
    <zorder>level1Label</zorder>
    <zorder>mapSection</zorder>
    <zorder>doorLabel</zorder>
-   <zorder>goldKeyLabel</zorder>
    <zorder>enemyLabel</zorder>
    <zorder>playerTopLabel</zorder>
    <zorder>swordLabel</zorder>
