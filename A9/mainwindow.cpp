@@ -38,7 +38,6 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     QObject::connect(gameEngine, SIGNAL(useWeaponSignal()), this, SLOT(usedWeapon()));
     QObject::connect(gameEngine, SIGNAL(updateInventory(int, bool)), this, SLOT(updateInventory(int, bool)));
     QObject::connect(gameEngine, SIGNAL(deadSignal(int, int)), this, SLOT(onPlayerDead(int, int)));
-    QObject::connect(gameEngine, SIGNAL(tutorial(int)), this, SLOT(tutorial(int)));
     QObject::connect(gameEngine, SIGNAL(spellCastSignal(int)), this, SLOT(onPlayerCastSpell(int)));
     QObject::connect(gameEngine, SIGNAL(toggleEnemyState(int)), this, SLOT(setEnemyState(int)));
     QObject::connect(gameEngine, SIGNAL(turnPlayer(int)), this, SLOT(turnPlayer(int)));
@@ -47,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
 
 
     tutorial(1);
+    commandsDisplay(1);
 
     // Init code manager
     codeManager = new CodeManager(gameEngine);
@@ -325,6 +325,7 @@ void MainWindow::updateLevelCount(int level)
     ui->levelLabel->setText(levelString);
 
     tutorial(level);
+    commandsDisplay(level);
 }
 
 
@@ -829,4 +830,57 @@ void MainWindow::on_soundButton_clicked()
         ui->soundButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
     }
 
+}
+
+void MainWindow::commandsDisplay(int level) {
+
+    if(currentLevel == level)
+        return;
+    else
+        currentLevel = level;
+
+    QString text;
+
+    switch(level) {
+
+    case 1:
+
+        text.append("//Player move Right until it hits wall\n");
+        text.append("player.moveRight()\n\n");
+
+
+        text.append("//Player move Left until it hits wall\n");
+        text.append("player.moveLeft()\n\n");
+
+        text.append("//Player move Up until it hits wall");
+        text.append("player.moveUp()\n\n");
+
+        text.append("//Player move Down until it hits wall");
+        text.append("player.moveDown()");
+        break;
+
+    case 2:
+
+        text.append("//Player move Right until it hits wall\n");
+        text.append("player.moveRight()\n\n");
+
+
+        text.append("//Player move Left until it hits wall\n");
+        text.append("player.moveLeft()\n\n");
+
+        text.append("//Player move Up until it hits wall");
+        text.append("player.moveUp()\n\n");
+
+        text.append("//Player move Down until it hits wall");
+        text.append("player.moveDown()");
+
+        break;
+
+    case 3:
+
+        break;
+
+    }
+
+    ui->commands->setText(text);
 }
