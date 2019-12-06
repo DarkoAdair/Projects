@@ -9,10 +9,12 @@ namespace Ui {
 class window;
 }
 
+/**
+ * @brief Game Title Window
+ */
 class window : public QMainWindow
 {
     Q_OBJECT
-
 
 public:
     window(GameManager* gameManager);
@@ -22,8 +24,6 @@ public:
     QMediaPlayer *music;
 
 private slots:
-
-
     void on_startButton_clicked();
     void musicMute();
     void musicOn();

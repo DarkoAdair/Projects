@@ -90,29 +90,34 @@
  void ScriptDebuggerPrivate::scriptLoad(qint64 id, const QString &program,
                                         const QString &/*fileName*/, int /*lineNumber*/)
  {
-     qDebug() << "[ScriptDebugger] [ScriptLoad] ID : " << id << "/ Program : " << program;
+     if(!this->interrupted)
+        qDebug() << "[ScriptDebugger] [ScriptLoad] ID : " << id << "/ Program : " << program;
  }
 
  void ScriptDebuggerPrivate::scriptUnload(qint64 id)
  {
-     qDebug() << "[ScriptDebugger] [ScriptUnload] ID : " << id;
+     if(!this->interrupted)
+        qDebug() << "[ScriptDebugger] [ScriptUnload] ID : " << id;
  }
 
  void ScriptDebuggerPrivate::functionEntry(qint64 /*scriptId*/)
  {
-     qDebug() << "[ScriptDebugger] [Function Entry]";
+     if(!this->interrupted)
+        qDebug() << "[ScriptDebugger] [Function Entry]";
  }
 
  void ScriptDebuggerPrivate::functionExit(qint64 /*scriptId*/,
                                           const QScriptValue &returnValue)
  {
-     qDebug() << "[ScriptDebugger] [Function Exit] retureValue : " << returnValue.toString();
+     if(!this->interrupted)
+        qDebug() << "[ScriptDebugger] [Function Exit] retureValue : " << returnValue.toString();
  }
 
  void ScriptDebuggerPrivate::positionChange(qint64 scriptId,
                                             int lineNumber, int columnNumber)
  {
-     qDebug() << "[ScriptDebugger] [Position Change] ScriptId" << scriptId << " / Linenumber : " << lineNumber << " / Columnnumber : " << columnNumber;
+     if(!this->interrupted)
+        qDebug() << "[ScriptDebugger] [Position Change] ScriptId" << scriptId << " / Linenumber : " << lineNumber << " / Columnnumber : " << columnNumber;
 
      bool enterInteractiveMode = false;
 
@@ -147,7 +152,8 @@
                                             const QScriptValue &exception,
                                             bool hasHandler)
  {
-     qDebug() << "[ScriptDebugger] [Exception Throw] ScriptId" << scriptId << " / exception : " << exception.toString() << " / hasHandler : " << hasHandler;
+     if(!this->interrupted)
+        qDebug() << "[ScriptDebugger] [Exception Throw] ScriptId" << scriptId << " / exception : " << exception.toString() << " / hasHandler : " << hasHandler;
  }
 
  ScriptDebugger::ScriptDebugger(QScriptEngine *engine)

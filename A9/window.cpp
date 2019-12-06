@@ -23,8 +23,6 @@ window::window(GameManager *gameManager) :
     ui->gif->setAttribute(Qt::WA_NoSystemBackground);
     ui->gif->setMovie(dance);
     ui->gif->setScaledContents(true);
-
-
 }
 
 
