@@ -73,6 +73,20 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
     ui->debugStopButton->setIconSize(QSize(33,33));
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 20);");
+    ui->soundButton->setIcon(QIcon (QPixmap (":/musicOn.png")));             //sound
+    ui->soundButton->setIconSize(QSize(33,33));
+    ui->soundButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
+
+    playlist = new QMediaPlaylist;
+    music= new QMediaPlayer;
+
+    playlist->addMedia(QUrl("qrc:/ChipTune3.1.mp3"));
+    playlist->setPlaybackMode(QMediaPlaylist::Loop);
+
+    music->setPlaylist(playlist);
+    music->setVolume(25);
+
+    music->play();
 
     //set console
     ui->console->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
@@ -129,8 +143,8 @@ MainWindow::~MainWindow()
     delete codeManager;
     delete codeEditor;
     delete ui;
-//    delete music;
-//    delete playlist;
+    delete music;
+    delete playlist;
 }
 
 void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
@@ -790,8 +804,21 @@ void MainWindow::slotGameOver()
 void MainWindow::on_soundButton_clicked()
 {
     if(onAndOff) {
+        music->setMuted(true);
+        onAndOff = false;
+
+        ui->soundButton->setIcon(QIcon (QPixmap (":/mute_.png")));             //debugger
+        ui->soundButton->setIconSize(QSize(33,33));
+        ui->soundButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
 
     }
+    else {
+        music->setMuted(false);
+        onAndOff = true;
 
+        ui->soundButton->setIcon(QIcon (QPixmap (":/musicOn.png")));             //debugger
+        ui->soundButton->setIconSize(QSize(33,33));
+        ui->soundButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
+    }
 
 }
