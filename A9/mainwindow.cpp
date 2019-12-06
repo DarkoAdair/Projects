@@ -114,6 +114,8 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     ui->doorLabel->setVisible(false);
     ui->goldKeyLabel->setVisible(false);
     ui->enemyLabel->setVisible(false);
+    ui->keyLabel->setVisible(false);
+    ui->weaponLabel->setVisible(false);
 
     //ready
     resetBoard();
@@ -352,13 +354,13 @@ void MainWindow::updateInventory(int pickup, bool status)
     switch(pickup)
     {
         case 0:
-            item = "Has Key: ";
+            item = "hasKey: ";
             item.append(QVariant(status).toString());
             ui->keyLabel->setText(item);
             ui->goldKeyLabel->setVisible(false);
             break;
         case 1:
-            item = "Has Weapon: ";
+            item = "hasWeapon: ";
             item.append(QVariant(status).toString());
             ui->weaponLabel->setText(item);
             ui->swordLabel->setVisible(false);
@@ -393,6 +395,18 @@ void MainWindow::resetBoard() {
     gameEngine->loadLevel(gameEngine->getLevelCount());
     gameEngine->emitGameOverSignals();
 
+    if(gameEngine->getLevelCount() == 2)
+        ui->keyLabel->setVisible(true);
+
+    if(gameEngine->getLevelCount() == 3)
+    {
+            ui->keyLabel->setVisible(false);
+            ui->weaponLabel->setVisible(true);
+    }
+
+    if(gameEngine->getLevelCount() == 4)
+        ui->keyLabel->setVisible(false);
+
     ui->playerLabel->setVisible(true);
     ui->playerTopLabel->setVisible(true);
     ui->shadowLabel->setVisible(true);
@@ -424,22 +438,27 @@ void MainWindow::resetBoard() {
     ui->enemyLabel->setVisible(false);
     ui->swordLabel->setVisible(false);
 
-    if(std::get<0>(gameEngine->getDoorCoords()) != -1) {
+    if(std::get<0>(gameEngine->getDoorCoords()) != -1)
+    {
         int x1 = ui->playField->x() + std::get<0>(gameEngine->getDoorCoords()) * ui->doorLabel->width();
         int y1 = ui->playField->y() + std::get<1>(gameEngine->getDoorCoords()) * ui->doorLabel->width() - ui->doorLabel->height()/3;
         ui->doorLabel->setGeometry(x1,y1, ui->doorLabel->width(), ui->doorLabel->height());
         ui->doorLabel->setVisible(true);
+
         int x2 = ui->playField->x() + std::get<0>(gameEngine->getKeyCoords()) * ui->goldKeyLabel->width();
         int y2 = ui->playField->y() + std::get<1>(gameEngine->getKeyCoords()) * ui->goldKeyLabel->width() - ui->goldKeyLabel->height()/3;
         ui->goldKeyLabel->setGeometry(x2,y2, ui->goldKeyLabel->width(), ui->goldKeyLabel->height());
         ui->goldKeyLabel->setVisible(true);
+        ui->goldKeyLabel->show();
     }
 
-    if(std::get<0>(gameEngine->getEnemyCoords()) != -1) {
+    if(std::get<0>(gameEngine->getEnemyCoords()) != -1)
+    {
         int x1 = ui->playField->x() + std::get<0>(gameEngine->getEnemyCoords()) * ui->enemyLabel->width();
         int y1 = ui->playField->y() + std::get<1>(gameEngine->getEnemyCoords()) * ui->enemyLabel->width() - ui->enemyLabel->height()/3;
         ui->enemyLabel->setGeometry(x1,y1, ui->enemyLabel->width(), ui->enemyLabel->height());
         ui->enemyLabel->setVisible(true);
+
         int x2 = ui->playField->x() + std::get<0>(gameEngine->getSwordCoords()) * ui->swordLabel->width();
         int y2 = ui->playField->y() + std::get<1>(gameEngine->getSwordCoords()) * ui->swordLabel->width() - ui->swordLabel->height()/3;
         ui->swordLabel->setGeometry(x2,y2, ui->swordLabel->width(), ui->swordLabel->height());
@@ -719,11 +738,18 @@ void MainWindow::tutorial(int level) {
     case 2:
 #if IS_TEST
         text.append("player.moveUp(4)\n");
-        text.append("player.moveRight(6)\n");
+        text.append("player.moveRight(3)\n");
+        text.append("player.moveUp()\n");
+        text.append("player.moveLeft()\n");
+        text.append("player.moveRight(7)\n");
         text.append("player.moveDown()\n");
+        text.append("player.useKey()\n");
         text.append("player.moveRight()\n");
+
+
 #else
-        text.append("//Level 2 : Try to experiment with parameters. e.g. player.moveUp(1) \n\n");
+        text.append("//Level 2 : Methods can have parameters input in use with them. Try it out! e.g. player.moveUp(1) \n");
+        text.append("//Classes (like your player) have data-members. They are information held within an object. The variable hasKey can be true or false. \n\n");
         text.append("//the player can move up\n");
         text.append("player.moveUp()\n\n");
         text.append("//the player can move up\n");

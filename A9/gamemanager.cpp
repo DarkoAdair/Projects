@@ -44,8 +44,8 @@ void GameManager::checkLevelCompletionReset()
             player.setX(std::get<0>(start));
             player.setY(std::get<1>(start));
 
-            QTimer::singleShot(500, this, SIGNAL(resetSignal()));
             QTimer::singleShot(500, this, SLOT(emitGameOverSignals()));
+            QTimer::singleShot(500, this, SIGNAL(resetSignal()));
         }
     }
     else // player died

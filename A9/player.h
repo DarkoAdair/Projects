@@ -11,8 +11,8 @@ public:
     Player();
 
 private:
-    int x = 0;// x position on map
-    int y = 0;// y position on map
+    int x = 0;  // x position on map
+    int y = 0;  // y position on map
     bool hasKey = false;
     bool hasWeapon = false;
 
@@ -33,6 +33,7 @@ public:
     std::vector<std::tuple<int, int>> moveLeft(int spaces = 0);
     std::vector<std::tuple<int, int>> moveUp(int spaces = 0);
     std::vector<std::tuple<int, int>> moveDown(int spaces = 0);
+
     bool hasAKey();
     bool canAttack();
 

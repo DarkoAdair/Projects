@@ -29,11 +29,11 @@ with
 null
 true
 false
+console.print()
 player.moveLeft()
 player.moveRight()
 player.moveDown()
 player.moveUp()
-command.print()
 player.useWeapon()
 player.useKey()
 player.checkGuardIsAwake()

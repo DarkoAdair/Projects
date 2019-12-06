@@ -34,7 +34,6 @@ class MainWindow : public QMainWindow
     int playerFacing = 3;
     bool onAndOff = true;
 
-
 public:
     MainWindow(QWidget *parent = nullptr, GameManager *gameEngine = nullptr);
     ~MainWindow();
@@ -47,13 +46,14 @@ signals:
 private slots:
     void resetBoard();
 
+    //Window
     void on_goButton_clicked();
     void on_debugButton_clicked();
     void on_debugRightButton_clicked();
     void on_debugStopButton_clicked();
     void on_soundButton_clicked();
 
-    //GameEngine
+    //GameEngines
     void movePlayer(int x = 0, int y = 0, bool mainCommand = false, bool gameOver = false);
     void delayBetweenCommand(int delay);
     void updateLevelCount(int level);

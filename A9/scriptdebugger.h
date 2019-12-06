@@ -6,8 +6,11 @@
  #include <QObject>
 
  class QScriptEngine;
-
  class ScriptDebuggerPrivate;
+
+ /**
+  * @brief JavaScript Debugger class
+  */
  class ScriptDebugger : public QObject
  {
      Q_OBJECT

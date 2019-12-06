@@ -29,11 +29,12 @@ void CodeManager::initalizeForDebugging()
     //Engine Setting
     engine = new QScriptEngine();
 
+    //Create object and put into javascript engine.
     QScriptValue gameEngineScript = engine->newQObject(gameEngine);
     engine->globalObject().setProperty("player", gameEngineScript);
 
     QScriptValue command = engine->newQObject(commandImpl);
-    engine->globalObject().setProperty("command", command);
+    engine->globalObject().setProperty("console", command);
 
     //Debugger Initalize
     debugger = new ScriptDebugger(engine);
@@ -127,6 +128,8 @@ void CodeManager::onAnimationFinished()
 
 void CodeManager::onInterrupted()
 {
+    qDebug() << "[CodeMangaer] [onInterrupted]";
+
     if(debugger != nullptr)
     {
         //Code is interrupted, so replace the all obejcts to empty object.
