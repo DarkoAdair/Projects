@@ -1,6 +1,6 @@
 #include "window.h"
 #include "ui_window.h"
-#include "bgm.h"
+
 
 #include <QApplication>
 #include <QMovie>
@@ -12,7 +12,16 @@ window::window(GameManager *gameManager) :
 {
     ui->setupUi(this);
 
-    Bgm();
+    playlist = new QMediaPlaylist;
+    music= new QMediaPlayer;
+
+    playlist->addMedia(QUrl("qrc:/ChipTune3.1.mp3"));
+    playlist->setPlaybackMode(QMediaPlaylist::Loop);
+
+    music->setPlaylist(playlist);
+    music->setVolume(25);
+
+    music->play();
 
     this->gameManager = gameManager;
 
@@ -38,13 +47,5 @@ void window::on_startButton_clicked()
     close();
     MainWindow *w = new MainWindow(nullptr, gameManager);
     w->show();
-}
-
-void window::musicMute() {
-    qDebug() << "recieved musicMute signal";
-    music->setMuted(true);
-}
-
-void window::musicOn() {
-    music->setMuted(false);
+    music->stop();
 }

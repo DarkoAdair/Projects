@@ -358,6 +358,9 @@
      <enum>QFrame::Raised</enum>
     </property>
     <widget class="QLabel" name="weaponLabel">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -372,13 +375,16 @@
       </font>
      </property>
      <property name="text">
-      <string>Has Weapon: false</string>
+      <string>hasWeapon: false</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="keyLabel">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -393,7 +399,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Has Key: false</string>
+      <string>hasKey: false</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -541,18 +547,31 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="soundButton">
+   <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
      <rect>
-      <x>1250</x>
-      <y>20</y>
-      <width>101</width>
-      <height>41</height>
+      <x>830</x>
+      <y>0</y>
+      <width>111</width>
+      <height>61</height>
      </rect>
     </property>
-    <property name="text">
-     <string/>
+    <property name="title">
+     <string>Sound</string>
     </property>
+    <widget class="QPushButton" name="soundButton">
+     <property name="geometry">
+      <rect>
+       <x>4</x>
+       <y>18</y>
+       <width>101</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
    <zorder>playField</zorder>
    <zorder>startLabel</zorder>
@@ -575,7 +594,7 @@
    <zorder>enemyLabel</zorder>
    <zorder>playerTopLabel</zorder>
    <zorder>swordLabel</zorder>
-   <zorder>soundButton</zorder>
+   <zorder>groupBox_3</zorder>
   </widget>
  </widget>
  <resources>

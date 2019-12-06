@@ -29,6 +29,8 @@ class MainWindow : public QMainWindow
     std::queue<int> yTargets;
     bool gameOver = false;
     QPixmap *fieldPixmap;
+    QMediaPlaylist *playlist;
+    QMediaPlayer *music;
     int playerFacing = 3;
     bool onAndOff = true;
 
@@ -39,7 +41,6 @@ public:
 
 signals:
     void signalGameOver();
-    void muteMusic();
 
 
 private slots:

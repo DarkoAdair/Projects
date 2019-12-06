@@ -20,7 +20,7 @@
         <file>finish_tile.png</file>
         <file>ChipTune3.1.mp3</file>
         <file>level_1.png</file>
-        <file>level_2.png</file>
+        <file>level_2old.png</file>
         <file>test.gif</file>
         <file>pixel.gif</file>
         <file>enemy_awake.png</file>
@@ -46,7 +46,9 @@
         <file>player_up_top.gif</file>
         <file>player_shadow.png</file>
         <file>start_tile.png</file>
+        <file>mute_.png</file>
         <file>musicOn.png</file>
         <file>mute.png</file>
+        <file>level_2.png</file>
     </qresource>
 </RCC>

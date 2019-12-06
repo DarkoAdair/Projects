@@ -73,6 +73,20 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
     ui->debugStopButton->setIconSize(QSize(33,33));
     ui->debugStopButton->setStyleSheet("background-color: rgba(255, 255, 255, 20);");
+    ui->soundButton->setIcon(QIcon (QPixmap (":/musicOn.png")));             //sound
+    ui->soundButton->setIconSize(QSize(33,33));
+    ui->soundButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
+
+    playlist = new QMediaPlaylist;
+    music= new QMediaPlayer;
+
+    playlist->addMedia(QUrl("qrc:/ChipTune3.1.mp3"));
+    playlist->setPlaybackMode(QMediaPlaylist::Loop);
+
+    music->setPlaylist(playlist);
+    music->setVolume(25);
+
+    music->play();
 
     //set console
     ui->console->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
@@ -100,6 +114,8 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     ui->doorLabel->setVisible(false);
     ui->goldKeyLabel->setVisible(false);
     ui->enemyLabel->setVisible(false);
+    ui->keyLabel->setVisible(false);
+    ui->weaponLabel->setVisible(false);
 
     //ready
     resetBoard();
@@ -127,8 +143,8 @@ MainWindow::~MainWindow()
     delete codeManager;
     delete codeEditor;
     delete ui;
-//    delete music;
-//    delete playlist;
+    delete music;
+    delete playlist;
 }
 
 void MainWindow::movePlayer(int _x, int _y, bool mainCommand, bool _gameOver) {
@@ -337,13 +353,13 @@ void MainWindow::updateInventory(int pickup, bool status)
     switch(pickup)
     {
         case 0:
-            item = "Has Key: ";
+            item = "hasKey: ";
             item.append(QVariant(status).toString());
             ui->keyLabel->setText(item);
             ui->goldKeyLabel->setVisible(false);
             break;
         case 1:
-            item = "Has Weapon: ";
+            item = "hasWeapon: ";
             item.append(QVariant(status).toString());
             ui->weaponLabel->setText(item);
             ui->swordLabel->setVisible(false);
@@ -378,6 +394,18 @@ void MainWindow::resetBoard() {
     gameEngine->loadLevel(gameEngine->getLevelCount());
     gameEngine->emitGameOverSignals();
 
+    if(gameEngine->getLevelCount() == 2)
+        ui->keyLabel->setVisible(true);
+
+    if(gameEngine->getLevelCount() == 3)
+    {
+            ui->keyLabel->setVisible(false);
+            ui->weaponLabel->setVisible(true);
+    }
+
+    if(gameEngine->getLevelCount() == 4)
+        ui->keyLabel->setVisible(false);
+
     ui->playerLabel->setVisible(true);
     ui->playerTopLabel->setVisible(true);
     ui->shadowLabel->setVisible(true);
@@ -409,7 +437,8 @@ void MainWindow::resetBoard() {
     ui->enemyLabel->setVisible(false);
     ui->swordLabel->setVisible(false);
 
-    if(std::get<0>(gameEngine->getDoorCoords()) != -1) {
+    if(std::get<0>(gameEngine->getDoorCoords()) != -1)
+    {
         int x1 = ui->playField->x() + std::get<0>(gameEngine->getDoorCoords()) * ui->doorLabel->width();
         int y1 = ui->playField->y() + std::get<1>(gameEngine->getDoorCoords()) * ui->doorLabel->width() - ui->doorLabel->height()/3;
         ui->doorLabel->setGeometry(x1,y1, ui->doorLabel->width(), ui->doorLabel->height());
@@ -420,7 +449,8 @@ void MainWindow::resetBoard() {
         ui->goldKeyLabel->setVisible(true);
     }
 
-    if(std::get<0>(gameEngine->getEnemyCoords()) != -1) {
+    if(std::get<0>(gameEngine->getEnemyCoords()) != -1)
+    {
         int x1 = ui->playField->x() + std::get<0>(gameEngine->getEnemyCoords()) * ui->enemyLabel->width();
         int y1 = ui->playField->y() + std::get<1>(gameEngine->getEnemyCoords()) * ui->enemyLabel->width() - ui->enemyLabel->height()/3;
         ui->enemyLabel->setGeometry(x1,y1, ui->enemyLabel->width(), ui->enemyLabel->height());
@@ -704,11 +734,18 @@ void MainWindow::tutorial(int level) {
     case 2:
 #if IS_TEST
         text.append("player.moveUp(4)\n");
-        text.append("player.moveRight(6)\n");
+        text.append("player.moveRight(3)\n");
+        text.append("player.moveUp()\n");
+        text.append("player.moveLeft()\n");
+        text.append("player.moveRight(7)\n");
         text.append("player.moveDown()\n");
+        text.append("player.useKey()\n");
         text.append("player.moveRight()\n");
+
+
 #else
-        text.append("//Level 2 : Try to experiment with parameters. e.g. player.moveUp(1) \n\n");
+        text.append("//Level 2 : Methods can have parameters input in use with them. Try it out! e.g. player.moveUp(1) \n");
+        text.append("//Classes (like your player) have data-members. They are information held within an object. The variable hasKey can be true or false. \n\n");
         text.append("//the player can move up\n");
         text.append("player.moveUp()\n\n");
         text.append("//the player can move up\n");
@@ -767,8 +804,21 @@ void MainWindow::slotGameOver()
 void MainWindow::on_soundButton_clicked()
 {
     if(onAndOff) {
+        music->setMuted(true);
+        onAndOff = false;
+
+        ui->soundButton->setIcon(QIcon (QPixmap (":/mute_.png")));             //debugger
+        ui->soundButton->setIconSize(QSize(33,33));
+        ui->soundButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
 
     }
+    else {
+        music->setMuted(false);
+        onAndOff = true;
 
+        ui->soundButton->setIcon(QIcon (QPixmap (":/musicOn.png")));             //debugger
+        ui->soundButton->setIconSize(QSize(33,33));
+        ui->soundButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
+    }
 
 }
