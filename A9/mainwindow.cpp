@@ -25,13 +25,6 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     codeEditor = new CodeEditor(this);
     ui->codeEditlLayout->addWidget(codeEditor);
 
-    // Init Code completer.
-    completer = new QCompleter(this);
-    completer->setModel(modelFromFile(":/command.txt"));
-    completer->setCaseSensitivity(Qt::CaseInsensitive);
-    completer->setWrapAround(false);
-    codeEditor->setCompleter(completer);
-
     // Init debugging
     ui->debugRightButton->setEnabled(false);
     ui->debugStopButton->setEnabled(false);
@@ -391,6 +384,18 @@ void MainWindow::updateCoordinateLabels(){
 
 
 void MainWindow::resetBoard() {
+    // Init Code completer.
+    if(completer)
+    {
+        codeEditor->setCompleter(nullptr);
+        delete completer;
+    }
+    completer = new QCompleter(this);
+    completer->setModel(modelFromFile(":/command_lvl_" + QString::number(gameEngine->getLevelCount()) + ".txt"));
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    completer->setWrapAround(false);
+    codeEditor->setCompleter(completer);
+
     gameEngine->loadLevel(gameEngine->getLevelCount());
     gameEngine->emitGameOverSignals();
 
