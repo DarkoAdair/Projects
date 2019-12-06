@@ -358,6 +358,9 @@
      <enum>QFrame::Raised</enum>
     </property>
     <widget class="QLabel" name="weaponLabel">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -372,13 +375,16 @@
       </font>
      </property>
      <property name="text">
-      <string>Has Weapon: false</string>
+      <string>hasWeapon: false</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="keyLabel">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -393,7 +399,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Has Key: false</string>
+      <string>hasKey: false</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
