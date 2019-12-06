@@ -122,6 +122,7 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
 
 void CodeEditor::lineHighlighter(int line)
 {
+    // line start 1
     line--;
 
     QList<QTextEdit::ExtraSelection> extraSelections;

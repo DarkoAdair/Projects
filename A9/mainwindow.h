@@ -51,6 +51,7 @@ private slots:
     void on_debugButton_clicked();
     void on_debugRightButton_clicked();
     void on_debugStopButton_clicked();
+    void on_soundButton_clicked();
 
     //GameEngine
     void movePlayer(int x = 0, int y = 0, bool mainCommand = false, bool gameOver = false);
@@ -66,6 +67,7 @@ private slots:
     void commandFinished();
     void slotGameOver();
 
+
     //CodeManager
     void onDebugLineChanged(int currentLine);
     void onDebugException(const QString errorMessage);
@@ -74,10 +76,9 @@ private slots:
     //PhysicsEngine
     void onPhysicsUpdate();
     void onPlayerDead(int deadPosX, int deadPosY);
+
+    void commandsDisplay(int level);
     void tutorial(int n);
-
-
-    void on_soundButton_clicked();
 
 private:
     int currentLevel = -1;
@@ -95,6 +96,7 @@ private:
 
     void addBloodParticles(int deadPosX, int deadPosY, int amount);
     void addGoldParticles(int bookPosX, int bookPosY, int amount);
+
 
     QAbstractItemModel *modelFromFile(const QString& fileName);
 };

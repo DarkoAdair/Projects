@@ -399,6 +399,16 @@
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
+    <widget class="QTextEdit" name="commands">
+     <property name="geometry">
+      <rect>
+       <x>14</x>
+       <y>448</y>
+       <width>141</width>
+       <height>231</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
    <widget class="QLabel" name="doorLabel">
     <property name="enabled">
