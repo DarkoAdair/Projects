@@ -49,5 +49,9 @@
         <file>mute_.png</file>
         <file>musicOn.png</file>
         <file>level_2.png</file>
+        <file>command_lvl_1.txt</file>
+        <file>command_lvl_2.txt</file>
+        <file>command_lvl_3.txt</file>
+        <file>command_lvl_4.txt</file>
     </qresource>
 </RCC>
