@@ -443,10 +443,12 @@ void MainWindow::resetBoard() {
         int y1 = ui->playField->y() + std::get<1>(gameEngine->getDoorCoords()) * ui->doorLabel->width() - ui->doorLabel->height()/3;
         ui->doorLabel->setGeometry(x1,y1, ui->doorLabel->width(), ui->doorLabel->height());
         ui->doorLabel->setVisible(true);
+
         int x2 = ui->playField->x() + std::get<0>(gameEngine->getKeyCoords()) * ui->goldKeyLabel->width();
         int y2 = ui->playField->y() + std::get<1>(gameEngine->getKeyCoords()) * ui->goldKeyLabel->width() - ui->goldKeyLabel->height()/3;
         ui->goldKeyLabel->setGeometry(x2,y2, ui->goldKeyLabel->width(), ui->goldKeyLabel->height());
         ui->goldKeyLabel->setVisible(true);
+        ui->goldKeyLabel->show();
     }
 
     if(std::get<0>(gameEngine->getEnemyCoords()) != -1)
@@ -455,6 +457,7 @@ void MainWindow::resetBoard() {
         int y1 = ui->playField->y() + std::get<1>(gameEngine->getEnemyCoords()) * ui->enemyLabel->width() - ui->enemyLabel->height()/3;
         ui->enemyLabel->setGeometry(x1,y1, ui->enemyLabel->width(), ui->enemyLabel->height());
         ui->enemyLabel->setVisible(true);
+
         int x2 = ui->playField->x() + std::get<0>(gameEngine->getSwordCoords()) * ui->swordLabel->width();
         int y2 = ui->playField->y() + std::get<1>(gameEngine->getSwordCoords()) * ui->swordLabel->width() - ui->swordLabel->height()/3;
         ui->swordLabel->setGeometry(x2,y2, ui->swordLabel->width(), ui->swordLabel->height());

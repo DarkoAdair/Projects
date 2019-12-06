@@ -48,7 +48,6 @@
         <file>start_tile.png</file>
         <file>mute_.png</file>
         <file>musicOn.png</file>
-        <file>mute.png</file>
         <file>level_2.png</file>
     </qresource>
 </RCC>
