@@ -1,5 +1,5 @@
-# CS3505 Final Project
-Hello World
+# CS3505 Final Project - SIMP 2.0
+Practice your coding skill with playing game!!
 
 ## Requirement (Before build)
 

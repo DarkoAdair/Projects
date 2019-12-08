@@ -8,7 +8,7 @@
 #include <QPixmap>
 #include <QMovie>
 
-#define IS_TEST 1
+#define IS_TEST 0
 
 MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     : QMainWindow(parent)
@@ -38,7 +38,6 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     QObject::connect(gameEngine, SIGNAL(useWeaponSignal()), this, SLOT(usedWeapon()));
     QObject::connect(gameEngine, SIGNAL(updateInventory(int, bool)), this, SLOT(updateInventory(int, bool)));
     QObject::connect(gameEngine, SIGNAL(deadSignal(int, int)), this, SLOT(onPlayerDead(int, int)));
-    QObject::connect(gameEngine, SIGNAL(spellCastSignal(int)), this, SLOT(onPlayerCastSpell(int)));
     QObject::connect(gameEngine, SIGNAL(toggleEnemyState(int)), this, SLOT(setEnemyState(int)));
     QObject::connect(gameEngine, SIGNAL(turnPlayer(int)), this, SLOT(turnPlayer(int)));
     QObject::connect(gameEngine, SIGNAL(delayCommand(int)), this, SLOT(delayBetweenCommand(int)));
@@ -323,6 +322,7 @@ void MainWindow::idlePlayer() {
 
 void MainWindow::updateLevelCount(int level)
 {
+
     QString levelString = "Level: ";
     levelString.append(QString::number(level));
     ui->levelLabel->setText(levelString);
@@ -625,16 +625,6 @@ void MainWindow::onPlayerDead(int deadPosX, int deadPosY)
     addBloodParticles(posX, posY, 100);
 }
 
-void MainWindow::onPlayerCastSpell(int spellCastPhase)
-{
-    //int posX = posBookX + (ui->bookLabel->width() / 2);
-    //int posy = posBookY + (ui->bookLabel->height() / 2);
-
-    //need to add book position for label
-    //addGoldParticles(posX, posY, 20);
-
-}
-
 void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
 {
     qDebug() << "[Main] [addBloodParticles] x :" << deadPosX << " / y : " << deadPosY;
@@ -684,9 +674,53 @@ void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
     physicsTimer->start();
 }
 
-void MainWindow::addGoldParticles(int bookPosX, int bookPosY, int amount)
+void MainWindow::addWinParticles(int winPosX, int winPosY, int amount)
 {
+    qDebug() << "[Main] [addWinParticles] x :" << winPosX << " / y : " << winPosY;
 
+    while(amount-- > 0)
+    {
+        QLabel* qSprite = new QLabel(this);
+        qSprite->setGeometry(winPosX, winPosY, 16, 16);
+
+        // Pick random blood particle
+        int randomGold = qrand()%5 + 1;
+        QPixmap pixmap = QPixmap(":/win_" + QString::number(randomGold) + ".png");
+        pixmap = pixmap.scaled(qSprite->width(), qSprite->height(), Qt::KeepAspectRatio);
+        qSprite->setPixmap(pixmap);
+        qSprite->raise();
+        qSprite->show();
+
+        // Set body position
+        b2BodyDef bodyDef;
+        bodyDef.type = b2_dynamicBody;
+        bodyDef.position.Set(winPosX, winPosY);
+        bodyDef.userData = qSprite;
+        b2Body* body = world->CreateBody(&bodyDef);
+
+        int vX = qrand()%100 + 10;
+        int vY = qrand()%100 + 10;
+        if(qrand()%2 == 0) {
+            vX = -vX;
+        }
+        if(qrand()%2 == 0) {
+            vY = -vY;
+        }
+
+        body->SetLinearVelocity(b2Vec2(vX, vY));
+
+        b2CircleShape circle;
+        circle.m_radius = 0.55f;
+
+        // Set fixture for object
+        b2FixtureDef fixtureDef;
+        fixtureDef.shape = &circle;
+        fixtureDef.density = 1.0f;
+        fixtureDef.friction = 0.2f;
+        fixtureDef.restitution = 0.9f;
+        body->CreateFixture(&fixtureDef);
+    }
+    physicsTimer->start();
 }
 
 
@@ -719,6 +753,10 @@ void MainWindow::tutorial(int level) {
         return;
     else
         currentLevel = level;
+
+    if(level != 1)
+        addWinParticles(ui->finishLabel->x()+ui->finishLabel->width()/2, ui->finishLabel->y()+ui->finishLabel->height()/2, 100);
+
 
     QString text;
     switch (level) {
@@ -800,19 +838,6 @@ void MainWindow::tutorial(int level) {
         text.append("}");
 #endif
         break;
-
-    case 4:
-
-#if IS_TEST
-        text.append("player.moveLeft()\n");
-//        text.append("str1 = player.spellBookRead()\n");
-//        text.append("str2 = str1[0] + str1[1]\n");
-//        text.append("player.spellBookCast(str2)\n");
-//        text.append("str3 = player.spellBookRead()\n");
-//        text.append("player.spellBookCast(str2 + str3[str3.length()-2] + str3[str3.lenght()-1])\n");
-#endif
-        break;
-
     }
 
     codeEditor->setPlainText(text);
@@ -859,7 +884,6 @@ void MainWindow::commandsDisplay(int level) {
     switch(level) {
 
     case 1:
-
         ui->command1->setText("moveRight()");
         ui->command2->setText("moveLeft()");
         ui->command3->setText("moveUp()");
@@ -898,7 +922,4 @@ void MainWindow::commandsDisplay(int level) {
         break;
 
     }
-
-
-
 }
