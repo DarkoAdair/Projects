@@ -800,6 +800,19 @@ void MainWindow::tutorial(int level) {
         text.append("}");
 #endif
         break;
+
+    case 4:
+
+#if IS_TEST
+        text.append("player.moveLeft()\n");
+//        text.append("str1 = player.spellBookRead()\n");
+//        text.append("str2 = str1[0] + str1[1]\n");
+//        text.append("player.spellBookCast(str2)\n");
+//        text.append("str3 = player.spellBookRead()\n");
+//        text.append("player.spellBookCast(str2 + str3[str3.length()-2] + str3[str3.lenght()-1])\n");
+#endif
+        break;
+
     }
 
     codeEditor->setPlainText(text);

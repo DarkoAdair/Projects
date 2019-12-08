@@ -14,7 +14,7 @@ private:
     void LoadLevelOne();
     void LoadLevelTwo();
     void LoadLevelThree();
-    void LoadLevelFour();
+
     QString setSpell(int phase);
     QString bookSpell1, bookSpell2;
     QString correctSpell1, correctSpell2;

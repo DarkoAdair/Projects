@@ -36,8 +36,6 @@ GameMap::GameMap(int level)
                 break;
         case 3: LoadLevelThree();
                 break;
-        case 4: LoadLevelFour();
-            break;
         default: //TODO
                 break;
     }
@@ -191,36 +189,6 @@ void GameMap::LoadLevelThree()
     mapCoordinates[9][1] = OBJECT_ENDPOINT;
     mapCoordinates[9][9] = OBJECT_WEAPON;
     mapCoordinates[8][6] = OBJECT_ENEMY;
-}
-
-void GameMap::LoadLevelFour()
-{
-    start =  std::make_tuple(5, 9);
-    end =  std::make_tuple(5, 4);
-    int i = 5;
-    for(int j = 5; j < 10; j++)
-        {
-            mapCoordinates[i][j] = OBJECT_AVAILABLEPATH;
-        }
-    mapCoordinates[5][4] = OBJECT_ENDPOINT;// set spellbook location
-
-    i = 4;
-    for(int j = 0; j < 10; j++)
-    {
-        mapCoordinates[i][j] = OBJECT_WALL;
-        mapCoordinates[i+2][j] = OBJECT_WALL; //only narrow pathway
-    }
-
-    bookSpell1 = setSpell(1);
-    bookSpell2 = setSpell(2);
-
-    correctSpell1 = bookSpell1.left(1) + bookSpell1.mid(1,1);
-    correctSpell2 = correctSpell1 + bookSpell2.right(2);
-
-    spellcastPhase = 1;
-    bookReadPhase = 1;
-
-    // change level picture
 }
 
 void GameMap::openDoorWays()
