@@ -866,13 +866,13 @@ void MainWindow::commandsDisplay(int level) {
         ui->command4->setText("moveDown()");
 
         ui->command1->setToolTip("Player move Right until it hits wall");
-        ui->command1->setStyleSheet("QToolTip {font-size:20pt; color:white; border 2px solid black; min-width: 10px;}");
+        ui->command1->setStyleSheet("QToolTip {font-size:15pt; color:white; border 2px solid black; min-width: 10px;}");
         ui->command2->setToolTip("Player move Left until it hits wall");
-        ui->command2->setStyleSheet("QToolTip {font-size:20pt; color:white; border 2px solid black; min-width: 10px;}");
+        ui->command2->setStyleSheet("QToolTip {font-size:15pt; color:white; border 2px solid black; min-width: 10px;}");
         ui->command3->setToolTip("Player move Up until it hits wall");
-        ui->command3->setStyleSheet("QToolTip {font-size:20pt; color:white; border 2px solid black; min-width: 10px;}");
+        ui->command3->setStyleSheet("QToolTip {font-size:15pt; color:white; border 2px solid black; min-width: 10px;}");
         ui->command4->setToolTip("Player move Down until it hits wall");
-        ui->command4->setStyleSheet("QToolTip {font-size:20pt; color:white; border 2px solid black; min-width: 10px;}");
+        ui->command4->setStyleSheet("QToolTip {font-size:15pt; color:white; border 2px solid black; min-width: 10px;}");
 
         break;
 
@@ -881,7 +881,7 @@ void MainWindow::commandsDisplay(int level) {
         ui->command5->setText("useKey()");
 
         ui->command5->setToolTip("Player use key to open door");
-        ui->command5->setStyleSheet("QToolTip {font-size:20pt; color:white; border 2px solid black; min-width: 10px;}");
+        ui->command5->setStyleSheet("QToolTip {font-size:15pt; color:white; border 2px solid black; min-width: 10px;}");
 
         break;
 
@@ -889,11 +889,11 @@ void MainWindow::commandsDisplay(int level) {
 
         ui->command6->setText("useWeapon()");
         ui->command6->setToolTip("Player use Weapon to eliminate a guard");
-        ui->command6->setStyleSheet("QToolTip {font-size:20pt; color:white; border 2px solid black; min-width: 10px;}");
+        ui->command6->setStyleSheet("QToolTip {font-size:15pt; color:white; border 2px solid black; min-width: 10px;}");
 
-        ui->command7->setText("checkGuardIsAwake");
+        ui->command7->setText("checkGuardIsAwake()");
         ui->command7->setToolTip("Player check if the guard is awake");
-        ui->command7->setStyleSheet("QToolTip {font-size:20pt; color:white; border 2px solid black; min-width: 10px;}");
+        ui->command7->setStyleSheet("QToolTip {font-size:15pt; color:white; border 2px solid black; min-width: 10px;}");
 
         break;
 
