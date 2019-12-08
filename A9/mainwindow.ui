@@ -743,7 +743,7 @@
      </rect>
     </property>
     <property name="title">
-     <string>Sound</string>
+     <string>Music</string>
     </property>
     <widget class="QPushButton" name="soundButton">
      <property name="geometry">

@@ -354,7 +354,7 @@ void MainWindow::updateInventory(int pickup, bool status)
     {
         case 0:
             item = "hasKey: ";
-            if(status){
+            if(status and ui->goldKeyLabel->isVisible()){
                 QSound::play(":/key.wav");
             }
             item.append(QVariant(status).toString());
@@ -363,6 +363,9 @@ void MainWindow::updateInventory(int pickup, bool status)
             break;
         case 1:
             item = "hasWeapon: ";
+            if(status and ui->swordLabel->isVisible()){
+                QSound::play(":/key.wav");
+            }
             item.append(QVariant(status).toString());
             ui->weaponLabel->setText(item);
             ui->swordLabel->setVisible(false);
@@ -496,6 +499,7 @@ void MainWindow::resetBoard() {
 
 void MainWindow::on_goButton_clicked()
 {
+    QSound::play(":/start.wav");
     resetBoard();
 
     ui->goButton->setEnabled(false);
@@ -510,6 +514,7 @@ void MainWindow::on_goButton_clicked()
 
 void MainWindow::on_debugButton_clicked()
 {
+    QSound::play(":/start.wav");
     resetBoard();
 
     ui->goButton->setEnabled(false);

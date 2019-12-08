@@ -4,6 +4,7 @@
 
 #include <QApplication>
 #include <QMovie>
+#include <QSound>
 
 
 window::window(GameManager *gameManager) :
@@ -44,6 +45,7 @@ window::~window()
 
 void window::on_startButton_clicked()
 {
+    QSound::play(":/key.wav");
     close();
     MainWindow *w = new MainWindow(nullptr, gameManager);
     w->show();

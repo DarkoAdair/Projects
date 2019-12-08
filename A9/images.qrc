@@ -63,5 +63,6 @@
         <file>death.wav</file>
         <file>door.wav</file>
         <file>key.wav</file>
+        <file>start.wav</file>
     </qresource>
 </RCC>
