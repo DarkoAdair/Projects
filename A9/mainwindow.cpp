@@ -8,7 +8,7 @@
 #include <QPixmap>
 #include <QMovie>
 
-#define IS_TEST 1
+#define IS_TEST 0
 
 MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     : QMainWindow(parent)
@@ -859,7 +859,6 @@ void MainWindow::commandsDisplay(int level) {
     switch(level) {
 
     case 1:
-
         ui->command1->setText("moveRight()");
         ui->command2->setText("moveLeft()");
         ui->command3->setText("moveUp()");
