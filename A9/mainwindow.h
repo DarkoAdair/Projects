@@ -63,7 +63,6 @@ private slots:
     void setEnemyState(int state);
     void turnPlayer(int direction);
     void idlePlayer();
-    void onPlayerCastSpell(int spellCastPhase);
     void commandFinished();
     void slotGameOver();
 
@@ -95,7 +94,7 @@ private:
     QTime startTime;
 
     void addBloodParticles(int deadPosX, int deadPosY, int amount);
-    void addGoldParticles(int bookPosX, int bookPosY, int amount);
+    void addWinParticles(int winPosX, int winPosY, int amount);
 
 
     QAbstractItemModel *modelFromFile(const QString& fileName);

@@ -53,5 +53,10 @@
         <file>command_lvl_2.txt</file>
         <file>command_lvl_3.txt</file>
         <file>command_lvl_4.txt</file>
+        <file>win_1.png</file>
+        <file>win_2.png</file>
+        <file>win_3.png</file>
+        <file>win_4.png</file>
+        <file>win_5.png</file>
     </qresource>
 </RCC>

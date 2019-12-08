@@ -30,8 +30,6 @@ public:
     Q_INVOKABLE void useWeapon();
     Q_INVOKABLE bool checkGuardIsAwake();
     Q_INVOKABLE void wait();
-    Q_INVOKABLE void spellBookCast(QString);
-    Q_INVOKABLE QString spellBookRead();
 
 
     int getPlayerX();
@@ -85,7 +83,6 @@ signals:
 
     void tutorial(int level);
     void toggleEnemyState(int state);
-    void playerCastSpell(int phase);
     void signalGameClear();
 
     // Tells make a delay before go to next command.
