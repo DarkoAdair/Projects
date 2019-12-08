@@ -323,6 +323,7 @@ void MainWindow::idlePlayer() {
 
 void MainWindow::updateLevelCount(int level)
 {
+
     QString levelString = "Level: ";
     levelString.append(QString::number(level));
     ui->levelLabel->setText(levelString);
@@ -631,7 +632,7 @@ void MainWindow::onPlayerCastSpell(int spellCastPhase)
     //int posy = posBookY + (ui->bookLabel->height() / 2);
 
     //need to add book position for label
-    //addGoldParticles(posX, posY, 20);
+    //addWinParticles(posX, posY, 20);
 
 }
 
@@ -684,9 +685,53 @@ void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
     physicsTimer->start();
 }
 
-void MainWindow::addGoldParticles(int bookPosX, int bookPosY, int amount)
+void MainWindow::addWinParticles(int winPosX, int winPosY, int amount)
 {
+    qDebug() << "[Main] [addWinParticles] x :" << winPosX << " / y : " << winPosY;
 
+    while(amount-- > 0)
+    {
+        QLabel* qSprite = new QLabel(this);
+        qSprite->setGeometry(winPosX, winPosY, 16, 16);
+
+        // Pick random blood particle
+        int randomGold = qrand()%5 + 1;
+        QPixmap pixmap = QPixmap(":/win_" + QString::number(randomGold) + ".png");
+        pixmap = pixmap.scaled(qSprite->width(), qSprite->height(), Qt::KeepAspectRatio);
+        qSprite->setPixmap(pixmap);
+        qSprite->raise();
+        qSprite->show();
+
+        // Set body position
+        b2BodyDef bodyDef;
+        bodyDef.type = b2_dynamicBody;
+        bodyDef.position.Set(winPosX, winPosY);
+        bodyDef.userData = qSprite;
+        b2Body* body = world->CreateBody(&bodyDef);
+
+        int vX = qrand()%100 + 10;
+        int vY = qrand()%100 + 10;
+        if(qrand()%2 == 0) {
+            vX = -vX;
+        }
+        if(qrand()%2 == 0) {
+            vY = -vY;
+        }
+
+        body->SetLinearVelocity(b2Vec2(vX, vY));
+
+        b2CircleShape circle;
+        circle.m_radius = 0.55f;
+
+        // Set fixture for object
+        b2FixtureDef fixtureDef;
+        fixtureDef.shape = &circle;
+        fixtureDef.density = 1.0f;
+        fixtureDef.friction = 0.2f;
+        fixtureDef.restitution = 0.9f;
+        body->CreateFixture(&fixtureDef);
+    }
+    physicsTimer->start();
 }
 
 
@@ -719,6 +764,10 @@ void MainWindow::tutorial(int level) {
         return;
     else
         currentLevel = level;
+
+    if(level != 1)
+        addWinParticles(ui->finishLabel->x()+ui->finishLabel->width()/2, ui->finishLabel->y()+ui->finishLabel->height()/2, 100);
+
 
     QString text;
     switch (level) {
