@@ -63,7 +63,6 @@ private slots:
     void setEnemyState(int state);
     void turnPlayer(int direction);
     void idlePlayer();
-    void onPlayerCastSpell(int spellCastPhase);
     void commandFinished();
     void slotGameOver();
 
