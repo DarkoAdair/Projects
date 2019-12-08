@@ -622,8 +622,8 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>610</y>
+       <x>10</x>
+       <y>620</y>
        <width>64</width>
        <height>96</height>
       </rect>
@@ -641,56 +641,56 @@
       <bool>true</bool>
      </property>
     </widget>
-   </widget>
-   <widget class="QLabel" name="doorLabel">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>240</y>
-      <width>64</width>
-      <height>96</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::NoFrame</enum>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="images.qrc">:/lock_simple.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="enemyLabel">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>450</y>
-      <width>64</width>
-      <height>96</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::NoFrame</enum>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="images.qrc">:/enemy_sleep.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
+    <widget class="QLabel" name="enemyLabel">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>620</y>
+       <width>64</width>
+       <height>96</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="images.qrc">:/enemy_sleep.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="doorLabel">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>610</y>
+       <width>64</width>
+       <height>96</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="images.qrc">:/lock_simple.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
    </widget>
    <widget class="QLabel" name="shadowLabel">
     <property name="geometry">
@@ -775,8 +775,6 @@
    <zorder>levelLabel</zorder>
    <zorder>level1Label</zorder>
    <zorder>mapSection</zorder>
-   <zorder>doorLabel</zorder>
-   <zorder>enemyLabel</zorder>
    <zorder>playerTopLabel</zorder>
    <zorder>groupBox_3</zorder>
   </widget>
