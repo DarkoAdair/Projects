@@ -38,7 +38,6 @@ MainWindow::MainWindow(QWidget *parent, GameManager *_gameEngine)
     QObject::connect(gameEngine, SIGNAL(useWeaponSignal()), this, SLOT(usedWeapon()));
     QObject::connect(gameEngine, SIGNAL(updateInventory(int, bool)), this, SLOT(updateInventory(int, bool)));
     QObject::connect(gameEngine, SIGNAL(deadSignal(int, int)), this, SLOT(onPlayerDead(int, int)));
-    QObject::connect(gameEngine, SIGNAL(spellCastSignal(int)), this, SLOT(onPlayerCastSpell(int)));
     QObject::connect(gameEngine, SIGNAL(toggleEnemyState(int)), this, SLOT(setEnemyState(int)));
     QObject::connect(gameEngine, SIGNAL(turnPlayer(int)), this, SLOT(turnPlayer(int)));
     QObject::connect(gameEngine, SIGNAL(delayCommand(int)), this, SLOT(delayBetweenCommand(int)));
@@ -625,15 +624,6 @@ void MainWindow::onPlayerDead(int deadPosX, int deadPosY)
     addBloodParticles(posX, posY, 100);
 }
 
-void MainWindow::onPlayerCastSpell(int spellCastPhase)
-{
-    //int posX = posBookX + (ui->bookLabel->width() / 2);
-    //int posy = posBookY + (ui->bookLabel->height() / 2);
-
-    //need to add book position for label
-    //addGoldParticles(posX, posY, 20);
-
-}
 
 void MainWindow::addBloodParticles(int deadPosX, int deadPosY, int amount)
 {
@@ -800,19 +790,6 @@ void MainWindow::tutorial(int level) {
         text.append("}");
 #endif
         break;
-
-    case 4:
-
-#if IS_TEST
-        text.append("player.moveLeft()\n");
-//        text.append("str1 = player.spellBookRead()\n");
-//        text.append("str2 = str1[0] + str1[1]\n");
-//        text.append("player.spellBookCast(str2)\n");
-//        text.append("str3 = player.spellBookRead()\n");
-//        text.append("player.spellBookCast(str2 + str3[str3.length()-2] + str3[str3.lenght()-1])\n");
-#endif
-        break;
-
     }
 
     codeEditor->setPlainText(text);
@@ -898,7 +875,4 @@ void MainWindow::commandsDisplay(int level) {
         break;
 
     }
-
-
-
 }
