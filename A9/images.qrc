@@ -58,5 +58,10 @@
         <file>win_3.png</file>
         <file>win_4.png</file>
         <file>win_5.png</file>
+        <file>win.wav</file>
+        <file>attack.wav</file>
+        <file>death.wav</file>
+        <file>door.wav</file>
+        <file>key.wav</file>
     </qresource>
 </RCC>

@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QPixmap>
 #include <QMovie>
+#include <QSound>
 
 #define IS_TEST 1
 
@@ -334,11 +335,13 @@ void MainWindow::updateLevelCount(int level)
 
 void MainWindow::usedKey()
 {
+    QSound::play(":/door.wav");
     ui->doorLabel->setVisible(false);
 }
 
 void MainWindow::usedWeapon()
 {
+    QSound::play(":/attack.wav");
     ui->enemyLabel->setVisible(false);
     addBloodParticles(ui->enemyLabel->x()+ ui->enemyLabel->width()/2, ui->enemyLabel->y()+ ui->enemyLabel->height()/2, 100);
 }
@@ -351,6 +354,9 @@ void MainWindow::updateInventory(int pickup, bool status)
     {
         case 0:
             item = "hasKey: ";
+            if(status){
+                QSound::play(":/key.wav");
+            }
             item.append(QVariant(status).toString());
             ui->keyLabel->setText(item);
             ui->goldKeyLabel->setVisible(false);
@@ -608,6 +614,7 @@ void MainWindow::onPhysicsUpdate()
 
 void MainWindow::onPlayerDead(int deadPosX, int deadPosY)
 {
+    QSound::play(":/death.wav");
     ui->goButton->setEnabled(true);
 
     int posPlayerX = ui->playerLabel->x();
@@ -754,8 +761,10 @@ void MainWindow::tutorial(int level) {
     else
         currentLevel = level;
 
-    if(level != 1)
+    if(level != 1) {
+        QSound::play(":/win.wav");
         addWinParticles(ui->finishLabel->x()+ui->finishLabel->width()/2, ui->finishLabel->y()+ui->finishLabel->height()/2, 100);
+    }
 
 
     QString text;
